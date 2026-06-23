@@ -12,7 +12,7 @@ const icons = [
 export default function FocusSection() {
   const { lang, t } = useLang();
   return (
-    <section className="bg-white py-10 md:py-14">
+    <section className="bg-white py-12">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row gap-12 md:gap-20 items-start">
 

@@ -1,0 +1,73 @@
+"use client";
+
+import { useState } from "react";
+import { useLang } from "@/contexts/LangContext";
+import { useContent } from "@/contexts/ContentContext";
+import type { Patent, PatentStatus } from "@/types/content";
+import { createId } from "@/lib/data/ids";
+import { inputClass } from "@/components/admin/form-styles";
+import { AdminModal, AdminPageHeader, AdminRowActions, AdminTable, Field } from "@/components/admin/AdminUi";
+
+const emptyPatent = (): Patent => ({
+  id: "",
+  number: "",
+  title: "",
+  titleEn: "",
+  date: "",
+  status: "registered",
+  inventors: "",
+});
+
+export default function AdminPatentsPage() {
+  const { t } = useLang();
+  const { content, upsertPatent, deletePatent } = useContent();
+  const [draft, setDraft] = useState<Patent | null>(null);
+
+  return (
+    <>
+      <AdminPageHeader title={t.admin.patents} onAdd={() => setDraft(emptyPatent())} addLabel={t.admin.add} />
+      <AdminTable headers={["No.", t.admin.colTitle, t.admin.colDate, ""]}>
+        {content.patents.map((item) => (
+          <tr key={item.id} className="border-b border-gray-50 last:border-0">
+            <td className="px-4 py-3 text-xs font-mono text-[#9ca3af]">{item.number}</td>
+            <td className="px-4 py-3 font-medium text-[#080d1e]">{item.title}</td>
+            <td className="px-4 py-3 text-xs text-[#9ca3af]">{item.date}</td>
+            <td className="px-4 py-3">
+              <AdminRowActions
+                editLabel={t.admin.edit}
+                deleteLabel={t.admin.delete}
+                onEdit={() => setDraft({ ...item })}
+                onDelete={() => { if (confirm(t.admin.confirmDelete)) deletePatent(item.id); }}
+              />
+            </td>
+          </tr>
+        ))}
+      </AdminTable>
+
+      <AdminModal
+        open={!!draft}
+        title={draft?.id ? t.admin.edit : t.admin.add}
+        onClose={() => setDraft(null)}
+        onSubmit={() => { if (draft) { upsertPatent({ ...draft, id: draft.id || createId() }); setDraft(null); } }}
+        submitLabel={t.admin.save}
+        cancelLabel={t.admin.cancel}
+      >
+        {draft && (
+          <>
+            <Field label="Patent No."><input className={inputClass} value={draft.number} onChange={(e) => setDraft({ ...draft, number: e.target.value })} /></Field>
+            <Field label="Title (KR)"><input className={inputClass} value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} /></Field>
+            <Field label="Title (EN)"><input className={inputClass} value={draft.titleEn} onChange={(e) => setDraft({ ...draft, titleEn: e.target.value })} /></Field>
+            <Field label={t.admin.colDate}><input className={inputClass} value={draft.date} onChange={(e) => setDraft({ ...draft, date: e.target.value })} /></Field>
+            <Field label="Status">
+              <select className={inputClass} value={draft.status} onChange={(e) => setDraft({ ...draft, status: e.target.value as PatentStatus })}>
+                <option value="registered">{t.about.patentStatusRegistered}</option>
+                <option value="pending">{t.about.patentStatusPending}</option>
+              </select>
+            </Field>
+            <Field label="Inventors"><input className={inputClass} value={draft.inventors} onChange={(e) => setDraft({ ...draft, inventors: e.target.value })} /></Field>
+          </>
+        )}
+      </AdminModal>
+    </>
+  );
+}

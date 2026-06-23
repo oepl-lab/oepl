@@ -18,8 +18,12 @@ export interface Translations {
     items: Array<{ tag: string; title: string; desc: string }>;
   };
   news: {
+    banner: string;
     label: string; title: string; more: string; readMore: string;
-    items: Array<{ badge: string; date: string; title: string; excerpt: string }>;
+    colNo: string; colTitle: string; colDate: string;
+    sortNewest: string; sortOldest: string;
+    count: (n: number) => string;
+    empty: string;
   };
   publications: { label: string; title: string; more: string };
   footer: {
@@ -31,6 +35,8 @@ export interface Translations {
     greetingPs: string[]; researchLabel: string; researchTitle: string;
     profPhoto: string;
     areas: Array<{ tag: string; title: string; desc: string }>;
+    patentLabel: string; patentTitle: string;
+    patentStatusRegistered: string; patentStatusPending: string;
   };
   members: {
     banner: string;
@@ -55,7 +61,44 @@ export interface Translations {
     count: (n: number) => string;
     empty: string;
   };
-  contact: { label: string; title: string };
+  contact: {
+    label: string; title: string; heading: string;
+    addressLabel: string; address: string; addressEn: string;
+    phoneLabel: string; emailLabel: string; hoursLabel: string; hours: string;
+    copySuccess: string;
+  };
+  login: {
+    banner: string; heading: string; desc: string;
+    idLabel: string; passwordLabel: string;
+    idPlaceholder: string; passwordPlaceholder: string;
+    emailLabel: string; emailPlaceholder: string;
+    submit: string; backHome: string; error: string;
+  };
+  admin: {
+    title: string;
+    dashboard: string;
+    dashboardDesc: string;
+    members: string;
+    publications: string;
+    news: string;
+    gallery: string;
+    patents: string;
+    add: string;
+    edit: string;
+    delete: string;
+    save: string;
+    cancel: string;
+    saved: string;
+    confirmDelete: string;
+    colTitle: string;
+    colDate: string;
+    logout: string;
+    viewSite: string;
+    seedData: string;
+    seedDataDesc: string;
+    seedDataBtn: string;
+    saving: string;
+  };
 }
 
 const KR: Translations = {
@@ -106,16 +149,18 @@ const KR: Translations = {
     ],
   },
   news: {
+    banner: "News",
     label: "Latest News",
     title: "OEPL의 최근 소식",
     more: "더보기",
     readMore: "자세히 보기",
-    items: [
-      { badge: "News",        date: "2023.05.07", title: "OEPL 홈페이지 개설!",                  excerpt: "OEPL이 드디어 홈페이지를 새로 개설하였습니다. 앞으로 많은 관심 부탁드립니다." },
-      { badge: "Research",    date: "2023.04.15", title: "유기태양전지 효율 17.38% 달성",         excerpt: "유기태양전지 효율 세계 최고 수준에 근접하는 17.38% 효율 달성 성과를 발표하였습니다." },
-      { badge: "Award",       date: "2023.03.20", title: "국내외 공동연구 협약 체결",             excerpt: "KAIST·UNIST·재료연구소·에너지생산기술연구소와 공동 연구 협약을 체결하였습니다." },
-      { badge: "Publication", date: "2023.02.10", title: "Nature Communications 논문 게재",      excerpt: "유기광전자 소자 분야 세계적 저널인 Nature Communications에 논문이 게재되었습니다." },
-    ],
+    colNo: "번호",
+    colTitle: "제목",
+    colDate: "날짜",
+    sortNewest: "최신순",
+    sortOldest: "오래된순",
+    count: (n) => `${n}개 소식`,
+    empty: "등록된 소식이 없습니다.",
   },
   publications: { label: "Research Output", title: "최근 논문", more: "더보기" },
   footer: {
@@ -148,6 +193,10 @@ const KR: Translations = {
       { tag: "에너지 분석",  title: "에너지 손실 분석 시스템",             desc: "국내 유일의 완전한 형태의 유기태양전지 에너지 손실 분석 시스템을 독자적으로 구축하였습니다." },
       { tag: "공동 연구",    title: "국내외 협력 연구",                     desc: "KAIST, UNIST, 재료연구소, 에너지생산기술연구소 등 국내 주요 기관과 공동 연구를 진행합니다." },
     ],
+    patentLabel: "Patents",
+    patentTitle: "특허 소개",
+    patentStatusRegistered: "등록",
+    patentStatusPending: "출원",
   },
   members: {
     banner: "Members",
@@ -181,7 +230,56 @@ const KR: Translations = {
     count: (n) => `${n}개 행사`,
     empty: "해당 카테고리의 행사가 없습니다.",
   },
-  contact: { label: "Contact Us", title: "연락처" },
+  contact: {
+    label: "Contact Us", title: "연락처", heading: "Contact Us",
+    addressLabel: "주소",
+    address: "(44610) 울산광역시 남구 대학로 93, 울산대학교 자연과학대학 8호관 8-224호 / 8-228호",
+    addressEn: "(44610) Room 8-224 / 8-228, Building 8, College of Natural Sciences, Ulsan University,\n93, Daehak-ro, Nam-gu, Ulsan, Republic of Korea",
+    phoneLabel: "전화",
+    emailLabel: "이메일",
+    hoursLabel: "운영 시간",
+    hours: "평일 09:00 – 18:00",
+    copySuccess: "복사됨",
+  },
+  login: {
+    banner: "Login",
+    heading: "연구실 관리자 로그인",
+    desc: "연구실 구성원 전용 페이지입니다.",
+    idLabel: "아이디",
+    passwordLabel: "비밀번호",
+    idPlaceholder: "아이디를 입력하세요",
+    passwordPlaceholder: "비밀번호를 입력하세요",
+    emailLabel: "이메일",
+    emailPlaceholder: "admin@example.com",
+    submit: "로그인",
+    backHome: "홈으로 돌아가기",
+    error: "아이디 또는 비밀번호가 올바르지 않습니다.",
+  },
+  admin: {
+    title: "관리자",
+    dashboard: "대시보드",
+    dashboardDesc: "콘텐츠를 관리하려면 아래 메뉴를 선택하세요.",
+    members: "멤버",
+    publications: "논문",
+    news: "뉴스",
+    gallery: "갤러리",
+    patents: "특허",
+    add: "추가",
+    edit: "수정",
+    delete: "삭제",
+    save: "저장",
+    cancel: "취소",
+    saved: "저장되었습니다.",
+    confirmDelete: "삭제하시겠습니까?",
+    colTitle: "제목",
+    colDate: "날짜",
+    logout: "로그아웃",
+    viewSite: "사이트 보기 →",
+    seedData: "초기 데이터",
+    seedDataDesc: "DB에 데이터가 없을 때 샘플 콘텐츠를 저장합니다.",
+    seedDataBtn: "샘플 데이터 DB에 저장",
+    saving: "저장 중…",
+  },
 };
 
 const EN: Translations = {
@@ -232,16 +330,18 @@ const EN: Translations = {
     ],
   },
   news: {
+    banner: "News",
     label: "Latest News",
     title: "Latest from OEPL",
     more: "More",
     readMore: "Read more",
-    items: [
-      { badge: "News",        date: "2023.05.07", title: "OEPL Website Launched!",              excerpt: "OEPL has finally launched its new website. We look forward to your continued interest and support." },
-      { badge: "Research",    date: "2023.04.15", title: "17.38% OPV Efficiency Achieved",      excerpt: "We announced achieving 17.38% efficiency in organic solar cells, approaching the world-record level." },
-      { badge: "Award",       date: "2023.03.20", title: "Joint Research Agreements Signed",    excerpt: "Collaborative agreements were signed with KAIST, UNIST, KIMS, and KIER." },
-      { badge: "Publication", date: "2023.02.10", title: "Paper in Nature Communications",      excerpt: "Our research paper in organic optoelectronics was published in Nature Communications." },
-    ],
+    colNo: "No.",
+    colTitle: "Title",
+    colDate: "Date",
+    sortNewest: "Newest",
+    sortOldest: "Oldest",
+    count: (n) => `${n} item${n !== 1 ? "s" : ""}`,
+    empty: "No news items yet.",
   },
   publications: { label: "Research Output", title: "Recent Publications", more: "More" },
   footer: {
@@ -274,6 +374,10 @@ const EN: Translations = {
       { tag: "Energy Analysis",       title: "Energy Loss Analysis System",                desc: "We have independently built the only complete organic solar cell energy loss analysis system in Korea." },
       { tag: "Collaboration",         title: "Domestic & International Collaboration",     desc: "We conduct joint research with major institutions including KAIST, UNIST, KIMS, and KIER." },
     ],
+    patentLabel: "Patents",
+    patentTitle: "Patents",
+    patentStatusRegistered: "Registered",
+    patentStatusPending: "Pending",
   },
   members: {
     banner: "Members",
@@ -307,7 +411,56 @@ const EN: Translations = {
     count: (n) => `${n} event${n !== 1 ? "s" : ""}`,
     empty: "No events in this category.",
   },
-  contact: { label: "Contact Us", title: "Contact" },
+  contact: {
+    label: "Contact Us", title: "Contact", heading: "Contact Us",
+    addressLabel: "Address",
+    address: "(44610) 울산광역시 남구 대학로 93, 울산대학교 자연과학대학 8호관 8-224호 / 8-228호",
+    addressEn: "(44610) Room 8-224 / 8-228, Building 8, College of Natural Sciences, Ulsan University,\n93, Daehak-ro, Nam-gu, Ulsan, Republic of Korea",
+    phoneLabel: "Phone",
+    emailLabel: "Email",
+    hoursLabel: "Hours",
+    hours: "Mon – Fri, 09:00 – 18:00",
+    copySuccess: "Copied",
+  },
+  login: {
+    banner: "Login",
+    heading: "Lab Admin Login",
+    desc: "This page is for lab members only.",
+    idLabel: "Username",
+    passwordLabel: "Password",
+    idPlaceholder: "Enter your username",
+    passwordPlaceholder: "Enter your password",
+    emailLabel: "Email",
+    emailPlaceholder: "admin@example.com",
+    submit: "Log in",
+    backHome: "Back to home",
+    error: "Invalid username or password.",
+  },
+  admin: {
+    title: "Admin",
+    dashboard: "Dashboard",
+    dashboardDesc: "Select a section below to manage site content.",
+    members: "Members",
+    publications: "Publications",
+    news: "News",
+    gallery: "Gallery",
+    patents: "Patents",
+    add: "Add",
+    edit: "Edit",
+    delete: "Delete",
+    save: "Save",
+    cancel: "Cancel",
+    saved: "Saved.",
+    confirmDelete: "Delete this item?",
+    colTitle: "Title",
+    colDate: "Date",
+    logout: "Log out",
+    viewSite: "View site →",
+    seedData: "Initial data",
+    seedDataDesc: "Save sample content to the database when empty.",
+    seedDataBtn: "Save sample data to DB",
+    saving: "Saving…",
+  },
 };
 
 export const translations: Record<Lang, Translations> = { KR, EN };

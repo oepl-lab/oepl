@@ -4,35 +4,18 @@ import Header from "@/components/Header";
 import FooterCTA from "@/components/FooterCTA";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useLang } from "@/contexts/LangContext";
+import { useContent } from "@/contexts/ContentContext";
+import type { GalleryCategory } from "@/types/content";
 
-type Category = "전체" | "Member" | "Conference" | "기타";
-
-const photos: { id: number; title: string; date: string; category: Category }[] = [
-  { id: 1,  category: "Conference", title: "MRS Spring Meeting 2026 포스터 발표",          date: "2026.04.10" },
-  { id: 2,  category: "Conference", title: "한국물리학회 봄 학술대회 구두 발표",            date: "2026.04.22" },
-  { id: 3,  category: "Member",     title: "2026년 2월 석사 학위 수여식",                   date: "2026.02.18" },
-  { id: 4,  category: "Member",     title: "오준석 박사 졸업 및 취업 축하 송별회",          date: "2026.02.10" },
-  { id: 5,  category: "Member",     title: "겨울 연구실 MT — 강원도 평창",                  date: "2026.01.20" },
-  { id: 6,  category: "Member",     title: "신입 연구원 환영회 및 오리엔테이션",             date: "2026.03.05" },
-  { id: 7,  category: "Conference", title: "MRS Fall Meeting 2025 포스터 발표",             date: "2025.11.28" },
-  { id: 8,  category: "Conference", title: "ICSM 2025 국제 학술대회 참가",                  date: "2025.10.14" },
-  { id: 9,  category: "Member",     title: "2025년 8월 석·박사 학위 수여식",               date: "2025.08.22" },
-  { id: 10, category: "Member",     title: "윤서연 박사 졸업 및 LG화학 입사 축하 송별회",   date: "2025.08.15" },
-  { id: 11, category: "Member",     title: "여름 연구실 MT — 경남 거제",                    date: "2025.07.18" },
-  { id: 12, category: "기타",       title: "조신욱 교수 부임 7주년 기념 행사",               date: "2025.09.01" },
-  { id: 13, category: "Conference", title: "한국고분자학회 춘계 학술대회",                    date: "2025.04.25" },
-  { id: 14, category: "Member",     title: "2025년 2월 석사 학위 수여식",                   date: "2025.02.20" },
-  { id: 15, category: "Member",     title: "강태호 석사 졸업 및 SK하이닉스 입사 송별",      date: "2025.02.12" },
-  { id: 16, category: "Member",     title: "겨울 연구실 MT — 전북 무주",                    date: "2025.01.17" },
-  { id: 17, category: "기타",       title: "KAIST·UNIST 공동 연구팀 교류 행사",             date: "2024.11.05" },
-  { id: 18, category: "Conference", title: "MRS Fall Meeting 2024 포스터 발표",             date: "2024.11.25" },
-];
+type Category = "전체" | GalleryCategory;
 
 const categories: Category[] = ["전체", "Member", "Conference", "기타"];
 const PER_PAGE = 9;
 
 export default function GalleryPage() {
   const { t } = useLang();
+  const { content } = useContent();
+  const photos = content.gallery;
   const [category, setCategory] = useState<Category>("전체");
   const [page, setPage] = useState(1);
 
@@ -71,7 +54,7 @@ export default function GalleryPage() {
         </section>
 
         {/* Gallery */}
-        <section className="pt-10 pb-20">
+        <section className="py-12">
           <div className="max-w-7xl mx-auto px-6">
 
             {/* Header + filters */}
@@ -143,7 +126,7 @@ export default function GalleryPage() {
 
             {/* Empty state */}
             {paginated.length === 0 && (
-              <div className="text-center py-20">
+              <div className="text-center py-12">
                 <p className="text-[#9ca3af]">{t.gallery.empty}</p>
               </div>
             )}

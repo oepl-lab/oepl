@@ -49,7 +49,7 @@ export default function HeroSection() {
 
           <div className="flex flex-wrap items-center gap-3">
             <a
-              href="#research"
+              href="/about#research"
               className="inline-flex items-center gap-2 rounded-full bg-[var(--color-brand)] text-[var(--color-neutral-950)] font-semibold text-sm hover:bg-[var(--color-brand-hover)] transition-colors glow-box-orange"
               style={{ padding: "var(--spacing-300) var(--spacing-600)" }}
             >

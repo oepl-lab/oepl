@@ -3,64 +3,16 @@ import Header from "@/components/Header";
 import FooterCTA from "@/components/FooterCTA";
 import { Mail, BookOpen, FlaskConical, GraduationCap, Briefcase, Star } from "lucide-react";
 import { useLang } from "@/contexts/LangContext";
-
-const professor = {
-  nameKo: "조신욱 교수",
-  nameEn: "Shin Uk Choi",
-  affiliation: { KR: "울산대학교 공과대학 반도체물리공학과", EN: "Dept. of Semiconductor Physics Engineering, Univ. of Ulsan" },
-  email: "sucho@ulsan.ac.kr",
-  scholar: "https://scholar.google.com",
-  education: [
-    { period: "2000 – 2005", KR: "서울대학교 물리학과 학사",  EN: "B.S. in Physics, Seoul National University" },
-    { period: "2005 – 2007", KR: "서울대학교 물리학과 석사",  EN: "M.S. in Physics, Seoul National University" },
-    { period: "2007 – 2012", KR: "서울대학교 물리학과 박사",  EN: "Ph.D. in Physics, Seoul National University" },
-  ],
-  career: [
-    { period: "2012 – 2015", KR: "삼성전자 종합기술원 선임연구원",          EN: "Senior Researcher, Samsung Advanced Institute of Technology" },
-    { period: "2015 – 2018", KR: "KAIST 물리학과 박사후연구원",              EN: "Postdoctoral Researcher, KAIST Dept. of Physics" },
-    { period: "2018 – 현재",  KR: "울산대학교 반도체물리공학과 교수",        EN: "Professor, Dept. of Semiconductor Physics Engineering, Univ. of Ulsan" },
-  ],
-  achievements: [
-    { period: "2023", KR: "유기태양전지 효율 17.38% 달성 (세계 최고 수준)", EN: "17.38% OPV Efficiency Achieved (World-Class Level)" },
-    { period: "2022", KR: "국내 최초 완전한 에너지 손실 분석 시스템 구축",  EN: "First Complete Energy Loss Analysis System in Korea" },
-    { period: "2020", KR: "한국연구재단 우수연구자 선정",                    EN: "Selected as Outstanding Researcher by NRF Korea" },
-  ],
-};
-
-const postdocs = [
-  { nameKo: "홍길동", nameEn: "Hong Gil Dong", degree: "박사후연구원", email: "hgd@ulsan.ac.kr", field: { KR: "유기태양전지 효율 향상",  EN: "OPV Efficiency Enhancement" } },
-  { nameKo: "김철수", nameEn: "Kim Chul Su",   degree: "박사후연구원", email: "kcs@ulsan.ac.kr", field: { KR: "반투명 전극 소재",        EN: "Semi-transparent Electrode" } },
-  { nameKo: "유나현", nameEn: "Yoo Na Hyeon",  degree: "박사후연구원", email: "ynh@ulsan.ac.kr", field: { KR: "유기 소재 광물리",       EN: "Organic Material Photophysics" } },
-];
-
-const gradStudents = [
-  { nameKo: "이영희", nameEn: "Lee Young Hee", degree: "박사과정",   email: "lyh@ulsan.ac.kr", field: { KR: "유기 소재 합성",     EN: "Organic Material Synthesis" } },
-  { nameKo: "박지민", nameEn: "Park Ji Min",   degree: "박사과정",   email: "pjm@ulsan.ac.kr", field: { KR: "소자 공정 개발",    EN: "Device Process Development" } },
-  { nameKo: "최민준", nameEn: "Choi Min Jun",  degree: "석사과정",   email: "cmj@ulsan.ac.kr", field: { KR: "에너지 손실 분석",  EN: "Energy Loss Analysis" } },
-  { nameKo: "정수빈", nameEn: "Jung Su Bin",   degree: "석사과정",   email: "jsb@ulsan.ac.kr", field: { KR: "광흡수 소재 연구",  EN: "Light-Absorbing Materials" } },
-  { nameKo: "오민준", nameEn: "Oh Min Jun",    degree: "석사과정",   email: "omj@ulsan.ac.kr", field: { KR: "페로브스카이트 소재", EN: "Perovskite Materials" } },
-  { nameKo: "강하은", nameEn: "Kang Ha Eun",   degree: "학부연구생", email: "khe@ulsan.ac.kr", field: { KR: "전하 이동 특성 분석", EN: "Charge Transport Analysis" } },
-];
-
-const phdAlumni = [
-  { nameKo: "오준석", nameEn: "Oh Jun Seok", degree: "박사과정", year: 2023, month: 2, affiliation: { KR: "삼성전자 DS부문", EN: "Samsung Electronics DS" } },
-];
-
-const msAlumni = [
-  { nameKo: "윤서연", nameEn: "Yoon Seo Yeon", degree: "석사과정", year: 2022, month: 8,  affiliation: { KR: "LG화학 연구소",      EN: "LG Chem Research Lab" } },
-  { nameKo: "강태호", nameEn: "Kang Tae Ho",   degree: "석사과정", year: 2023, month: 2,  affiliation: { KR: "SK하이닉스",          EN: "SK Hynix" } },
-  { nameKo: "임채원", nameEn: "Lim Chae Won",  degree: "석사과정", year: 2022, month: 2,  affiliation: { KR: "한국에너지연구원",     EN: "KIER" } },
-  { nameKo: "신예진", nameEn: "Shin Ye Jin",   degree: "석사과정", year: 2021, month: 8,  affiliation: { KR: "KAIST 박사과정",      EN: "KAIST Ph.D Program" } },
-  { nameKo: "허준영", nameEn: "Heo Jun Young", degree: "석사과정", year: 2021, month: 2,  affiliation: { KR: "현대자동차 연구소",   EN: "Hyundai Motor Research" } },
-];
-
-type Lang = "KR" | "EN";
+import { useContent } from "@/contexts/ContentContext";
+import type { AlumniMember, ResearcherMember } from "@/types/content";
+import type { Lang } from "@/i18n/translations";
 
 function ResearcherCard({ r, lang, degreeMap }: {
-  r: { nameKo: string; nameEn: string; degree: string; email: string; field: Record<string, string> };
+  r: ResearcherMember;
   lang: Lang;
   degreeMap: Record<string, string>;
 }) {
+  const field = lang === "KR" ? r.fieldKr : r.fieldEn;
   return (
     <div className="rounded-2xl bg-white border border-gray-100 p-3 flex gap-4 hover:border-[#E88800]/40 transition-colors">
       <div className="flex-shrink-0 rounded-xl w-[140px] h-[168px] flex items-center justify-center bg-gray-100 border border-gray-200">
@@ -76,7 +28,7 @@ function ResearcherCard({ r, lang, degreeMap }: {
         </span>
         <div className="flex items-center gap-1.5 text-xs text-[#6b7280]">
           <FlaskConical size={11} className="text-[#E88800]" />
-          <span className="truncate">{r.field[lang]}</span>
+          <span className="truncate">{field}</span>
         </div>
         <div className="flex items-center gap-1.5 text-xs text-[#9ca3af]">
           <Mail size={11} />
@@ -87,10 +39,7 @@ function ResearcherCard({ r, lang, degreeMap }: {
   );
 }
 
-function AlumniCard({ a, lang }: {
-  a: { nameKo: string; nameEn: string; degree: string; year: number; month: number; affiliation: Record<string, string> };
-  lang: Lang;
-}) {
+function AlumniCard({ a, lang }: { a: AlumniMember; lang: Lang }) {
   const degreeLabel = lang === "KR"
     ? (a.degree === "박사과정" ? "박사과정" : "석사과정")
     : (a.degree === "박사과정" ? "Ph.D Program" : "M.S Program");
@@ -124,7 +73,11 @@ function TimelineRow({ period, desc }: { period: string; desc: string }) {
 
 export default function MembersPage() {
   const { lang, t } = useLang();
+  const { content } = useContent();
   const m = t.members;
+  const professor = content.members.professor;
+  const { postdocs, gradStudents, phdAlumni, msAlumni } = content.members;
+  const affiliation = lang === "KR" ? professor.affiliationKr : professor.affiliationEn;
   return (
     <>
       <Header />
@@ -139,7 +92,7 @@ export default function MembersPage() {
         </section>
 
         {/* 교수 소개 */}
-        <section className="py-20 bg-white border-b border-gray-100">
+        <section className="py-12 bg-white border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-6">
             <div className="mb-10">
               <p className="section-label mb-1">{m.professorLabel}</p>
@@ -152,7 +105,7 @@ export default function MembersPage() {
               </div>
               <div className="flex flex-col gap-6">
                 <div>
-                  <p className="text-xs text-[#9ca3af] mb-1">{professor.affiliation[lang]}</p>
+                  <p className="text-xs text-[#9ca3af] mb-1">{affiliation}</p>
                   <div className="flex items-baseline gap-3">
                     <h3 className="text-2xl font-bold text-[#080d1e]">{lang === "KR" ? professor.nameKo : professor.nameEn}</h3>
                     <span className="text-base text-[#9ca3af]">{lang === "KR" ? professor.nameEn : professor.nameKo}</span>
@@ -178,8 +131,8 @@ export default function MembersPage() {
                     </div>
                     <p className="text-xs font-semibold uppercase tracking-widest text-[#9ca3af]">{m.educationLabel}</p>
                   </div>
-                  {professor.education.map((e, i) => (
-                    <TimelineRow key={i} period={e.period} desc={e[lang]} />
+                  {professor.education.map((e) => (
+                    <TimelineRow key={e.id} period={e.period} desc={lang === "KR" ? e.textKr : e.textEn} />
                   ))}
                 </div>
 
@@ -190,8 +143,8 @@ export default function MembersPage() {
                     </div>
                     <p className="text-xs font-semibold uppercase tracking-widest text-[#9ca3af]">{m.careerLabel}</p>
                   </div>
-                  {professor.career.map((c, i) => (
-                    <TimelineRow key={i} period={c.period} desc={c[lang]} />
+                  {professor.career.map((c) => (
+                    <TimelineRow key={c.id} period={c.period} desc={lang === "KR" ? c.textKr : c.textEn} />
                   ))}
                 </div>
 
@@ -202,8 +155,8 @@ export default function MembersPage() {
                     </div>
                     <p className="text-xs font-semibold uppercase tracking-widest text-[#9ca3af]">{m.achievementsLabel}</p>
                   </div>
-                  {professor.achievements.map((a, i) => (
-                    <TimelineRow key={i} period={a.period} desc={a[lang]} />
+                  {professor.achievements.map((a) => (
+                    <TimelineRow key={a.id} period={a.period} desc={lang === "KR" ? a.textKr : a.textEn} />
                   ))}
                 </div>
               </div>
@@ -219,8 +172,8 @@ export default function MembersPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-[#080d1e]">{m.postdocTitle}</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {postdocs.map((r, i) => (
-                <ResearcherCard key={i} r={r} lang={lang} degreeMap={m.degreeMap} />
+              {postdocs.map((r) => (
+                <ResearcherCard key={r.id} r={r} lang={lang} degreeMap={m.degreeMap} />
               ))}
             </div>
           </div>
@@ -234,8 +187,8 @@ export default function MembersPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-[#080d1e]">{m.gradTitle}</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {gradStudents.map((r, i) => (
-                <ResearcherCard key={i} r={r} lang={lang} degreeMap={m.degreeMap} />
+              {gradStudents.map((r) => (
+                <ResearcherCard key={r.id} r={r} lang={lang} degreeMap={m.degreeMap} />
               ))}
             </div>
           </div>
@@ -249,8 +202,8 @@ export default function MembersPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-[#080d1e]">{m.phdAlumniTitle}</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {phdAlumni.map((a, i) => (
-                <AlumniCard key={i} a={a} lang={lang} />
+              {phdAlumni.map((a) => (
+                <AlumniCard key={a.id} a={a} lang={lang} />
               ))}
             </div>
           </div>
@@ -264,8 +217,8 @@ export default function MembersPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-[#080d1e]">{m.msAlumniTitle}</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {msAlumni.map((a, i) => (
-                <AlumniCard key={i} a={a} lang={lang} />
+              {msAlumni.map((a) => (
+                <AlumniCard key={a.id} a={a} lang={lang} />
               ))}
             </div>
           </div>

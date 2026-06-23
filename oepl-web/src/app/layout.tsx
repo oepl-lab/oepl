@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_KR, IBM_Plex_Mono } from "next/font/google";
-import { LangProvider } from "@/contexts/LangContext";
+import Providers from "@/components/Providers";
 
 /* Pretendard — Latin/English primary font (via @fontsource, loaded as CSS) */
 import "@fontsource/pretendard/latin-400.css";
@@ -51,7 +51,7 @@ export default function RootLayout({
       className={`${notoSansKR.variable} ${ibmPlexMono.variable}`}
     >
       <body className="min-h-screen antialiased">
-          <LangProvider>{children}</LangProvider>
+          <Providers>{children}</Providers>
         </body>
     </html>
   );

@@ -1,9 +1,14 @@
 "use client";
 import { ArrowRight } from "lucide-react";
 import { useLang } from "@/contexts/LangContext";
+import { useContent } from "@/contexts/ContentContext";
+import { newsDisplay } from "@/lib/content/display";
 
 export default function NewsSection() {
-  const { t } = useLang();
+  const { lang, t } = useLang();
+  const { content } = useContent();
+  const previewItems = content.news.slice(0, 4).map((item) => newsDisplay(item, lang));
+
   return (
     <section id="news" className="bg-white py-12 border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-6">
@@ -15,7 +20,7 @@ export default function NewsSection() {
             </h2>
           </div>
           <a
-            href="#"
+            href="/news"
             className="hidden md:inline-flex items-center gap-1.5 text-sm font-medium hover:opacity-70 transition-opacity"
             style={{ color: "#E88800" }}
           >
@@ -24,11 +29,11 @@ export default function NewsSection() {
           </a>
         </div>
 
-        <div className="flex flex-row gap-5 overflow-x-auto pb-2 -mx-6 px-6 snap-x snap-mandatory md:overflow-visible md:mx-0 md:px-0">
-          {t.news.items.map((item, i) => (
+        <div className="flex flex-row gap-5 overflow-x-auto pb-2 -mx-6 px-6 snap-x snap-mandatory md:grid md:grid-cols-4 md:overflow-visible md:mx-0 md:px-0">
+          {previewItems.map((item, i) => (
             <div
-              key={i}
-              className="card-hover flex-shrink-0 w-[280px] sm:w-[260px] md:flex-1 rounded-2xl overflow-hidden border border-gray-200 bg-white flex flex-col group cursor-pointer shadow-sm snap-start"
+              key={item.date + item.title}
+              className="card-hover flex-shrink-0 w-[280px] sm:w-[260px] md:w-auto rounded-2xl overflow-hidden border border-gray-200 bg-white flex flex-col group cursor-pointer shadow-sm snap-start"
             >
               <div className="relative h-44 overflow-hidden bg-gray-50">
                 <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent" />
@@ -55,7 +60,7 @@ export default function NewsSection() {
         </div>
 
         <div className="mt-8 text-center md:hidden">
-          <a href="#" className="btn-more">{t.news.more} <ArrowRight size={13} /></a>
+          <a href="/news" className="btn-more">{t.news.more} <ArrowRight size={13} /></a>
         </div>
       </div>
     </section>
