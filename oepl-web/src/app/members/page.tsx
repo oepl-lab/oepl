@@ -8,6 +8,24 @@ import { groupMembersForDisplay, formatGraduationYear } from "@/lib/content/memb
 import type { MemberRecord } from "@/types/content";
 import type { Lang } from "@/i18n/translations";
 
+function MemberAvatar({
+  photoUrl,
+  lang,
+  className,
+}: {
+  photoUrl?: string;
+  lang: Lang;
+  className?: string;
+}) {
+  if (photoUrl) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src={photoUrl} alt="" className={className ?? "w-full h-full object-cover"} />
+    );
+  }
+  return <span className="text-[10px] text-gray-400">{lang === "KR" ? "사진" : "Photo"}</span>;
+}
+
 function ResearcherCard({ r, lang, degreeMap }: {
   r: MemberRecord;
   lang: Lang;
@@ -16,8 +34,8 @@ function ResearcherCard({ r, lang, degreeMap }: {
   const field = r.fieldKr || r.fieldEn;
   return (
     <div className="rounded-2xl bg-white border border-gray-100 p-3 flex gap-4 hover:border-[#E88800]/40 transition-colors">
-      <div className="flex-shrink-0 rounded-xl w-[140px] h-[168px] flex items-center justify-center bg-gray-100 border border-gray-200">
-        <span className="text-[10px] text-gray-400">{lang === "KR" ? "사진" : "Photo"}</span>
+      <div className="flex-shrink-0 rounded-xl w-[140px] h-[168px] flex items-center justify-center bg-gray-100 border border-gray-200 overflow-hidden">
+        <MemberAvatar photoUrl={r.photoUrl} lang={lang} />
       </div>
       <div className="flex flex-col justify-between min-w-0 py-3 flex-1">
         <div className="flex items-baseline gap-2">
@@ -40,10 +58,8 @@ function ResearcherCard({ r, lang, degreeMap }: {
   );
 }
 
-function AlumniCard({ a, lang }: { a: MemberRecord; lang: Lang }) {
-  const degreeLabel = lang === "KR"
-    ? (a.degree === "박사과정" ? "박사과정" : "석사과정")
-    : (a.degree === "박사과정" ? "Ph.D Program" : "M.S Program");
+function AlumniCard({ a, lang, degreeMap }: { a: MemberRecord; lang: Lang; degreeMap: Record<string, string> }) {
+  const degreeLabel = degreeMap[a.degree] ?? a.degree;
   return (
     <div className="rounded-xl bg-white border border-gray-100 px-5 py-4 flex items-center justify-between gap-4 hover:border-[#E88800]/30 transition-colors">
       <div>
@@ -203,7 +219,7 @@ export default function MembersPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {phdAlumni.map((a) => (
-                <AlumniCard key={a.id} a={a} lang={lang} />
+                <AlumniCard key={a.id} a={a} lang={lang} degreeMap={m.degreeMap} />
               ))}
             </div>
           </div>
@@ -218,7 +234,7 @@ export default function MembersPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {msAlumni.map((a) => (
-                <AlumniCard key={a.id} a={a} lang={lang} />
+                <AlumniCard key={a.id} a={a} lang={lang} degreeMap={m.degreeMap} />
               ))}
             </div>
           </div>

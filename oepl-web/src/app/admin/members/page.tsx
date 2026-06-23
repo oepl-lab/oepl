@@ -15,7 +15,7 @@ import { NEW_ID, isNewId, nextLocalId } from "@/lib/data/ids";
 import { flattenMembers } from "@/lib/data/mappers";
 
 import {
-
+  compareMemberInsertOrder,
   degreeOptionsFor,
 
   formatGraduation,
@@ -32,7 +32,13 @@ import {
 
 import { btnPrimaryClass, inputClass } from "@/components/admin/form-styles";
 
-import { AdminDropdown, AdminModal, AdminRowActions, AdminTable, Field } from "@/components/admin/AdminUi";
+import { AdminDropdown, AdminModal, AdminPhotoUpload, AdminRowActions, AdminTable, Field } from "@/components/admin/AdminUi";
+import {
+  readMemberPhotoPreview,
+  removeMemberPhoto,
+  uploadMemberPhoto,
+  validateMemberPhotoFile,
+} from "@/lib/supabase/member-photos";
 
 
 
@@ -201,12 +207,73 @@ export default function AdminMembersPage() {
   const { content, updateProfessor, upsertMember, deleteMember } = useContent();
 
   const [draft, setDraft] = useState<MemberRecord | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [pendingPhotoFile, setPendingPhotoFile] = useState<File | null>(null);
+  const [photoRemoved, setPhotoRemoved] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const prof = content.members.professor;
 
+  function resetPhotoDraft() {
+    setPhotoPreview(null);
+    setPendingPhotoFile(null);
+    setPhotoRemoved(false);
+  }
+
+  function openDraft(item: MemberRecord) {
+    resetPhotoDraft();
+    setPhotoPreview(item.photoUrl || null);
+    setDraft(openMemberDraft(item));
+  }
+
+  function handlePhotoSelect(file: File) {
+    const validationError = validateMemberPhotoFile(file);
+    if (validationError) {
+      alert(validationError);
+      return;
+    }
+    setPendingPhotoFile(file);
+    setPhotoRemoved(false);
+    void readMemberPhotoPreview(file).then(setPhotoPreview);
+  }
+
+  function handlePhotoRemove() {
+    setPendingPhotoFile(null);
+    setPhotoPreview(null);
+    setPhotoRemoved(true);
+  }
+
+  async function handleMemberSubmit() {
+    if (!draft) return;
+    setSubmitting(true);
+    try {
+      let normalized = normalizeMemberRecord({ ...draft, id: draft.id || NEW_ID });
+      if (photoRemoved) normalized = { ...normalized, photoUrl: "" };
+
+      let saved = await upsertMember(normalized);
+
+      if (pendingPhotoFile) {
+        const url = await uploadMemberPhoto(saved.id, pendingPhotoFile);
+        saved = await upsertMember({ ...saved, photoUrl: url });
+      } else if (photoRemoved && draft.photoUrl) {
+        await removeMemberPhoto(saved.id);
+      }
+
+      setDraft(null);
+      resetPhotoDraft();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "저장에 실패했습니다.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
 
-  const allMembers = useMemo(() => flattenMembers(content.members), [content.members]);
+
+  const allMembers = useMemo(
+    () => flattenMembers(content.members).sort(compareMemberInsertOrder),
+    [content.members]
+  );
 
 
 
@@ -232,7 +299,7 @@ export default function AdminMembersPage() {
 
       <h2 className="text-base font-bold text-[#080d1e]">Members</h2>
 
-      <button type="button" onClick={() => setDraft(emptyMember())} className={btnPrimaryClass} style={{ background: "#E88800" }}>
+      <button type="button" onClick={() => { resetPhotoDraft(); setDraft(emptyMember()); }} className={btnPrimaryClass} style={{ background: "#E88800" }}>
 
         {t.admin.add}
 
@@ -338,7 +405,7 @@ export default function AdminMembersPage() {
 
         <AdminTable
 
-          headers={["Name (KR)", "Name (EN)", "Degree", "Email", "Field", "Graduation", ""]}
+          headers={["Name (KR)", "Name (EN)", "Degree", "Email", "Research", "Graduation", ""]}
 
           toolbar={tableToolbar}
 
@@ -376,7 +443,7 @@ export default function AdminMembersPage() {
 
                   deleteLabel={t.admin.delete}
 
-                  onEdit={() => setDraft(openMemberDraft(item))}
+                  onEdit={() => openDraft(item)}
 
                   onDelete={() => { if (confirm(t.admin.confirmDelete)) deleteMember(item.id); }}
 
@@ -400,21 +467,11 @@ export default function AdminMembersPage() {
 
         title={draft && !isNewId(draft.id) ? t.admin.edit : t.admin.add}
 
-        onClose={() => setDraft(null)}
+        onClose={() => { resetPhotoDraft(); setDraft(null); }}
 
-        onSubmit={() => {
+        onSubmit={() => { void handleMemberSubmit(); }}
 
-          if (draft) {
-
-            void upsertMember(normalizeMemberRecord({ ...draft, id: draft.id || NEW_ID }));
-
-            setDraft(null);
-
-          }
-
-        }}
-
-        submitLabel={t.admin.save}
+        submitLabel={submitting ? "저장 중…" : t.admin.save}
 
         cancelLabel={t.admin.cancel}
 
@@ -423,6 +480,14 @@ export default function AdminMembersPage() {
         {draft && (
 
           <>
+
+            <Field label="Photo">
+              <AdminPhotoUpload
+                previewUrl={photoPreview}
+                onFileSelect={handlePhotoSelect}
+                onRemove={handlePhotoRemove}
+              />
+            </Field>
 
             <Field label="Degree">
 
@@ -453,7 +518,7 @@ export default function AdminMembersPage() {
                 <Field label="Email">
                   <input className={inputClass} value={draft.email} onChange={(e) => setDraft({ ...draft, email: e.target.value })} />
                 </Field>
-                <Field label="Field">
+                <Field label="Research">
                   <input
                     className={inputClass}
                     value={draft.fieldKr || draft.fieldEn}

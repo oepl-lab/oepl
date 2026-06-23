@@ -35,6 +35,7 @@ const checks = [
   probe("news", ["id", "type", "title", "detail"]),
   probe("publications", ["id", "title_ko", "title_en", "doi_link"]),
   probe("gallery", ["id", "type"]),
+  probe("members", ["id", "photo_url", "graduation_date"]),
 ];
 
 const results = await Promise.all(checks);

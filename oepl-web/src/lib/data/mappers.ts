@@ -186,6 +186,8 @@ export function researcherFromRow(row: Record<string, unknown>): ResearcherMembe
     email: (row.email as string) ?? "",
     fieldKr: (row.field_kr as string) ?? "",
     fieldEn: (row.field_en as string) ?? "",
+    photoUrl: (row.photo_url as string) ?? "",
+    createdAt: optionalTimestamp(row, "created_at"),
   };
 }
 
@@ -213,6 +215,7 @@ export function researcherToRow(group: "postdocs" | "gradStudents", item: Resear
     field_kr: item.fieldKr,
     field_en: item.fieldEn,
     graduation_date: null,
+    photo_url: item.photoUrl?.trim() || null,
   };
 }
 
@@ -223,6 +226,8 @@ export function alumniFromRow(row: Record<string, unknown>): AlumniMember {
     nameEn: row.name_en as string,
     degree: row.degree as string,
     graduationDate: graduationDateFromRow(row),
+    photoUrl: (row.photo_url as string) ?? "",
+    createdAt: optionalTimestamp(row, "created_at"),
   };
 }
 
@@ -237,6 +242,7 @@ export function alumniToRow(group: "phdAlumni" | "msAlumni", item: AlumniMember)
     field_kr: null,
     field_en: null,
     graduation_date: item.graduationDate?.trim() || null,
+    photo_url: item.photoUrl?.trim() || null,
   };
 }
 
@@ -280,6 +286,7 @@ export function memberRecordToRow(item: MemberRecord) {
     field_kr: researcher ? item.fieldKr : null,
     field_en: researcher ? item.fieldEn : null,
     graduation_date: researcher ? null : item.graduationDate?.trim() || null,
+    photo_url: item.photoUrl?.trim() || null,
   });
 }
 
@@ -318,6 +325,8 @@ export function flattenMembers(members: MembersData): MemberRecord[] {
         fieldKr: r.fieldKr,
         fieldEn: r.fieldEn,
         graduationDate: "",
+        photoUrl: r.photoUrl ?? "",
+        createdAt: r.createdAt,
       };
     }
     const a = item as AlumniMember;
@@ -331,6 +340,8 @@ export function flattenMembers(members: MembersData): MemberRecord[] {
       fieldKr: "",
       fieldEn: "",
       graduationDate: a.graduationDate,
+      photoUrl: a.photoUrl ?? "",
+      createdAt: a.createdAt,
     };
   };
 
@@ -361,8 +372,10 @@ export function applyMemberRecord(members: MembersData, record: MemberRecord): M
       email: record.email,
       fieldKr: record.fieldKr,
       fieldEn: record.fieldEn,
+      photoUrl: record.photoUrl ?? "",
+      createdAt: record.createdAt,
     };
-    return { ...cleared, [record.memberGroup]: [researcher, ...cleared[record.memberGroup]] };
+    return { ...cleared, [record.memberGroup]: [...cleared[record.memberGroup], researcher] };
   }
 
   const alumni: AlumniMember = {
@@ -371,8 +384,10 @@ export function applyMemberRecord(members: MembersData, record: MemberRecord): M
     nameEn: record.nameEn,
     degree: record.degree,
     graduationDate: record.graduationDate,
+    photoUrl: record.photoUrl ?? "",
+    createdAt: record.createdAt,
   };
-  return { ...cleared, [record.memberGroup]: [alumni, ...cleared[record.memberGroup]] };
+  return { ...cleared, [record.memberGroup]: [...cleared[record.memberGroup], alumni] };
 }
 
 export function removeMemberFromGroups(members: MembersData, id: number): MembersData {
@@ -404,6 +419,7 @@ export function groupMembers(rows: Record<string, unknown>[]) {
         email: record.email,
         fieldKr: record.fieldKr,
         fieldEn: record.fieldEn,
+        photoUrl: record.photoUrl ?? "",
       });
     } else {
       (result[group] as AlumniMember[]).push({
@@ -412,6 +428,7 @@ export function groupMembers(rows: Record<string, unknown>[]) {
         nameEn: record.nameEn,
         degree: record.degree,
         graduationDate: record.graduationDate,
+        photoUrl: record.photoUrl ?? "",
       });
     }
   }

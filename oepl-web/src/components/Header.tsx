@@ -5,6 +5,7 @@ import { Menu, X, Globe } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLang } from "@/contexts/LangContext";
+import { headerBtnClass } from "@/components/admin/form-styles";
 
 const navLinks = [
   { label: "Home",        href: "/" },
@@ -65,10 +66,7 @@ export default function Header() {
         {/* Right controls */}
         <div className="hidden md:flex items-center gap-3">
           {/* Login */}
-          <Link
-            href="/login"
-            className="px-4 py-1.5 text-xs font-medium border border-gray-200 text-[#6b7280] rounded-full hover:border-[#E88800]/60 hover:text-[#080d1e] transition-all"
-          >
+          <Link href="/login" className={headerBtnClass}>
             {t.header.login}
           </Link>
 
@@ -120,7 +118,7 @@ export default function Header() {
             ))}
             <Link
               href="/login"
-              className="text-[#6b7280] hover:text-[#E88800] text-sm font-medium transition-colors"
+              className={`${headerBtnClass} inline-block w-fit`}
               onClick={() => setMobileOpen(false)}
             >
               {t.header.login}

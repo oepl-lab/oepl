@@ -150,6 +150,10 @@ export interface ResearcherMember {
 
   fieldEn: string;
 
+  photoUrl?: string;
+
+  createdAt?: string;
+
 }
 
 
@@ -165,6 +169,10 @@ export interface AlumniMember {
   degree: string;
 
   graduationDate: string;
+
+  photoUrl?: string;
+
+  createdAt?: string;
 
 }
 
@@ -189,6 +197,10 @@ export interface MemberRecord {
   fieldEn: string;
 
   graduationDate: string;
+
+  photoUrl?: string;
+
+  createdAt?: string;
 
 }
 

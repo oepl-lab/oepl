@@ -9,6 +9,7 @@ export async function updateSession(request: NextRequest) {
 
   try {
     let response = NextResponse.next({ request });
+    const pathname = request.nextUrl.pathname;
 
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -29,7 +30,21 @@ export async function updateSession(request: NextRequest) {
       }
     );
 
-    await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (pathname.startsWith("/admin") && !user) {
+      const loginUrl = request.nextUrl.clone();
+      loginUrl.pathname = "/login";
+      loginUrl.searchParams.set("next", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    if (pathname === "/login" && user) {
+      return NextResponse.redirect(new URL("/admin", request.url));
+    }
+
     return response;
   } catch {
     return NextResponse.next({ request });

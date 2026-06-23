@@ -68,6 +68,7 @@ create table public.members (
   field_kr text,
   field_en text,
   graduation_date date,
+  photo_url text,
   created_at timestamptz not null default now()
 );
 

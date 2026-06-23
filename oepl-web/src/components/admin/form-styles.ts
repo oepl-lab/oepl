@@ -9,5 +9,8 @@ export const btnPrimaryClass =
 export const btnGhostClass =
   "px-4 py-2 rounded-full text-xs font-semibold border border-gray-200 text-[#6b7280] cursor-pointer hover:border-[#E88800]/40 transition-colors";
 
+export const headerBtnClass =
+  `${btnGhostClass} hover:bg-[#E88800] hover:text-white hover:border-[#E88800]`;
+
 export const btnDangerClass =
   "px-3 py-1.5 rounded-lg text-xs font-semibold text-red-600 border border-red-200 hover:bg-red-50 cursor-pointer transition-colors";

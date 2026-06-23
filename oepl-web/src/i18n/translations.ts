@@ -94,9 +94,6 @@ export interface Translations {
     colDate: string;
     logout: string;
     viewSite: string;
-    seedData: string;
-    seedDataDesc: string;
-    seedDataBtn: string;
     saving: string;
   };
 }
@@ -214,7 +211,7 @@ const KR: Translations = {
     msAlumniLabel: "Alumni · M.S",
     msAlumniTitle: "졸업생 소개 · M.S 과정",
     photo: "사진",
-    degreeMap: { "박사과정": "박사과정", "석사과정": "석사과정", "박사후연구원": "박사후연구원", "학부연구생": "학부연구생" },
+    degreeMap: { "박사과정": "박사과정", "석사과정": "석사과정", "박사후연구원": "박사 후 연구원", "학부연구생": "학부연구생" },
   },
   publication: {
     banner: "Publication",
@@ -256,7 +253,7 @@ const KR: Translations = {
     error: "아이디 또는 비밀번호가 올바르지 않습니다.",
   },
   admin: {
-    title: "관리자",
+    title: "관리자 페이지",
     dashboard: "대시보드",
     dashboardDesc: "콘텐츠를 관리하려면 아래 메뉴를 선택하세요.",
     members: "멤버",
@@ -275,9 +272,6 @@ const KR: Translations = {
     colDate: "날짜",
     logout: "로그아웃",
     viewSite: "사이트 보기 →",
-    seedData: "초기 데이터",
-    seedDataDesc: "DB에 데이터가 없을 때 샘플 콘텐츠를 저장합니다.",
-    seedDataBtn: "샘플 데이터 DB에 저장",
     saving: "저장 중…",
   },
 };
@@ -437,7 +431,7 @@ const EN: Translations = {
     error: "Invalid username or password.",
   },
   admin: {
-    title: "Admin",
+    title: "Admin Page",
     dashboard: "Dashboard",
     dashboardDesc: "Select a section below to manage site content.",
     members: "Members",
@@ -456,9 +450,6 @@ const EN: Translations = {
     colDate: "Date",
     logout: "Log out",
     viewSite: "View site →",
-    seedData: "Initial data",
-    seedDataDesc: "Save sample content to the database when empty.",
-    seedDataBtn: "Save sample data to DB",
     saving: "Saving…",
   },
 };

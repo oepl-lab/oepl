@@ -1,5 +1,5 @@
-import type { MemberGroup, MemberRecord, MembersData } from "@/types/content";
-import { flattenMembers } from "@/lib/data/mappers";
+import type { AlumniMember, MemberGroup, MemberRecord, MembersData, ResearcherMember } from "@/types/content";
+import { flattenMembers, isResearcherGroup, memberRecordFromRow } from "@/lib/data/mappers";
 
 export const MEMBER_DEGREE_OPTIONS = [
   "박사후연구원",
@@ -90,11 +90,67 @@ export function normalizeMemberRecord(item: MemberRecord): MemberRecord {
   };
 }
 
+export function compareMemberInsertOrder(
+  a: Pick<MemberRecord, "id" | "createdAt">,
+  b: Pick<MemberRecord, "id" | "createdAt">
+): number {
+  if (a.createdAt && b.createdAt && a.createdAt !== b.createdAt) {
+    return a.createdAt.localeCompare(b.createdAt);
+  }
+  return a.id - b.id;
+}
+
+/** DB rows (created_at asc) → display groups by degree + graduation */
+export function buildMemberGroupsFromRows(
+  rows: Record<string, unknown>[]
+): Omit<MembersData, "professor"> {
+  const result = {
+    postdocs: [] as ResearcherMember[],
+    gradStudents: [] as ResearcherMember[],
+    phdAlumni: [] as AlumniMember[],
+    msAlumni: [] as AlumniMember[],
+  };
+
+  for (const row of rows) {
+    const record = memberRecordFromRow(row);
+    const group = inferMemberGroup(record);
+
+    if (isResearcherGroup(group)) {
+      (result[group] as ResearcherMember[]).push({
+        id: record.id,
+        nameKo: record.nameKo,
+        nameEn: record.nameEn,
+        degree: record.degree,
+        email: record.email,
+        fieldKr: record.fieldKr,
+        fieldEn: record.fieldEn,
+        photoUrl: record.photoUrl,
+        createdAt: record.createdAt,
+      });
+    } else {
+      (result[group] as AlumniMember[]).push({
+        id: record.id,
+        nameKo: record.nameKo,
+        nameEn: record.nameEn,
+        degree: record.degree,
+        graduationDate: record.graduationDate,
+        photoUrl: record.photoUrl,
+        createdAt: record.createdAt,
+      });
+    }
+  }
+
+  return result;
+}
+
 export function groupMembersForDisplay(members: MembersData) {
-  const all = flattenMembers(members).map((m) => ({
-    ...m,
-    degree: normalizeDegree(m.degree, m.memberGroup),
-  }));
+  const all = flattenMembers(members)
+    .map((m) => ({
+      ...m,
+      degree: normalizeDegree(m.degree, m.memberGroup),
+    }))
+    .sort(compareMemberInsertOrder);
+
   return {
     postdocs: all.filter((m) => !hasGraduated(m) && m.degree === "박사후연구원"),
     gradStudents: all.filter((m) => !hasGraduated(m) && m.degree !== "박사후연구원"),

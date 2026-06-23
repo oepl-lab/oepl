@@ -37,7 +37,6 @@ import {
   removeNews,
   removePatent,
   removePublication,
-  seedDatabase,
 } from "@/lib/data/repository";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 
@@ -45,7 +44,6 @@ interface ContentContextValue {
   content: SiteContent;
   ready: boolean;
   saving: boolean;
-  resetToSeed: () => Promise<void>;
   upsertNews: (item: NewsItem) => Promise<void>;
   deleteNews: (id: number) => Promise<void>;
   upsertPublication: (item: Publication) => Promise<void>;
@@ -55,7 +53,7 @@ interface ContentContextValue {
   upsertPatent: (item: Patent) => Promise<void>;
   deletePatent: (id: number) => Promise<void>;
   updateProfessor: (professor: Professor) => void;
-  upsertMember: (item: MemberRecord) => Promise<void>;
+  upsertMember: (item: MemberRecord) => Promise<MemberRecord>;
   deleteMember: (id: number) => Promise<void>;
 }
 
@@ -79,22 +77,6 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
       await fn();
     } catch (err) {
       console.error("[ContentContext] persist failed", err);
-      alert("저장에 실패했습니다. 로그인 상태를 확인해 주세요.");
-    } finally {
-      setSaving(false);
-    }
-  }, []);
-
-  const resetToSeed = useCallback(async () => {
-    const next = structuredClone(seedContent);
-    setContent(next);
-    setSaving(true);
-    try {
-      await seedDatabase(next);
-      if (!isSupabaseConfigured()) persistLocalContent(next);
-      else persistProfessorLocal(next.members.professor);
-    } catch (err) {
-      console.error("[ContentContext] seed failed", err);
       alert("저장에 실패했습니다. 로그인 상태를 확인해 주세요.");
     } finally {
       setSaving(false);
@@ -295,38 +277,51 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     });
   }, [runPersist]);
 
-  const upsertMember = useCallback(async (item: MemberRecord) => {
-    const draft = { ...item, id: item.id || NEW_ID };
-    const isNew = isNewId(draft.id);
+  const upsertMember = useCallback(async (item: MemberRecord): Promise<MemberRecord> => {
+    const draftItem = { ...item, id: item.id || NEW_ID };
+    const isNew = isNewId(draftItem.id);
 
-    setContent((prev) => {
-      let next = { ...prev, members: applyMemberRecord(prev.members, draft) };
-
-      if (isSupabaseConfigured()) {
-        void runPersist(async () => {
-          const saved = await persistMember(draft);
-          setContent((p) => ({
-            ...p,
-            members: applyMemberRecord(
-              removeMemberFromGroups(p.members, isNew ? NEW_ID : saved.id),
-              saved
-            ),
-          }));
-        });
-      } else {
-        const all = [
-          ...prev.members.postdocs,
-          ...prev.members.gradStudents,
-          ...prev.members.phdAlumni,
-          ...prev.members.msAlumni,
-        ];
-        const saved = isNew ? { ...draft, id: nextLocalId(all) } : draft;
-        next = { ...prev, members: applyMemberRecord(removeMemberFromGroups(prev.members, draft.id), saved) };
-        persistLocalContent(next);
+    if (isSupabaseConfigured()) {
+      setSaving(true);
+      try {
+        const saved = await persistMember(draftItem);
+        setContent((p) => ({
+          ...p,
+          members: applyMemberRecord(
+            removeMemberFromGroups(p.members, isNew ? NEW_ID : saved.id),
+            saved
+          ),
+        }));
+        return saved;
+      } catch (err) {
+        console.error("[ContentContext] persist failed", err);
+        alert("저장에 실패했습니다. 로그인 상태를 확인해 주세요.");
+        throw err;
+      } finally {
+        setSaving(false);
       }
+    }
+
+    let saved!: MemberRecord;
+    setContent((prev) => {
+      const all = [
+        ...prev.members.postdocs,
+        ...prev.members.gradStudents,
+        ...prev.members.phdAlumni,
+        ...prev.members.msAlumni,
+      ];
+      saved = isNew
+        ? { ...draftItem, id: nextLocalId(all), createdAt: new Date().toISOString() }
+        : draftItem;
+      const next = {
+        ...prev,
+        members: applyMemberRecord(removeMemberFromGroups(prev.members, draftItem.id), saved),
+      };
+      persistLocalContent(next);
       return next;
     });
-  }, [runPersist]);
+    return saved;
+  }, []);
 
   const deleteMember = useCallback(async (id: number) => {
     setContent((prev) => {
@@ -342,7 +337,6 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
       content,
       ready,
       saving,
-      resetToSeed,
       upsertNews,
       deleteNews,
       upsertPublication,
@@ -359,7 +353,6 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
       content,
       ready,
       saving,
-      resetToSeed,
       upsertNews,
       deleteNews,
       upsertPublication,

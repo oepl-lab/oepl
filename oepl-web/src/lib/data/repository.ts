@@ -26,15 +26,13 @@ import { loadContent, loadProfessor, saveContent, saveProfessorLocal, seedConten
 
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 
-import {
+import { buildMemberGroupsFromRows } from "@/lib/content/members";
 
-  flattenMembers,
+import {
 
   galleryFromRow,
 
   galleryToRow,
-
-  groupMembers,
 
   memberRecordFromRow,
 
@@ -114,7 +112,7 @@ export async function fetchSiteContent(): Promise<SiteContent> {
 
       sb.from("patents").select("*").order("created_at", { ascending: false }),
 
-      sb.from("members").select("*").order("created_at", { ascending: false }),
+      sb.from("members").select("*").order("created_at", { ascending: true }),
 
     ]);
 
@@ -146,7 +144,7 @@ export async function fetchSiteContent(): Promise<SiteContent> {
 
 
 
-    const memberGroups = groupMembers(membersRes.data ?? []);
+    const memberGroups = buildMemberGroupsFromRows(membersRes.data ?? []);
 
 
 
@@ -205,76 +203,6 @@ export async function fetchSiteContent(): Promise<SiteContent> {
     return { ...seedContent, members: { ...seedContent.members, professor } };
 
   }
-
-}
-
-
-
-export async function seedDatabase(content: SiteContent = seedContent): Promise<void> {
-
-  if (!isSupabaseConfigured()) {
-
-    saveContent(content);
-
-    saveProfessorLocal(content.members.professor);
-
-    return;
-
-  }
-
-
-
-  const sb = supabase();
-
-
-
-  for (const table of ["news", "publications", "gallery", "patents", "members"] as const) {
-
-    const { error } = await sb.from(table).delete().gte("id", 1);
-
-    if (error) throw new Error(error.message);
-
-  }
-
-
-
-  const { error: newsErr } = await sb.from("news").insert(content.news.map((item) => newsToRow(item)));
-
-  if (newsErr) throw new Error(newsErr.message);
-
-
-
-  const { error: pubErr } = await sb.from("publications").insert(content.publications.map((item) => publicationToRow(item)));
-
-  if (pubErr) throw new Error(pubErr.message);
-
-
-
-  const { error: galErr } = await sb.from("gallery").insert(content.gallery.map((item) => galleryToRow(item)));
-
-  if (galErr) throw new Error(galErr.message);
-
-
-
-  const { error: patErr } = await sb.from("patents").insert(content.patents.map((item) => patentToRow(item)));
-
-  if (patErr) throw new Error(patErr.message);
-
-
-
-  const memberRows = flattenMembers(content.members).map(memberRecordToRow);
-
-  if (memberRows.length > 0) {
-
-    const { error: memErr } = await sb.from("members").insert(memberRows);
-
-    if (memErr) throw new Error(memErr.message);
-
-  }
-
-
-
-  saveProfessorLocal(content.members.professor);
 
 }
 

@@ -40,9 +40,21 @@ export function AdminDropdown<T extends string>({
     function handleClickOutside(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
     }
+    function handleEscape(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
   }, []);
+
+  const select = (next: T) => {
+    setOpen(false);
+    if (next !== value) onChange(next);
+  };
 
   return (
     <div ref={ref} className="relative">
@@ -78,7 +90,11 @@ export function AdminDropdown<T extends string>({
             <button
               key={o.value}
               type="button"
-              onClick={() => { onChange(o.value); setOpen(false); }}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                select(o.value);
+              }}
               className="w-full text-left px-4 py-2.5 text-xs font-semibold transition-colors hover:bg-gray-50 cursor-pointer whitespace-nowrap"
               style={{
                 color: o.value === value ? "#E88800" : "#374151",
@@ -220,5 +236,62 @@ export function Field({
       <span className="text-xs font-semibold text-[#374151]">{label}</span>
       {children}
     </label>
+  );
+}
+
+export function AdminPhotoUpload({
+  previewUrl,
+  onFileSelect,
+  onRemove,
+  selectLabel = "사진 선택",
+  removeLabel = "사진 삭제",
+}: {
+  previewUrl: string | null;
+  onFileSelect: (file: File) => void;
+  onRemove: () => void;
+  selectLabel?: string;
+  removeLabel?: string;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <div className="flex items-start gap-4">
+      <div className="flex flex-col gap-1.5 flex-shrink-0">
+        <div className="w-[140px] h-[168px] rounded-xl bg-gray-100 border border-gray-200 overflow-hidden flex items-center justify-center">
+          {previewUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={previewUrl} alt="" className="w-full h-full object-cover" />
+          ) : (
+            <span className="text-[10px] text-gray-400">No photo</span>
+          )}
+        </div>
+        <p className="text-[10px] text-[#9ca3af] whitespace-nowrap w-[140px] text-center">JPEG, PNG, WebP · 최대 2MB</p>
+      </div>
+      <div className="flex flex-col gap-2 pt-1">
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          className="hidden"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) onFileSelect(file);
+            e.target.value = "";
+          }}
+        />
+        <button type="button" onClick={() => inputRef.current?.click()} className={btnGhostClass}>
+          {selectLabel}
+        </button>
+        {previewUrl && (
+          <button
+            type="button"
+            onClick={onRemove}
+            className={`${btnGhostClass} text-red-500 hover:border-red-300/60`}
+          >
+            {removeLabel}
+          </button>
+        )}
+      </div>
+    </div>
   );
 }

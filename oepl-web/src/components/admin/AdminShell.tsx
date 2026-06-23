@@ -6,6 +6,7 @@ import { LogOut, LayoutDashboard, Users, BookOpen, Newspaper, Images, FileText }
 import { useAuth } from "@/contexts/AuthContext";
 import { useContent } from "@/contexts/ContentContext";
 import { useLang } from "@/contexts/LangContext";
+import { headerBtnClass } from "@/components/admin/form-styles";
 
 const nav = [
   { href: "/admin", labelKey: "dashboard" as const, icon: LayoutDashboard, exact: true },
@@ -28,10 +29,19 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   }
 
   return (
-    <div className="min-h-screen bg-[#f9fafb] flex">
+    <div className="min-h-screen bg-[#f9fafb] text-[#080d1e] flex">
       <aside className="w-56 flex-shrink-0 bg-[#080d1e] text-white flex flex-col">
         <div className="px-5 py-6 border-b border-white/10">
-          <p className="text-xs tracking-widest uppercase text-[#E88800] mb-1">OEPL</p>
+          <Link
+            href="/"
+            className="inline-block mb-2"
+            aria-label="OEPL — Organic Electronic Physics Laboratory"
+          >
+            <span
+              className="block h-7 aspect-[120/40] bg-brand [mask-image:url(/oepl-logo.png)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:left_center] [-webkit-mask-image:url(/oepl-logo.png)] [-webkit-mask-size:contain] [-webkit-mask-repeat:no-repeat] [-webkit-mask-position:left_center]"
+              aria-hidden
+            />
+          </Link>
           <p className="font-semibold text-sm">{t.admin.title}</p>
         </div>
         <nav className="flex-1 px-3 py-4 flex flex-col gap-1">
@@ -51,27 +61,29 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             );
           })}
         </nav>
-        <div className="p-3 border-t border-white/10">
-          <button
-            type="button"
-            onClick={handleLogout}
-            className="w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm text-white/70 hover:bg-white/10 hover:text-white cursor-pointer transition-colors"
-          >
-            <LogOut size={16} />
-            {t.admin.logout}
-          </button>
-        </div>
       </aside>
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 bg-[#f9fafb] flex flex-col">
         <header className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between">
-          <Link href="/" className="text-xs text-[#9ca3af] hover:text-[#E88800] transition-colors">
-            {t.admin.viewSite}
-          </Link>
-          {saving && (
-            <span className="text-xs text-[#E88800]">{t.admin.saving}</span>
-          )}
+          <div>
+            {saving && (
+              <span className="text-xs text-[#E88800]">{t.admin.saving}</span>
+            )}
+          </div>
+          <div className="flex items-center gap-3">
+            <Link href="/" className={headerBtnClass}>
+              {t.admin.viewSite}
+            </Link>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className={`${headerBtnClass} inline-flex items-center gap-1.5`}
+            >
+              <LogOut size={14} />
+              {t.admin.logout}
+            </button>
+          </div>
         </header>
-        <main className="p-8">{children}</main>
+        <main className="flex-1 p-8 bg-[#f9fafb]">{children}</main>
       </div>
     </div>
   );
