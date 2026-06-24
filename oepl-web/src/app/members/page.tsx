@@ -116,8 +116,12 @@ export default function MembersPage() {
             </div>
 
             <div className="rounded-2xl border border-gray-100 p-8 grid grid-cols-1 md:grid-cols-2 gap-10">
-              <div className="rounded-xl aspect-[5/6] flex items-center justify-center bg-gray-100 border border-gray-200">
-                <span className="text-sm text-gray-400">{m.photo}</span>
+              <div className="rounded-xl aspect-[5/6] flex items-center justify-center bg-gray-100 border border-gray-200 overflow-hidden">
+                <MemberAvatar
+                  photoUrl={professor.photoUrl}
+                  lang={lang}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div className="flex flex-col gap-6">
                 <div>

@@ -129,6 +129,8 @@ export interface Professor {
 
   scholar: string;
 
+  photoUrl?: string;
+
   education: TimelineEntry[];
 
   career: TimelineEntry[];

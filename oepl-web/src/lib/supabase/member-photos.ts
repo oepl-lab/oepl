@@ -26,6 +26,39 @@ function photoExtension(file: File): string {
   }
 }
 
+export async function uploadProfessorPhoto(file: File): Promise<string> {
+  const validationError = validateMemberPhotoFile(file);
+  if (validationError) throw new Error(validationError);
+
+  if (!isSupabaseConfigured()) {
+    return readFileAsDataUrl(file);
+  }
+
+  const sb = createClient();
+  const path = `professor/avatar.${photoExtension(file)}`;
+  const { error } = await sb.storage.from(MEMBER_PHOTOS_BUCKET).upload(path, file, {
+    upsert: true,
+    contentType: file.type,
+  });
+  if (error) throw new Error(error.message);
+
+  const { data } = sb.storage.from(MEMBER_PHOTOS_BUCKET).getPublicUrl(path);
+  return `${data.publicUrl}?t=${Date.now()}`;
+}
+
+export async function removeProfessorPhoto(): Promise<void> {
+  if (!isSupabaseConfigured()) return;
+
+  const sb = createClient();
+  const { data, error: listError } = await sb.storage.from(MEMBER_PHOTOS_BUCKET).list("professor");
+  if (listError) throw new Error(listError.message);
+  if (!data?.length) return;
+
+  const paths = data.map((obj) => `professor/${obj.name}`);
+  const { error } = await sb.storage.from(MEMBER_PHOTOS_BUCKET).remove(paths);
+  if (error) throw new Error(error.message);
+}
+
 export async function uploadMemberPhoto(memberId: number, file: File): Promise<string> {
   const validationError = validateMemberPhotoFile(file);
   if (validationError) throw new Error(validationError);

@@ -37,7 +37,9 @@ import { AdminDropdown, AdminModal, AdminPageHeader, AdminPhotoUpload, AdminRowA
 import {
   readMemberPhotoPreview,
   removeMemberPhoto,
+  removeProfessorPhoto,
   uploadMemberPhoto,
+  uploadProfessorPhoto,
   validateMemberPhotoFile,
 } from "@/lib/supabase/member-photos";
 
@@ -173,6 +175,9 @@ export default function AdminMembersPage() {
   const [draft, setDraft] = useState<MemberRecord | null>(null);
   const [profDraft, setProfDraft] = useState<Professor | null>(null);
   const [profSaving, setProfSaving] = useState(false);
+  const [profPhotoPreview, setProfPhotoPreview] = useState<string | null>(null);
+  const [profPendingPhotoFile, setProfPendingPhotoFile] = useState<File | null>(null);
+  const [profPhotoRemoved, setProfPhotoRemoved] = useState(false);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [pendingPhotoFile, setPendingPhotoFile] = useState<File | null>(null);
   const [photoRemoved, setPhotoRemoved] = useState(false);
@@ -180,7 +185,11 @@ export default function AdminMembersPage() {
 
   useEffect(() => {
     if (ready && profDraft === null) {
-      setProfDraft(structuredClone(content.members.professor));
+      const prof = structuredClone(content.members.professor);
+      setProfDraft(prof);
+      setProfPhotoPreview(prof.photoUrl || null);
+      setProfPendingPhotoFile(null);
+      setProfPhotoRemoved(false);
     }
   }, [ready, content.members.professor, profDraft]);
 
@@ -188,14 +197,49 @@ export default function AdminMembersPage() {
     setProfDraft((prev) => (prev ? { ...prev, ...patch } : prev));
   }
 
-  function handleProfessorSave() {
+  async function handleProfessorSave() {
     if (!profDraft) return;
     setProfSaving(true);
     try {
-      updateProfessor(profDraft);
+      let professor = { ...profDraft };
+      const hadStoragePhoto =
+        professor.photoUrl && !professor.photoUrl.startsWith("data:") && !professor.photoUrl.startsWith("blob:");
+
+      if (profPhotoRemoved) {
+        professor = { ...professor, photoUrl: "" };
+        if (hadStoragePhoto) await removeProfessorPhoto();
+      } else if (profPendingPhotoFile) {
+        if (hadStoragePhoto) await removeProfessorPhoto();
+        professor.photoUrl = await uploadProfessorPhoto(profPendingPhotoFile);
+      }
+
+      updateProfessor(professor);
+      setProfDraft(professor);
+      setProfPhotoPreview(professor.photoUrl || null);
+      setProfPendingPhotoFile(null);
+      setProfPhotoRemoved(false);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "저장에 실패했습니다.");
     } finally {
       setProfSaving(false);
     }
+  }
+
+  function handleProfessorPhotoSelect(file: File) {
+    const validationError = validateMemberPhotoFile(file);
+    if (validationError) {
+      alert(validationError);
+      return;
+    }
+    setProfPendingPhotoFile(file);
+    setProfPhotoRemoved(false);
+    void readMemberPhotoPreview(file).then(setProfPhotoPreview);
+  }
+
+  function handleProfessorPhotoRemove() {
+    setProfPendingPhotoFile(null);
+    setProfPhotoPreview(null);
+    setProfPhotoRemoved(true);
   }
 
   function resetPhotoDraft() {
@@ -286,6 +330,15 @@ export default function AdminMembersPage() {
       <section className="rounded-2xl bg-white border border-gray-100 p-6 mb-8">
         {profDraft && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="md:col-span-2">
+              <Field label="Photo">
+                <AdminPhotoUpload
+                  previewUrl={profPhotoPreview}
+                  onFileSelect={handleProfessorPhotoSelect}
+                  onRemove={handleProfessorPhotoRemove}
+                />
+              </Field>
+            </div>
             <Field label="Name (KR)">
               <input className={inputClass} value={profDraft.nameKo} onChange={(e) => patchProfessorDraft({ nameKo: e.target.value })} />
             </Field>
