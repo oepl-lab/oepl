@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useLang } from "@/contexts/LangContext";
 import { btnDangerClass, btnGhostClass, btnPrimaryClass, inputClass } from "./form-styles";
 
 export function adminMatchesSearch(
@@ -15,23 +16,35 @@ export function adminMatchesSearch(
 
 export function AdminPageHeader({
   title,
+  titleEn,
   count,
+  countUnit,
   onAdd,
   addLabel,
   trailing,
 }: {
   title: string;
+  titleEn?: string;
   count?: number;
+  countUnit?: string;
   onAdd?: () => void;
   addLabel?: string;
   trailing?: React.ReactNode;
 }) {
+  const { lang } = useLang();
+
   return (
     <div className="flex items-center justify-between mb-6">
-      <h1 className="text-2xl font-bold text-[#080d1e]">
-        {title}
+      <h1 className="text-2xl font-bold text-[#080d1e] flex items-baseline gap-1">
+        <span>{title}</span>
+        {lang === "KR" && titleEn && (
+          <span className="text-base font-normal text-[#9ca3af]">{titleEn}</span>
+        )}
         {count != null && (
-          <span className="ml-2 text-base font-semibold text-[#9ca3af]">({count})</span>
+          <span className="text-base font-semibold text-[#9ca3af]">
+            ({count}
+            {lang === "KR" && countUnit && <span>{countUnit}</span>})
+          </span>
         )}
       </h1>
       {trailing ??

@@ -44,7 +44,9 @@ export default function AdminPatentsPage() {
     <>
       <AdminPageHeader
         title={t.admin.patents}
+        titleEn={t.admin.navEn.patents}
         count={content.patents.length}
+        countUnit="개"
         onAdd={() => setDraft(emptyPatent())}
         addLabel={t.admin.add}
       />

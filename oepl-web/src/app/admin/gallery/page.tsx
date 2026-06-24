@@ -123,7 +123,9 @@ export default function AdminGalleryPage() {
     <>
       <AdminPageHeader
         title={t.admin.gallery}
+        titleEn={t.admin.navEn.gallery}
         count={content.gallery.length}
+        countUnit="개"
         onAdd={() => {
           resetPhotoDraft();
           setDraft(emptyGallery());

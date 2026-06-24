@@ -74,7 +74,9 @@ export default function AdminPublicationsPage() {
     <>
       <AdminPageHeader
         title={t.admin.publications}
+        titleEn={t.admin.navEn.publications}
         count={content.publications.length}
+        countUnit="개"
         onAdd={() => setDraft(emptyPub())}
         addLabel={t.admin.add}
       />

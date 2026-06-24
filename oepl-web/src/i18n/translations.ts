@@ -125,13 +125,23 @@ export interface Translations {
   };
   admin: {
     title: string;
+    titleEn: string;
     dashboard: string;
     dashboardDesc: string;
+    dashboardDescEn: string;
     members: string;
     publications: string;
     news: string;
     gallery: string;
     patents: string;
+    navEn: {
+      dashboard: string;
+      members: string;
+      publications: string;
+      news: string;
+      gallery: string;
+      patents: string;
+    };
     add: string;
     edit: string;
     delete: string;
@@ -370,13 +380,23 @@ const KR: Translations = {
   },
   admin: {
     title: "관리자 페이지",
+    titleEn: "Admin Page",
     dashboard: "대시보드",
     dashboardDesc: "콘텐츠를 관리하려면 아래 메뉴를 선택하세요.",
+    dashboardDescEn: "Select a section below to manage site content.",
     members: "멤버",
     publications: "논문",
     news: "뉴스",
     gallery: "갤러리",
     patents: "특허",
+    navEn: {
+      dashboard: "Dashboard",
+      members: "Members",
+      publications: "Publications",
+      news: "News",
+      gallery: "Gallery",
+      patents: "Patents",
+    },
     add: "추가",
     edit: "수정",
     delete: "삭제",
@@ -615,13 +635,23 @@ const EN: Translations = {
   },
   admin: {
     title: "Admin Page",
+    titleEn: "Administration",
     dashboard: "Dashboard",
     dashboardDesc: "Select a section below to manage site content.",
+    dashboardDescEn: "Select a section below to manage site content.",
     members: "Members",
     publications: "Publications",
     news: "News",
     gallery: "Gallery",
     patents: "Patents",
+    navEn: {
+      dashboard: "Dashboard",
+      members: "Members",
+      publications: "Publications",
+      news: "News",
+      gallery: "Gallery",
+      patents: "Patents",
+    },
     add: "Add",
     edit: "Edit",
     delete: "Delete",

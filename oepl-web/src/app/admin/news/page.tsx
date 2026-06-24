@@ -221,7 +221,9 @@ export default function AdminNewsPage() {
     <>
       <AdminPageHeader
         title={t.admin.news}
+        titleEn={t.admin.navEn.news}
         count={content.news.length}
+        countUnit="개"
         onAdd={() => {
           resetMediaDraft();
           setDraft(emptyNews());

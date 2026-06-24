@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LogOut, LayoutDashboard, Users, BookOpen, Newspaper, Images, FileText } from "lucide-react";
+import { LogOut, LayoutDashboard, Users, BookOpen, Newspaper, Images, FileText, Globe } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useContent } from "@/contexts/ContentContext";
 import { useLang } from "@/contexts/LangContext";
@@ -21,7 +21,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   const pathname = usePathname();
   const router = useRouter();
   const { logout } = useAuth();
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const { saving } = useContent();
 
   function handleLogout() {
@@ -34,15 +34,16 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         <div className="px-5 py-6 border-b border-white/10">
           <Link
             href="/"
-            className="inline-block mb-2"
+            className="inline-block mb-3"
             aria-label="OEPL — Organic Electronic Physics Laboratory"
           >
             <span
-              className="block h-7 aspect-[120/40] bg-brand [mask-image:url(/oepl-logo.png)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:left_center] [-webkit-mask-image:url(/oepl-logo.png)] [-webkit-mask-size:contain] [-webkit-mask-repeat:no-repeat] [-webkit-mask-position:left_center]"
+              className="block h-9 aspect-[120/40] bg-brand [mask-image:url(/oepl-logo.png)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:left_center] [-webkit-mask-image:url(/oepl-logo.png)] [-webkit-mask-size:contain] [-webkit-mask-repeat:no-repeat] [-webkit-mask-position:left_center]"
               aria-hidden
             />
           </Link>
-          <p className="font-semibold text-sm">{t.admin.title}</p>
+          <p className="font-semibold text-base">{t.admin.title}</p>
+          <p className="text-sm text-white/50 mt-1">{t.admin.titleEn}</p>
         </div>
         <nav className="flex-1 px-3 py-4 flex flex-col gap-1">
           {nav.map(({ href, labelKey, icon: Icon, exact }) => {
@@ -51,12 +52,23 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
               <Link
                 key={href}
                 href={href}
-                className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm transition-colors ${
+                className={`flex items-center gap-2.5 px-3 py-3.5 rounded-xl text-sm transition-colors ${
                   active ? "bg-[#E88800] text-white" : "text-white/70 hover:bg-white/10 hover:text-white"
                 }`}
               >
-                <Icon size={16} />
-                {t.admin[labelKey]}
+                <Icon size={16} className="flex-shrink-0" />
+                <span className="flex items-baseline gap-1 min-w-0 leading-snug">
+                  <span>{t.admin[labelKey]}</span>
+                  {lang === "KR" && (
+                    <span
+                      className={`text-[10px] font-normal ${
+                        active ? "text-white/75" : "text-white/40"
+                      }`}
+                    >
+                      {t.admin.navEn[labelKey]}
+                    </span>
+                  )}
+                </span>
               </Link>
             );
           })}
@@ -70,7 +82,8 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             )}
           </div>
           <div className="flex items-center gap-3">
-            <Link href="/" className={headerBtnClass}>
+            <Link href="/" className={`${headerBtnClass} inline-flex items-center gap-1.5`}>
+              <Globe size={14} aria-hidden />
               {t.admin.viewSite}
             </Link>
             <button

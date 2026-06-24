@@ -315,6 +315,7 @@ export default function AdminMembersPage() {
     <>
       <AdminPageHeader
         title={t.members.professorTitle}
+        titleEn={t.members.professorLabel}
         trailing={
           <button
             type="button"
@@ -378,7 +379,9 @@ export default function AdminMembersPage() {
 
       <AdminPageHeader
         title={t.admin.members}
+        titleEn={t.admin.navEn.members}
         count={allMembers.length}
+        countUnit="명"
         onAdd={() => {
           resetPhotoDraft();
           setDraft(emptyMember());
