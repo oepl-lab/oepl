@@ -1,5 +1,6 @@
 "use client";
 import { ArrowRight } from "lucide-react";
+import OPVDiagram from "./OPVDiagram";
 import { useLang } from "@/contexts/LangContext";
 
 export default function HeroSection() {
@@ -30,8 +31,9 @@ export default function HeroSection() {
       />
 
       {/* Main */}
-      <div className="relative flex-1 max-w-7xl mx-auto w-full px-6 flex flex-col justify-center pt-16 pb-16">
-        <div className="flex flex-col justify-center max-w-2xl">
+      <div className="relative flex-1 max-w-7xl mx-auto w-full px-6 flex flex-col md:flex-row items-center gap-8 pt-16 pb-16">
+        {/* Left */}
+        <div className="flex-1 flex flex-col justify-center">
           <p className="section-label mb-5">{t.hero.subtitle}</p>
 
           <h1 className="text-5xl font-bold leading-tight text-[var(--color-text)]">
@@ -66,6 +68,11 @@ export default function HeroSection() {
               {t.hero.btn2}
             </a>
           </div>
+        </div>
+
+        {/* Right — OPV Diagram */}
+        <div className="flex-1 relative min-h-[340px] hidden md:block">
+          <OPVDiagram />
         </div>
       </div>
     </section>
