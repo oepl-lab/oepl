@@ -4,7 +4,7 @@ import { useLang } from "@/contexts/LangContext";
 export default function IntroSection() {
   const { t } = useLang();
   return (
-    <section id="about" className="bg-white py-12">
+    <section id="about" className="bg-white section-y">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
 

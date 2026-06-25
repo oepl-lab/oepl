@@ -2,11 +2,11 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import Header from "@/components/Header";
 import FooterCTA from "@/components/FooterCTA";
-import { ExternalLink, ChevronRight, ChevronLeft } from "lucide-react";
+import { ChevronRight, ChevronLeft } from "lucide-react";
 import { useLang } from "@/contexts/LangContext";
 import { useContent } from "@/contexts/ContentContext";
-import { publicationDoiLink } from "@/types/content";
-import { publicationSortKey, publicationFilterYear, formatPublicationDate } from "@/lib/content/display";
+import { publicationSortKey, publicationFilterYear } from "@/lib/content/display";
+import PublicationCard from "@/components/publications/PublicationCard";
 
 function FilterBtn({ value, active, onClick }: { value: string; active: boolean; onClick: () => void }) {
   return (
@@ -194,7 +194,7 @@ export default function PublicationPage() {
         </section>
 
         {/* List */}
-        <section className="py-12">
+        <section className="section-y">
           <div className="max-w-5xl mx-auto px-6">
 
             {/* Filters */}
@@ -247,73 +247,9 @@ export default function PublicationPage() {
             <p className="text-xs text-[#9ca3af] mb-6">{t.publication.count(filtered.length)}</p>
 
             <div className="flex flex-col gap-4">
-              {paginated.map((pub) => {
-                const doiHref = publicationDoiLink(pub);
-                const pubDate = formatPublicationDate(pub);
-                return (
-                <div
-                  key={pub.id}
-                  className="group rounded-2xl bg-white border border-gray-100 p-6 flex flex-col gap-3 hover:border-[#E88800]/40 transition-colors"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span
-                        className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
-                        style={{
-                          background: "rgba(232,136,0,0.1)",
-                          color: "#E88800",
-                          border: "1px solid rgba(232,136,0,0.25)",
-                        }}
-                      >
-                        {pub.journal}
-                      </span>
-                      {pubDate && (
-                        <span className="text-[10px] font-medium text-[#9ca3af]">{pubDate}</span>
-                      )}
-                    </div>
-                    {doiHref && (
-                      <a
-                        href={doiHref}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex-shrink-0 flex items-center gap-1 text-xs text-[#9ca3af] hover:text-[#E88800] transition-colors"
-                      >
-                        <ExternalLink size={12} />
-                        DOI
-                      </a>
-                    )}
-                  </div>
-
-                  <div className="flex flex-col gap-1">
-                    <h3 className="font-semibold text-sm leading-snug text-[#080d1e] group-hover:text-[#E88800] transition-colors">
-                      {lang === "KR" ? pub.titleKo : pub.titleEn}
-                    </h3>
-                    {(lang === "KR" ? pub.titleEn : pub.titleKo) && (
-                      <p className="text-sm leading-snug text-[#9ca3af]">
-                        {lang === "KR" ? pub.titleEn : pub.titleKo}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <p className="text-xs text-[#6b7280]">{pub.authors}</p>
-                    {pub.doi ? (
-                      doiHref ? (
-                        <a
-                          href={doiHref}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-xs mt-0.5 text-[#E88800] font-medium hover:underline inline-block"
-                        >
-                          {pub.doi}
-                        </a>
-                      ) : (
-                        <p className="text-xs mt-0.5 text-[#E88800] font-medium">{pub.doi}</p>
-                      )
-                    ) : null}
-                  </div>
-                </div>
-              );})}
+              {paginated.map((pub) => (
+                <PublicationCard key={pub.id} pub={pub} lang={lang} />
+              ))}
             </div>
 
             {/* Pagination */}

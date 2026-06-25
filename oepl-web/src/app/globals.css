@@ -102,6 +102,7 @@
   --spacing-2400: 96px;
   --spacing-3200: 128px;
   --spacing-4000: 160px;
+  --section-padding-y: var(--spacing-1200);
 
   /* ----------------------------------------------------------
      BORDER RADIUS
@@ -166,6 +167,15 @@ body {
   text-transform: uppercase;
   color: var(--color-brand);
   font-weight: var(--font-weight-semibold);
+}
+
+/* Unified section vertical padding — token: section.paddingY / spacing-1200 (48px) */
+.section-y {
+  padding-block: var(--section-padding-y);
+}
+
+.section-anchor {
+  scroll-margin-top: var(--spacing-1600);
 }
 
 /* More / CTA button — token 기반 */

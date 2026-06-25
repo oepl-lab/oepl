@@ -88,7 +88,7 @@ export default function ContactPage() {
         </section>
 
         {/* Content */}
-        <section className="py-12">
+        <section className="section-y">
           <div className="max-w-7xl mx-auto px-6 flex flex-col gap-12">
 
             {/* Title + description */}

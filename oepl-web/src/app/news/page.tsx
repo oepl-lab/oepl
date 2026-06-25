@@ -140,7 +140,7 @@ export default function NewsPage() {
         </section>
 
         {/* Notice list */}
-        <section className="py-12">
+        <section className="section-y">
           <div className="max-w-5xl mx-auto px-6">
 
             <div className="flex items-center justify-between gap-4 mb-4">

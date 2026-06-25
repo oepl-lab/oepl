@@ -37,7 +37,7 @@ export default function BrandIdentitySection() {
   const active = panels[tab];
 
   return (
-    <section id="brand" className="py-12 bg-white border-b border-[var(--color-neutral-100)]">
+    <section id="brand" className="section-y bg-white border-b border-[var(--color-neutral-100)]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-10">
           <p className="section-label mb-1">{b.label}</p>

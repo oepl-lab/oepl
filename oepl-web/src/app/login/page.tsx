@@ -78,7 +78,7 @@ function LoginPageContent() {
           </div>
         </section>
 
-        <section className="py-12">
+        <section className="section-y">
           <div className="max-w-md mx-auto px-6">
             <div className="mb-8 text-center">
               <h2 className="text-2xl font-bold text-[#080d1e] mb-2">{l.heading}</h2>

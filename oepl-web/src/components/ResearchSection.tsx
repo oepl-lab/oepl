@@ -31,7 +31,7 @@ export default function ResearchSection() {
   const { t } = useLang();
   const [main, ...subs] = t.research.items;
   return (
-    <section id="research" className="bg-[#f9fafb] py-12 border-t border-gray-100">
+    <section id="research" className="bg-[#f9fafb] section-y border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-end justify-between mb-10">
           <div>

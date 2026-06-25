@@ -24,14 +24,13 @@ export default function AboutPage() {
         </section>
 
         {/* 인사말 */}
-        <section className="py-12 bg-white border-b border-gray-100">
+        <section className="section-y bg-white border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16 items-stretch">
             <div className="rounded-2xl w-full h-full min-h-[320px] sm:min-h-[360px] md:min-h-0 flex items-center justify-center bg-gray-100 border border-gray-200 overflow-hidden">
               <span className="text-xs md:text-sm text-gray-400">{t.about.profPhoto}</span>
             </div>
             <div className="min-w-0">
-              <p className="section-label mb-3 md:mb-8">{t.about.greetingLabel}</p>
-              <h2 className="text-lg sm:text-2xl md:text-4xl font-bold text-[#080d1e] mb-3 md:mb-6 leading-snug">
+              <h2 className="text-lg sm:text-2xl md:text-4xl font-bold text-[#E88800] mb-3 md:mb-6 leading-snug">
                 <span className="md:hidden">{t.about.greetingTitle.replace(/\n/g, " ")}</span>
                 <span className="hidden md:inline">
                   {t.about.greetingTitle.split("\n").map((line, i, arr) => (
@@ -49,10 +48,8 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <BrandIdentitySection />
-
         {/* 연구 분야 소개 */}
-        <section id="research" className="py-12 bg-gray-50">
+        <section id="research" className="section-y bg-gray-50">
           <div className="max-w-7xl mx-auto px-6">
             <div className="mb-12">
               <p className="section-label mb-1">{t.about.researchLabel}</p>
@@ -80,7 +77,7 @@ export default function AboutPage() {
         </section>
 
         {/* 특허 소개 */}
-        <section id="patents" className="py-12 bg-white">
+        <section id="patents" className="section-y bg-white">
           <div className="max-w-7xl mx-auto px-6">
             <div className="mb-12">
               <p className="section-label mb-1">{t.about.patentLabel}</p>
@@ -134,6 +131,8 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
+
+        <BrandIdentitySection />
 
       </main>
       <FooterCTA />

@@ -12,7 +12,7 @@ const icons = [
 export default function FocusSection() {
   const { lang, t } = useLang();
   return (
-    <section className="bg-white py-12">
+    <section className="bg-white section-y">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row gap-12 md:gap-20 items-start">
 
@@ -27,7 +27,7 @@ export default function FocusSection() {
           </div>
 
           {/* Right — 4 cards */}
-          <div className="flex-1 grid grid-cols-4 gap-8">
+          <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-8 w-full">
             {t.focus.items.map((item, i) => (
               <div key={i} className="flex flex-col items-center gap-4 text-center">
                 <div className="flex items-center justify-center">

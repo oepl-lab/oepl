@@ -52,7 +52,7 @@ export default function NewsDetailPage() {
           </div>
         </section>
 
-        <section className="py-10 md:py-12">
+        <section className="section-y">
           <div className="max-w-3xl mx-auto px-6">
             <Link
               href="/news"

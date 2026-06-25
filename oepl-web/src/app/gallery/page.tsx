@@ -55,7 +55,7 @@ export default function GalleryPage() {
         </section>
 
         {/* Gallery */}
-        <section className="py-12">
+        <section className="section-y">
           <div className="max-w-7xl mx-auto px-6">
 
             {/* Header + filters */}
@@ -84,8 +84,8 @@ export default function GalleryPage() {
             {/* Count */}
             <p className="text-xs text-[#9ca3af] mb-6 text-right">{t.gallery.count(filtered.length)}</p>
 
-            {/* 3-column grid */}
-            <div className="grid grid-cols-3 gap-8">
+            {/* Gallery grid — 2 cols mobile, 3 cols desktop */}
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
               {paginated.map((photo) => {
                 const cover = galleryCoverPhoto(photo);
                 return (

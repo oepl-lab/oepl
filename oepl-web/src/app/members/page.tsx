@@ -108,7 +108,7 @@ export default function MembersPage() {
         </section>
 
         {/* 교수 소개 */}
-        <section className="py-12 bg-white border-b border-gray-100">
+        <section className="section-y bg-white border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-6">
             <div className="mb-10">
               <p className="section-label mb-1">{m.professorLabel}</p>
@@ -185,7 +185,7 @@ export default function MembersPage() {
         </section>
 
         {/* 박사후연구원 */}
-        <section className="py-12 bg-gray-50 border-b border-gray-100">
+        <section className="section-y bg-gray-50 border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-6">
             <div className="mb-10">
               <p className="section-label mb-1">{m.postdocLabel}</p>
@@ -200,7 +200,7 @@ export default function MembersPage() {
         </section>
 
         {/* 대학원생 */}
-        <section className="py-12 bg-white border-b border-gray-100">
+        <section className="section-y bg-white border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-6">
             <div className="mb-10">
               <p className="section-label mb-1">{m.gradLabel}</p>
@@ -215,7 +215,7 @@ export default function MembersPage() {
         </section>
 
         {/* 졸업생 — Ph.D */}
-        <section className="py-12 bg-gray-50 border-b border-gray-100">
+        <section className="section-y bg-gray-50 border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-6">
             <div className="mb-10">
               <p className="section-label mb-1">{m.phdAlumniLabel}</p>
@@ -230,7 +230,7 @@ export default function MembersPage() {
         </section>
 
         {/* 졸업생 — M.S */}
-        <section className="py-12 bg-white">
+        <section className="section-y bg-white">
           <div className="max-w-7xl mx-auto px-6">
             <div className="mb-10">
               <p className="section-label mb-1">{m.msAlumniLabel}</p>
