@@ -125,7 +125,7 @@ export function publicationFilterYear(pub: Publication): number | null {
 /** Admin 저장 전 게재일 기본값 */
 export function normalizePublication(item: Publication): Publication {
   const publishedAt = item.publishedAt?.trim() || new Date().toISOString().slice(0, 10);
-  return { ...item, publishedAt, type: item.type || "Journal" };
+  return { ...item, publishedAt };
 }
 
 /** Publication 게시일 — YYYY.MM.DD */

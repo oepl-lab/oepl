@@ -14,7 +14,6 @@ const pub = (
   year: number,
   month: number,
   day: number,
-  type: "Journal" | "Conference",
   titleEn: string,
   titleKo: string,
   authors: string,
@@ -22,7 +21,6 @@ const pub = (
   doi: string
 ) => ({
   id: id(),
-  type,
   titleKo,
   titleEn,
   authors,
@@ -56,14 +54,14 @@ const rawSeedContent = {
     { id: id(), type: "Award", date: "2020.12.10", title: "ICSM 2020 Best Poster Award 수상", detail: "연구실 대학원생이 ICSM 2020 학술대회에서 Best Poster Award를 수상하였습니다." },
   ],
   publications: [
-    pub(2023, 8, 15, "Journal", "17.38% Efficiency Organic Solar Cells via Non-fullerene Acceptor Engineering", "비풀러렌 억셉터 엔지니어링을 통한 17.38% 효율 유기태양전지", "S.U. Choi, J. Hong, K. Lee et al.", "Nature Energy", "https://doi.org/10.1038/example"),
-    pub(2023, 3, 7, "Journal", "Energy Loss Analysis of High-Efficiency Organic Photovoltaics Using a Complete Analytical Framework", "완전 분석 프레임워크를 이용한 고효율 유기태양전지의 에너지 손실 분석", "S.U. Choi, H. Park, Y. Kim et al.", "Advanced Energy Materials", "https://doi.org/10.1002/example"),
-    pub(2022, 11, 20, "Journal", "Semi-transparent Organic Solar Cells with Novel ITO-free Electrodes for Building-integrated Photovoltaics", "건물 일체형 광전지를 위한 ITO-free 전극 기반 반투명 유기태양전지", "J. Lee, S.U. Choi, M. Jung et al.", "ACS Energy Letters", "https://doi.org/10.1021/example"),
-    pub(2022, 6, 3, "Journal", "π-Conjugated Small Molecule Donors for Efficient Organic Solar Cells: Molecular Design and Morphology Control", "고효율 유기태양전지를 위한 π-공액 소분자 도너: 분자 설계 및 모폴로지 제어", "S.U. Choi, C. Kang, S. Yoon et al.", "Chemistry of Materials", "https://doi.org/10.1021/example2"),
-    pub(2021, 9, 14, "Journal", "Non-radiative Recombination Losses in Non-fullerene Organic Solar Cells: Quantification and Mitigation", "비풀러렌 유기태양전지의 비복사 재결합 손실 정량화 및 저감", "S.U. Choi, T. Kang, B. Lim et al.", "Joule", "https://doi.org/10.1016/example"),
-    pub(2021, 5, 28, "Journal", "Morphology Evolution of Organic Solar Cells via Processing Additive: In-Situ GIWAXS Study", "공정 첨가제에 의한 유기태양전지 모폴로지 진화: In-Situ GIWAXS 연구", "Y. Shin, S.U. Choi, J. Heo et al.", "Nature Communications", "https://doi.org/10.1038/example2"),
-    pub(2020, 10, 5, "Journal", "Charge Transport and Recombination Dynamics in High-Efficiency Organic Solar Cell Blends", "고효율 유기태양전지 블렌드의 전하 수송 및 재결합 동역학", "S.U. Choi, H. Jeon, M. Park et al.", "Advanced Functional Materials", "https://doi.org/10.1002/example2"),
-    pub(2020, 4, 22, "Conference", "Complete Energy Loss Quantification in Organic Solar Cells from Optical Gap to Open-Circuit Voltage", "광학적 밴드갭부터 개방전압까지 유기태양전지의 완전 에너지 손실 정량화", "S.U. Choi et al.", "MRS Spring Meeting 2020", ""),
+    pub(2023, 8, 15, "17.38% Efficiency Organic Solar Cells via Non-fullerene Acceptor Engineering", "비풀러렌 억셉터 엔지니어링을 통한 17.38% 효율 유기태양전지", "S.U. Choi, J. Hong, K. Lee et al.", "Nature Energy", "https://doi.org/10.1038/example"),
+    pub(2023, 3, 7, "Energy Loss Analysis of High-Efficiency Organic Photovoltaics Using a Complete Analytical Framework", "완전 분석 프레임워크를 이용한 고효율 유기태양전지의 에너지 손실 분석", "S.U. Choi, H. Park, Y. Kim et al.", "Advanced Energy Materials", "https://doi.org/10.1002/example"),
+    pub(2022, 11, 20, "Semi-transparent Organic Solar Cells with Novel ITO-free Electrodes for Building-integrated Photovoltaics", "건물 일체형 광전지를 위한 ITO-free 전극 기반 반투명 유기태양전지", "J. Lee, S.U. Choi, M. Jung et al.", "ACS Energy Letters", "https://doi.org/10.1021/example"),
+    pub(2022, 6, 3, "π-Conjugated Small Molecule Donors for Efficient Organic Solar Cells: Molecular Design and Morphology Control", "고효율 유기태양전지를 위한 π-공액 소분자 도너: 분자 설계 및 모폴로지 제어", "S.U. Choi, C. Kang, S. Yoon et al.", "Chemistry of Materials", "https://doi.org/10.1021/example2"),
+    pub(2021, 9, 14, "Non-radiative Recombination Losses in Non-fullerene Organic Solar Cells: Quantification and Mitigation", "비풀러렌 유기태양전지의 비복사 재결합 손실 정량화 및 저감", "S.U. Choi, T. Kang, B. Lim et al.", "Joule", "https://doi.org/10.1016/example"),
+    pub(2021, 5, 28, "Morphology Evolution of Organic Solar Cells via Processing Additive: In-Situ GIWAXS Study", "공정 첨가제에 의한 유기태양전지 모폴로지 진화: In-Situ GIWAXS 연구", "Y. Shin, S.U. Choi, J. Heo et al.", "Nature Communications", "https://doi.org/10.1038/example2"),
+    pub(2020, 10, 5, "Charge Transport and Recombination Dynamics in High-Efficiency Organic Solar Cell Blends", "고효율 유기태양전지 블렌드의 전하 수송 및 재결합 동역학", "S.U. Choi, H. Jeon, M. Park et al.", "Advanced Functional Materials", "https://doi.org/10.1002/example2"),
+    pub(2020, 4, 22, "Complete Energy Loss Quantification in Organic Solar Cells from Optical Gap to Open-Circuit Voltage", "광학적 밴드갭부터 개방전압까지 유기태양전지의 완전 에너지 손실 정량화", "S.U. Choi et al.", "MRS Spring Meeting 2020", ""),
   ],
   gallery: [
     { id: id(), category: "Conference", title: "MRS Spring Meeting 2026 포스터 발표", date: "2026.04.10" },

@@ -1,18 +1,3 @@
-import type { ContentPhoto, NewsFile } from "@/types/content";
-
-/** 디자인 확인용 임시 사진 — Admin 업로드 시 대체 */
-export const NEWS_DESIGN_PLACEHOLDER_PHOTOS: ContentPhoto[] = [
-  { id: -1, url: "https://picsum.photos/id/48/800/450", sortOrder: 0 },
-  { id: -2, url: "https://picsum.photos/id/96/800/450", sortOrder: 1 },
-];
-
-export function withNewsDesignPreview(photos: ContentPhoto[], _files: NewsFile[]) {
-  const hasPhotos = photos.length > 0;
-  return {
-    photos: hasPhotos ? photos : NEWS_DESIGN_PLACEHOLDER_PHOTOS,
-  };
-}
-
 export function fileExtension(name: string): string {
   const dot = name.lastIndexOf(".");
   return dot >= 0 ? name.slice(dot + 1).toUpperCase() : "FILE";

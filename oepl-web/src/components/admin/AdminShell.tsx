@@ -73,7 +73,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         aria-hidden={!sidebarOpen}
       >
         <div className="px-5 py-6 border-b border-white/10">
-          <div className="flex items-start justify-between gap-2 mb-3">
+          <div className="flex items-center justify-between gap-2 mb-3">
             <Link
               href="/"
               className="inline-block"
@@ -87,7 +87,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
             </Link>
             <button
               type="button"
-              className="md:hidden p-1 text-white/60 hover:text-white transition-colors"
+              className="p-1 text-white/60 hover:text-white transition-colors shrink-0"
               onClick={() => setSidebarOpen(false)}
               aria-label="Close sidebar"
             >
@@ -131,19 +131,17 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
       <div className="flex-1 min-w-0 bg-[#f9fafb] flex flex-col">
         <header className="bg-white border-b border-gray-200 px-4 md:px-8 py-4 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 min-w-0">
-            <button
-              type="button"
-              onClick={() => setSidebarOpen((open) => !open)}
-              className="inline-flex items-center justify-center size-9 rounded-lg border border-gray-200 text-[#6b7280] hover:text-[#080d1e] hover:border-[#E88800]/40 transition-colors"
-              aria-expanded={sidebarOpen}
-              aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
-            >
-              {sidebarOpen ? (
-                <PanelLeftClose size={18} aria-hidden />
-              ) : (
+            {!sidebarOpen && (
+              <button
+                type="button"
+                onClick={() => setSidebarOpen(true)}
+                className="inline-flex items-center justify-center size-9 rounded-lg border border-gray-200 text-[#6b7280] hover:text-[#080d1e] hover:border-[#E88800]/40 transition-colors"
+                aria-expanded={sidebarOpen}
+                aria-label="Open sidebar"
+              >
                 <PanelLeft size={18} aria-hidden />
-              )}
-            </button>
+              </button>
+            )}
             {saving && (
               <span className="text-xs text-[#E88800]">{t.admin.saving}</span>
             )}

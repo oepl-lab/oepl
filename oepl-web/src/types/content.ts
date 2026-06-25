@@ -1,7 +1,5 @@
 export type GalleryCategory = "Member" | "Conference" | "기타";
 
-export type PublicationType = "Journal" | "Conference";
-
 export type PatentStatus = "registered" | "pending";
 
 export type MemberGroup = "postdocs" | "gradStudents" | "phdAlumni" | "msAlumni";
@@ -39,8 +37,6 @@ export interface NewsItem {
 export interface Publication {
 
   id: number;
-
-  type: PublicationType;
 
   titleKo: string;
 

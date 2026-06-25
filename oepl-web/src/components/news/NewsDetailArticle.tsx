@@ -6,7 +6,6 @@ import type { Lang } from "@/i18n/translations";
 import {
   fileExtension,
   fileExtensionStyle,
-  withNewsDesignPreview,
 } from "@/components/news/news-detail-preview";
 import NewsNewBadge from "@/components/news/NewsNewBadge";
 import NewsPinnedBadge from "@/components/news/NewsPinnedBadge";
@@ -48,7 +47,7 @@ function resolveAuthor(author: string, defaultAuthor: string): string {
 }
 
 export default function NewsDetailArticle({ display, viewCount, lang, labels, isLatest, isPinned }: Props) {
-  const { photos } = withNewsDesignPreview(display.photos, display.files);
+  const photos = display.photos;
   const attachments = display.files;
   const locale = lang === "KR" ? "ko-KR" : "en-US";
   const authorName = resolveAuthor(display.author, labels.defaultAuthor);

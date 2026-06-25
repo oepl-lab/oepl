@@ -123,7 +123,6 @@ export function publicationFromRow(row: Record<string, unknown>): Publication {
     (createdAt ? createdAt.slice(0, 10) : new Date().toISOString().slice(0, 10));
   return {
     id: rowId(row),
-    type: row.type as Publication["type"],
     titleKo: row.title_ko as string,
     titleEn: row.title_en as string,
     authors: row.authors as string,
@@ -139,7 +138,6 @@ export function publicationFromRow(row: Record<string, unknown>): Publication {
 export function publicationToRow(item: Publication, updating = false) {
   const normalized = normalizePublication(item);
   const row = withOptionalId(normalized.id, {
-    type: normalized.type,
     title_ko: normalized.titleKo,
     title_en: normalized.titleEn,
     authors: normalized.authors,

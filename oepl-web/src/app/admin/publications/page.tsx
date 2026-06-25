@@ -27,7 +27,6 @@ import {
 
 const emptyPub = (): Publication => ({
   id: NEW_ID,
-  type: "Journal",
   titleKo: "",
   titleEn: "",
   authors: "",
