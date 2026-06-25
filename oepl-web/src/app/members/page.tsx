@@ -33,24 +33,24 @@ function ResearcherCard({ r, lang, degreeMap }: {
 }) {
   const field = r.research;
   return (
-    <div className="card-hover rounded-2xl bg-white border border-gray-100 p-3 flex gap-4 hover:border-[#E88800]/40">
-      <div className="flex-shrink-0 rounded-xl w-[140px] h-[168px] flex items-center justify-center bg-gray-100 border border-gray-200 overflow-hidden">
+    <div className="card-hover rounded-2xl bg-white border border-gray-100 p-2.5 sm:p-3 flex flex-col sm:flex-row gap-2.5 sm:gap-4 hover:border-[#E88800]/40">
+      <div className="flex-shrink-0 rounded-xl w-full sm:w-[140px] aspect-[5/6] sm:aspect-auto sm:h-[168px] flex items-center justify-center bg-gray-100 border border-gray-200 overflow-hidden">
         <MemberAvatar photoUrl={r.photoUrl} lang={lang} />
       </div>
-      <div className="flex flex-col justify-between min-w-0 py-3 flex-1">
-        <div className="flex items-baseline gap-2">
-          <span className="font-bold text-sm text-[#080d1e]">{lang === "KR" ? r.nameKo : r.nameEn}</span>
-          <span className="text-xs text-[#9ca3af]">{lang === "KR" ? r.nameEn : r.nameKo}</span>
+      <div className="flex flex-col gap-1.5 sm:justify-between min-w-0 sm:py-3 flex-1">
+        <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2 min-w-0">
+          <span className="font-bold text-xs sm:text-sm text-[#080d1e] truncate">{lang === "KR" ? r.nameKo : r.nameEn}</span>
+          <span className="text-[10px] sm:text-xs text-[#9ca3af] truncate">{lang === "KR" ? r.nameEn : r.nameKo}</span>
         </div>
         <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full w-fit bg-[#E88800]/10 text-[#E88800] border border-[#E88800]/20">
           {degreeMap[r.degree] ?? r.degree}
         </span>
-        <div className="flex items-center gap-1.5 text-xs text-[#6b7280]">
-          <FlaskConical size={11} className="text-[#E88800]" />
+        <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-[#6b7280] min-w-0">
+          <FlaskConical size={11} className="text-[#E88800] flex-shrink-0" />
           <span className="truncate">{field}</span>
         </div>
-        <div className="flex items-center gap-1.5 text-xs text-[#9ca3af]">
-          <Mail size={11} />
+        <div className="flex items-center gap-1.5 text-[10px] sm:text-xs text-[#9ca3af] min-w-0">
+          <Mail size={11} className="flex-shrink-0" />
           <span className="truncate">{r.email}</span>
         </div>
       </div>
@@ -61,15 +61,15 @@ function ResearcherCard({ r, lang, degreeMap }: {
 function AlumniCard({ a, lang, degreeMap }: { a: MemberRecord; lang: Lang; degreeMap: Record<string, string> }) {
   const degreeLabel = degreeMap[a.degree] ?? a.degree;
   return (
-    <div className="card-hover rounded-xl bg-white border border-gray-100 px-5 py-4 flex items-center justify-between gap-4 hover:border-[#E88800]/40">
-      <div>
-        <div className="flex items-baseline gap-2 mb-0.5">
-          <span className="font-semibold text-sm text-[#080d1e]">{lang === "KR" ? a.nameKo : a.nameEn}</span>
-          <span className="text-xs text-[#9ca3af]">{lang === "KR" ? a.nameEn : a.nameKo}</span>
+    <div className="card-hover rounded-xl bg-white border border-gray-100 px-3 py-3 sm:px-5 sm:py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 hover:border-[#E88800]/40">
+      <div className="min-w-0">
+        <div className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-2 mb-0.5">
+          <span className="font-semibold text-xs sm:text-sm text-[#080d1e] truncate">{lang === "KR" ? a.nameKo : a.nameEn}</span>
+          <span className="text-[10px] sm:text-xs text-[#9ca3af] truncate">{lang === "KR" ? a.nameEn : a.nameKo}</span>
         </div>
-        <span className="text-xs text-[#6b7280]">{formatGraduationYear(a)}</span>
+        <span className="text-[10px] sm:text-xs text-[#6b7280]">{formatGraduationYear(a)}</span>
       </div>
-      <span className="flex-shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#E88800]/10 text-[#E88800] border border-[#E88800]/20">
+      <span className="flex-shrink-0 self-start text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#E88800]/10 text-[#E88800] border border-[#E88800]/20">
         {degreeLabel}
       </span>
     </div>
@@ -116,7 +116,7 @@ export default function MembersPage() {
             </div>
 
             <div className="rounded-2xl border border-gray-100 p-8 grid grid-cols-1 md:grid-cols-2 gap-10">
-              <div className="rounded-xl aspect-[5/6] flex items-center justify-center bg-gray-100 border border-gray-200 overflow-hidden">
+              <div className="rounded-xl aspect-[5/6] w-full max-w-[220px] sm:max-w-[260px] mx-auto md:max-w-none flex items-center justify-center bg-gray-100 border border-gray-200 overflow-hidden">
                 <MemberAvatar
                   photoUrl={professor.photoUrl}
                   lang={lang}
@@ -191,7 +191,7 @@ export default function MembersPage() {
               <p className="section-label mb-1">{m.postdocLabel}</p>
               <h2 className="text-3xl md:text-4xl font-bold text-[#080d1e]">{m.postdocTitle}</h2>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
               {postdocs.map((r) => (
                 <ResearcherCard key={r.id} r={r} lang={lang} degreeMap={m.degreeMap} />
               ))}
@@ -206,7 +206,7 @@ export default function MembersPage() {
               <p className="section-label mb-1">{m.gradLabel}</p>
               <h2 className="text-3xl md:text-4xl font-bold text-[#080d1e]">{m.gradTitle}</h2>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
               {gradStudents.map((r) => (
                 <ResearcherCard key={r.id} r={r} lang={lang} degreeMap={m.degreeMap} />
               ))}
@@ -221,7 +221,7 @@ export default function MembersPage() {
               <p className="section-label mb-1">{m.phdAlumniLabel}</p>
               <h2 className="text-3xl md:text-4xl font-bold text-[#080d1e]">{m.phdAlumniTitle}</h2>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {phdAlumni.map((a) => (
                 <AlumniCard key={a.id} a={a} lang={lang} degreeMap={m.degreeMap} />
               ))}
@@ -236,7 +236,7 @@ export default function MembersPage() {
               <p className="section-label mb-1">{m.msAlumniLabel}</p>
               <h2 className="text-3xl md:text-4xl font-bold text-[#080d1e]">{m.msAlumniTitle}</h2>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {msAlumni.map((a) => (
                 <AlumniCard key={a.id} a={a} lang={lang} degreeMap={m.degreeMap} />
               ))}

@@ -113,15 +113,15 @@ export default function BrandIdentitySection() {
 
             <div className="p-6 md:p-8 flex flex-col items-center justify-center bg-[var(--color-neutral-50)]">
               {tab === "colors" ? (
-                <div className="w-full max-w-xs grid grid-cols-2 gap-3">
+                <div className="w-full max-w-full md:max-w-xs grid grid-cols-4 md:grid-cols-2 gap-2 md:gap-3">
                   {brandPalette.map((item) => (
                     <div
                       key={item.id}
-                      className="rounded-xl aspect-square flex items-end p-3 border border-black/5"
+                      className="rounded-xl aspect-square flex items-end p-2 md:p-3 border border-black/5"
                       style={{ background: brandColorStyle(item.cssVar) }}
                     >
                       <span
-                        className="text-xs font-mono font-semibold px-2 py-1 rounded"
+                        className="text-[10px] md:text-xs font-mono font-semibold px-1.5 py-0.5 md:px-2 md:py-1 rounded"
                         style={{
                           background: item.lightLabel ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.06)",
                           color: item.lightLabel ? "#fff" : "var(--color-neutral-700)",

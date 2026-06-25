@@ -114,6 +114,14 @@ export function publicationYear(pub: Publication): number | null {
   return Number.isFinite(y) ? y : null;
 }
 
+/** 연도 필터용 — DB 게재일(publishedAt)만 사용 */
+export function publicationFilterYear(pub: Publication): number | null {
+  const v = pub.publishedAt?.trim();
+  if (!v) return null;
+  const y = Number(v.slice(0, 4));
+  return Number.isFinite(y) ? y : null;
+}
+
 /** Admin 저장 전 게재일 기본값 */
 export function normalizePublication(item: Publication): Publication {
   const publishedAt = item.publishedAt?.trim() || new Date().toISOString().slice(0, 10);

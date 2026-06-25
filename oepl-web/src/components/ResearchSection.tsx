@@ -14,14 +14,14 @@ function ResearchCard({
       className={`card-hover relative overflow-hidden rounded-2xl border border-gray-200 bg-white group cursor-pointer ${large ? "h-full" : ""}`}
     >
       <div className="absolute inset-0 group-hover:bg-black/[0.025] transition-colors duration-300" />
-      <div className={`relative z-10 p-6 flex flex-col h-full ${large ? "justify-end min-h-[380px]" : "justify-end min-h-[180px]"}`}>
-        <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#E88800]/15 text-[#E88800] border border-[#E88800]/30 mb-3 w-fit">
+      <div className={`relative z-10 p-4 md:p-6 flex flex-col h-full ${large ? "justify-end min-h-[320px] md:min-h-[380px]" : "justify-end min-h-[220px] md:min-h-[180px]"}`}>
+        <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#E88800]/15 text-[#E88800] border border-[#E88800]/30 mb-2 md:mb-3 w-fit">
           {item.tag}
         </span>
-        <h3 className="text-[#080d1e] font-bold text-base leading-snug whitespace-pre-line mb-2">
+        <h3 className="text-[#080d1e] font-bold text-sm md:text-base leading-snug whitespace-pre-line mb-1.5 md:mb-2">
           {item.title}
         </h3>
-        <p className="text-[#6b7280] text-xs">{item.desc}</p>
+        <p className="text-[#6b7280] text-[11px] md:text-xs line-clamp-2 md:line-clamp-none">{item.desc}</p>
       </div>
     </div>
   );
@@ -50,7 +50,13 @@ export default function ResearchSection() {
           </a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-2 gap-4 md:hidden">
+          {t.research.items.map((item, i) => (
+            <ResearchCard key={i} item={item} large={false} />
+          ))}
+        </div>
+
+        <div className="hidden md:grid md:grid-cols-2 gap-5">
           <ResearchCard item={main} large />
           <div className="grid grid-cols-2 gap-5">
             {subs.map((item, i) => (

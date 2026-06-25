@@ -123,6 +123,13 @@ export interface Translations {
     emailLabel: string; emailPlaceholder: string;
     submit: string; backHome: string; error: string;
   };
+  notFoundPage: {
+    title: string;
+    titleEn: string;
+    desc: string;
+    descEn: string;
+    backHome: string;
+  };
   admin: {
     title: string;
     titleEn: string;
@@ -263,7 +270,7 @@ const KR: Translations = {
     ],
     researchLabel: "About our Research",
     researchTitle: "연구 분야 소개",
-    profPhoto: "교수님 사진",
+    profPhoto: "사진",
     areas: [
       { tag: "고효율 소자",  title: "고성능 태양전지 연구",               desc: "유기태양전지를 이용한 고성능 태양전지 개발 및 분석 연구. 공인된 세계 최고 효율 17.5%에 근접하는 17.38%의 효율을 달성하였습니다." },
       { tag: "투명 전극",    title: "(반)투명 전극 및 유기태양전지 연구", desc: "반투명 유기태양전지를 위한 차세대 전극 소재 및 구조 개발 연구를 진행하고 있습니다." },
@@ -377,6 +384,13 @@ const KR: Translations = {
     submit: "로그인",
     backHome: "홈으로 돌아가기",
     error: "아이디 또는 비밀번호가 올바르지 않습니다.",
+  },
+  notFoundPage: {
+    title: "페이지를 찾을 수 없습니다",
+    titleEn: "Page Not Found",
+    desc: "요청하신 주소가 잘못되었거나, 페이지가 이동·삭제되었을 수 있습니다.",
+    descEn: "The page you're looking for doesn't exist or may have been moved.",
+    backHome: "홈으로 돌아가기",
   },
   admin: {
     title: "관리자 페이지",
@@ -632,6 +646,13 @@ const EN: Translations = {
     submit: "Log in",
     backHome: "Back to home",
     error: "Invalid username or password.",
+  },
+  notFoundPage: {
+    title: "Page Not Found",
+    titleEn: "Page Not Found",
+    desc: "The page you're looking for doesn't exist or may have been moved.",
+    descEn: "The page you're looking for doesn't exist or may have been moved.",
+    backHome: "Back to home",
   },
   admin: {
     title: "Admin Page",

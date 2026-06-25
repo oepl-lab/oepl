@@ -25,18 +25,24 @@ export default function AboutPage() {
 
         {/* 인사말 */}
         <section className="py-12 bg-white border-b border-gray-100">
-          <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
-            <div className="rounded-2xl aspect-[15/16] flex items-center justify-center bg-gray-100 border border-gray-200">
-              <span className="text-sm text-gray-400">{t.about.profPhoto}</span>
+          <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16 items-stretch">
+            <div className="rounded-2xl w-full h-full min-h-[320px] sm:min-h-[360px] md:min-h-0 flex items-center justify-center bg-gray-100 border border-gray-200 overflow-hidden">
+              <span className="text-xs md:text-sm text-gray-400">{t.about.profPhoto}</span>
             </div>
-            <div>
-              <p className="section-label mb-8">{t.about.greetingLabel}</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#080d1e] mb-6 leading-snug">
-                {t.about.greetingTitle.split("\n").map((line, i, arr) => (
-                  <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
-                ))}
+            <div className="min-w-0">
+              <p className="section-label mb-3 md:mb-8">{t.about.greetingLabel}</p>
+              <h2 className="text-lg sm:text-2xl md:text-4xl font-bold text-[#080d1e] mb-3 md:mb-6 leading-snug">
+                <span className="md:hidden">{t.about.greetingTitle.replace(/\n/g, " ")}</span>
+                <span className="hidden md:inline">
+                  {t.about.greetingTitle.split("\n").map((line, i, arr) => (
+                    <span key={i}>
+                      {line}
+                      {i < arr.length - 1 && <br />}
+                    </span>
+                  ))}
+                </span>
               </h2>
-              <div className="space-y-4 text-sm leading-relaxed text-[#6b7280]">
+              <div className="space-y-2 md:space-y-4 text-xs md:text-sm leading-relaxed text-[#6b7280]">
                 {t.about.greetingPs.map((p, i) => <p key={i}>{p}</p>)}
               </div>
             </div>
@@ -53,19 +59,19 @@ export default function AboutPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-[#080d1e]">{t.about.researchTitle}</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6">
               {t.about.areas.map((area, i) => (
                 <div
                   key={i}
                   className="rounded-2xl bg-white border border-gray-100 overflow-hidden flex flex-col hover:border-[#E88800]/40 transition-colors card-hover"
                 >
-                  <div className="w-full bg-gray-100" style={{ height: 240 }} />
-                  <div className="p-6 flex flex-col gap-3">
+                  <div className="w-full bg-gray-100 h-48 sm:h-52 md:h-60" />
+                  <div className="p-4 md:p-6 flex flex-col gap-2 md:gap-3">
                     <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full w-fit bg-[#E88800]/10 text-[#E88800] border border-[#E88800]/20">
                       {area.tag}
                     </span>
-                    <h3 className="font-bold text-base text-[#080d1e]">{area.title}</h3>
-                    <p className="text-sm leading-relaxed text-[#6b7280]">{area.desc}</p>
+                    <h3 className="font-bold text-sm md:text-base text-[#080d1e] leading-snug">{area.title}</h3>
+                    <p className="text-xs md:text-sm leading-relaxed text-[#6b7280] line-clamp-3 md:line-clamp-none">{area.desc}</p>
                   </div>
                 </div>
               ))}

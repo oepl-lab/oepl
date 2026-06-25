@@ -6,7 +6,7 @@ import { ExternalLink, ChevronRight, ChevronLeft } from "lucide-react";
 import { useLang } from "@/contexts/LangContext";
 import { useContent } from "@/contexts/ContentContext";
 import { publicationDoiLink } from "@/types/content";
-import { publicationSortKey, publicationYear, formatPublicationDate } from "@/lib/content/display";
+import { publicationSortKey, publicationFilterYear, formatPublicationDate } from "@/lib/content/display";
 
 function FilterBtn({ value, active, onClick }: { value: string; active: boolean; onClick: () => void }) {
   return (
@@ -103,12 +103,16 @@ export default function PublicationPage() {
   const { content } = useContent();
   const publications = content.publications;
   const years = useMemo(() => {
-    if (publications.length === 0) return ["ALL"];
-    const yearValues = publications.map((p) => publicationYear(p)).filter((y): y is number => y !== null);
-    if (yearValues.length === 0) return ["ALL"];
-    const maxYear = Math.max(...yearValues);
-    const minYear = Math.min(...yearValues);
-    return ["ALL", ...Array.from({ length: maxYear - minYear + 1 }, (_, i) => String(maxYear - i))];
+    const uniqueYears = [
+      ...new Set(
+        publications
+          .map((p) => publicationFilterYear(p))
+          .filter((y): y is number => y !== null)
+      ),
+    ].sort((a, b) => b - a);
+
+    if (uniqueYears.length === 0) return ["ALL"];
+    return ["ALL", ...uniqueYears.map(String)];
   }, [publications]);
   const [yearFilter, setYearFilter] = useState("ALL");
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
@@ -125,6 +129,13 @@ export default function PublicationPage() {
     setCanScrollLeft(hasOverflow && el.scrollLeft > 0);
     setCanScrollRight(hasOverflow && el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
   }
+
+  useEffect(() => {
+    if (yearFilter !== "ALL" && !years.includes(yearFilter)) {
+      setYearFilter("ALL");
+      setPage(1);
+    }
+  }, [years, yearFilter]);
 
   useEffect(() => {
     updateScrollButtons();
@@ -149,7 +160,7 @@ export default function PublicationPage() {
   }
 
   const filtered = publications
-    .filter((p) => yearFilter === "ALL" || String(publicationYear(p) ?? "") === yearFilter)
+    .filter((p) => yearFilter === "ALL" || String(publicationFilterYear(p) ?? "") === yearFilter)
     .sort((a, b) => {
       const da = publicationSortKey(a);
       const db = publicationSortKey(b);
