@@ -62,9 +62,9 @@ export default function Header() {
           <Image
             src="/oepl-logo.png"
             alt="OEPL — Organic Electronic Physics Laboratory"
-            width={120}
-            height={40}
-            className="h-7 w-auto object-contain"
+            width={132}
+            height={44}
+            className="h-8 w-auto object-contain"
             priority
           />
         </Link>
@@ -75,7 +75,7 @@ export default function Header() {
             <Link
               key={link.label}
               href={link.href}
-              className="text-[#6b7280] hover:text-[#080d1e] text-sm font-medium transition-colors relative group"
+              className="text-[#6b7280] hover:text-[#080d1e] text-[15px] font-medium transition-colors relative group"
             >
               {link.label}
               <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-[#E88800] group-hover:w-full transition-all duration-200" />
@@ -85,26 +85,26 @@ export default function Header() {
 
         {/* Desktop controls */}
         <div className="hidden md:flex items-center gap-3">
-          <Link href="/login" className={headerBtnClass}>
+          <Link href="/login" className={`${headerBtnClass} !text-sm`}>
             {t.header.login}
           </Link>
 
           <div className="flex items-center gap-1.5" aria-label="Switch language">
-            <Globe size={14} strokeWidth={1.8} className="text-[#6b7280]" />
+            <Globe size={16} strokeWidth={1.8} className="text-[#6b7280]" />
             <button
               type="button"
               onClick={() => setLang("KR")}
-              className={`text-xs font-semibold transition-colors ${
+              className={`text-sm font-semibold transition-colors ${
                 lang === "KR" ? "text-[#E88800]" : "text-[#9ca3af] hover:text-[#080d1e]"
               }`}
             >
               KO
             </button>
-            <span className="text-[#d1d5db] text-xs">|</span>
+            <span className="text-[#d1d5db] text-sm">|</span>
             <button
               type="button"
               onClick={() => setLang("EN")}
-              className={`text-xs font-semibold transition-colors ${
+              className={`text-sm font-semibold transition-colors ${
                 lang === "EN" ? "text-[#E88800]" : "text-[#9ca3af] hover:text-[#080d1e]"
               }`}
             >
@@ -149,9 +149,9 @@ export default function Header() {
                   <Image
                     src="/oepl-logo.png"
                     alt="OEPL — Organic Electronic Physics Laboratory"
-                    width={120}
-                    height={40}
-                    className="h-7 w-auto object-contain"
+                    width={132}
+                    height={44}
+                    className="h-8 w-auto object-contain"
                   />
                 </Link>
                 <button

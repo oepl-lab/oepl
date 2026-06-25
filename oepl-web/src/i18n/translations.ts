@@ -7,7 +7,6 @@ export interface Translations {
     label: string; title: string; tagline: string;
     p1: string; p2: string; p3: string;
     btn1: string; btn2: string;
-    stats: Array<{ value: string; label: string }>;
   };
   focus: {
     label: string; title: string;
@@ -189,12 +188,6 @@ const KR: Translations = {
     p3: "저희 연구실은 유기태양전지(OPV) 효율 향상을 위한 소재·공정·소자 연구를 체계적으로 수행하고 있으며, 국내외 선도 연구 기관과의 협력을 통해 세계 최고 수준의 연구 성과를 목표로 합니다.",
     btn1: "연구 소개 보기",
     btn2: "구성원 소개",
-    stats: [
-      { value: "17.38%", label: "유기태양전지 최고 효율" },
-      { value: "50+",    label: "국제 저널 논문" },
-      { value: "10+",    label: "국내외 협력 기관" },
-      { value: "2015",   label: "연구실 설립 연도" },
-    ],
   },
   focus: {
     label: "What We Do",
@@ -451,12 +444,6 @@ const EN: Translations = {
     p3: "Our lab systematically conducts material, process, and device research to improve organic photovoltaic (OPV) efficiency, aiming for world-leading research outcomes in collaboration with top institutions.",
     btn1: "Our Research",
     btn2: "Members",
-    stats: [
-      { value: "17.38%", label: "OPV Record Efficiency" },
-      { value: "50+",    label: "Journal Publications" },
-      { value: "10+",    label: "Partner Institutions" },
-      { value: "2015",   label: "Year Founded" },
-    ],
   },
   focus: {
     label: "What We Do",
