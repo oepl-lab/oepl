@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useLang } from "@/contexts/LangContext";
 
@@ -40,14 +41,14 @@ export default function ResearchSection() {
               {t.research.title}
             </h2>
           </div>
-          <a
-            href="#"
+          <Link
+            href="/about#research"
             className="hidden md:inline-flex items-center gap-1.5 text-sm font-medium hover:opacity-70 transition-opacity"
             style={{ color: "#E88800" }}
           >
             {t.research.more}
             <ArrowRight size={15} />
-          </a>
+          </Link>
         </div>
 
         <div className="grid grid-cols-2 gap-4 md:hidden">

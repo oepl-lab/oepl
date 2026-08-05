@@ -39,13 +39,9 @@ export default function HeroSection() {
           <h1 className="text-5xl font-bold leading-tight text-[var(--color-text)]">
             OEPL
           </h1>
-          <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] mb-6 text-[var(--color-text)] whitespace-pre-line">
+          <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] mb-8 text-[var(--color-text)] whitespace-pre-line">
             {t.hero.title}
           </h1>
-
-          <p className="text-[var(--color-muted)] text-sm leading-relaxed mb-8 max-w-md">
-            {t.hero.desc}
-          </p>
 
           <div className="flex flex-wrap items-center gap-3">
             <a

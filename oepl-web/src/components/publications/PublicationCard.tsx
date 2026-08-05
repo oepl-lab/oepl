@@ -21,16 +21,18 @@ export default function PublicationCard({ pub, lang }: Props) {
     <div className="group rounded-2xl bg-white border border-gray-100 p-6 flex flex-col gap-3 hover:border-[#E88800]/40 transition-colors">
       <div className="flex items-start justify-between gap-4">
         <div className="flex flex-wrap items-center gap-2">
-          <span
-            className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
-            style={{
-              background: "rgba(232,136,0,0.1)",
-              color: "#E88800",
-              border: "1px solid rgba(232,136,0,0.25)",
-            }}
-          >
-            {pub.journal}
-          </span>
+          {pub.journal?.trim() && (
+            <span
+              className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+              style={{
+                background: "rgba(232,136,0,0.1)",
+                color: "#E88800",
+                border: "1px solid rgba(232,136,0,0.25)",
+              }}
+            >
+              {pub.journal}
+            </span>
+          )}
           {pubDate && (
             <span className="text-[10px] font-medium text-[#9ca3af]">{pubDate}</span>
           )}

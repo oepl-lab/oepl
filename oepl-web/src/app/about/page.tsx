@@ -23,31 +23,6 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* 인사말 */}
-        <section className="section-y bg-white border-b border-gray-100">
-          <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16 items-stretch">
-            <div className="rounded-2xl w-full h-full min-h-[320px] sm:min-h-[360px] md:min-h-0 flex items-center justify-center bg-gray-100 border border-gray-200 overflow-hidden">
-              <span className="text-xs md:text-sm text-gray-400">{t.about.profPhoto}</span>
-            </div>
-            <div className="min-w-0">
-              <h2 className="text-lg sm:text-2xl md:text-4xl font-bold text-[#E88800] mb-3 md:mb-6 leading-snug">
-                <span className="md:hidden">{t.about.greetingTitle.replace(/\n/g, " ")}</span>
-                <span className="hidden md:inline">
-                  {t.about.greetingTitle.split("\n").map((line, i, arr) => (
-                    <span key={i}>
-                      {line}
-                      {i < arr.length - 1 && <br />}
-                    </span>
-                  ))}
-                </span>
-              </h2>
-              <div className="space-y-2 md:space-y-4 text-xs md:text-sm leading-relaxed text-[#6b7280]">
-                {t.about.greetingPs.map((p, i) => <p key={i}>{p}</p>)}
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* 연구 분야 소개 */}
         <section id="research" className="section-y bg-gray-50">
           <div className="max-w-7xl mx-auto px-6">
@@ -117,12 +92,9 @@ export default function AboutPage() {
                         <span className="text-[10px] text-[#9ca3af]">{formatPatentDate(patent.date)}</span>
                       </div>
 
-                      <h3 className="font-semibold text-sm text-[#080d1e] leading-snug mb-1 group-hover:text-[#E88800] transition-colors">
+                      <h3 className="font-semibold text-sm text-[#080d1e] leading-snug mb-2 group-hover:text-[#E88800] transition-colors">
                         {lang === "KR" ? patent.title : patent.titleEn}
                       </h3>
-                      <p className="text-xs text-[#9ca3af] leading-snug mb-2">
-                        {lang === "KR" ? patent.titleEn : patent.title}
-                      </p>
                       <p className="text-xs text-[#6b7280]">{patent.inventors}</p>
                     </div>
                   </div>
