@@ -259,7 +259,7 @@ const KR: Translations = {
     bizNum: "사업자등록번호: 206-82-07306",
   },
   about: {
-    banner: "About",
+    banner: "Research",
     greetingLabel: "인사말",
     greetingTitle: "빛을 에너지로,\n연구를 미래로.",
     greetingPs: [
@@ -521,7 +521,7 @@ const EN: Translations = {
     bizNum: "Biz Reg. No.: 206-82-07306",
   },
   about: {
-    banner: "About",
+    banner: "Research",
     greetingLabel: "Greeting",
     greetingTitle: "Light into Energy,\nResearch into the Future.",
     greetingPs: [

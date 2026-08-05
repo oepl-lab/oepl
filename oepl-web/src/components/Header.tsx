@@ -57,7 +57,7 @@ export default function Header() {
           : "bg-white border-b border-gray-100"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6 relative">
+      <div className="max-w-7xl mx-auto px-6 h-16 grid grid-cols-[auto_1fr_auto] items-center gap-4">
         <Link href="/" className="flex items-center flex-shrink-0">
           <Image
             src="/oepl-logo.png"
@@ -70,12 +70,12 @@ export default function Header() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-7 absolute left-1/2 -translate-x-1/2">
+        <nav className="hidden lg:flex items-center justify-center gap-3 xl:gap-5 2xl:gap-7 min-w-0 px-2">
           {navLinks.map((link) => (
             <Link
               key={link.label}
               href={link.href}
-              className="text-[#6b7280] hover:text-[#080d1e] text-[18px] font-medium transition-colors relative group"
+              className="whitespace-nowrap text-[#6b7280] hover:text-[#080d1e] text-base xl:text-[17px] 2xl:text-[18px] font-medium transition-colors relative group"
             >
               {link.label}
               <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-[#E88800] group-hover:w-full transition-all duration-200" />
@@ -84,7 +84,7 @@ export default function Header() {
         </nav>
 
         {/* Desktop controls */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-3 justify-self-end flex-shrink-0">
           <Link href="/login" className={`${headerBtnClass} !text-sm`}>
             {t.header.login}
           </Link>
@@ -116,7 +116,7 @@ export default function Header() {
         {/* Mobile toggle */}
         <button
           type="button"
-          className="md:hidden text-[#6b7280] hover:text-[#080d1e] transition-colors"
+          className="lg:hidden justify-self-end text-[#6b7280] hover:text-[#080d1e] transition-colors"
           onClick={() => setMobileOpen(true)}
           aria-expanded={mobileOpen}
           aria-controls="mobile-nav"
@@ -131,14 +131,14 @@ export default function Header() {
         <>
           <button
             type="button"
-            className="md:hidden fixed inset-0 z-[60] bg-black/50"
+            className="lg:hidden fixed inset-0 z-[60] bg-black/50"
             aria-label="Close menu overlay"
             onClick={() => setMobileOpen(false)}
           />
 
           <aside
             id="mobile-nav"
-            className="md:hidden fixed inset-y-0 right-0 z-[70] flex w-[320px] max-w-[85vw] flex-col justify-between bg-white px-8 pt-7 pb-12 shadow-[-4px_0_12px_rgba(0,0,0,0.1)]"
+            className="lg:hidden fixed inset-y-0 right-0 z-[70] flex w-[320px] max-w-[85vw] flex-col justify-between bg-white px-8 pt-7 pb-12 shadow-[-4px_0_12px_rgba(0,0,0,0.1)]"
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation"

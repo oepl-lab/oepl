@@ -104,68 +104,63 @@ export default function ContactPage() {
             </div>
 
             {/* info row — address | phone | email */}
-            <div className="flex flex-col md:flex-row gap-16 items-start w-full">
+            <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start w-full">
 
-              {/* 주소 — width anchored to one-line Korean address */}
-              <div className="grid flex-shrink-0">
-                <p aria-hidden className="invisible col-start-1 row-start-1 whitespace-nowrap text-sm font-semibold pointer-events-none select-none">
-                  {c.address}
-                </p>
-                <div className="col-start-1 row-start-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-[#E88800]/10">
-                      <MapPin size={14} className="text-[#E88800]" />
-                    </div>
-                    <span className="relative inline-flex items-center">
-                      <p className="text-xs font-semibold uppercase tracking-widest text-[#9ca3af]">
-                        {c.addressLabel}
-                      </p>
-                      <CopiedBadge show={addressCopy.copied} label={c.copySuccess} />
-                    </span>
+              {/* 주소 */}
+              <div className="w-full md:flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-[#E88800]/10">
+                    <MapPin size={14} className="text-[#E88800]" />
                   </div>
+                  <span className="relative inline-flex items-center min-w-0">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-[#9ca3af]">
+                      {c.addressLabel}
+                    </p>
+                    <CopiedBadge show={addressCopy.copied} label={c.copySuccess} />
+                  </span>
+                </div>
+                <Copyable
+                  as="p"
+                  text={lang === "KR" ? c.address : fullAddressEn}
+                  onCopied={addressCopy.notifyCopied}
+                  className="text-sm font-semibold text-[#080d1e] leading-relaxed break-words"
+                >
+                  {lang === "KR" ? c.address : c.addressEn.split("\n")[0]}
+                </Copyable>
+                {lang === "KR" ? (
                   <Copyable
                     as="p"
-                    text={lang === "KR" ? c.address : fullAddressEn}
+                    text={fullAddressEn}
                     onCopied={addressCopy.notifyCopied}
-                    className="text-sm font-semibold text-[#080d1e] whitespace-nowrap"
+                    className="text-xs text-[#9ca3af] mt-1 leading-relaxed break-words"
                   >
-                    {lang === "KR" ? c.address : c.addressEn.split("\n")[0]}
+                    {c.addressEn.split("\n").map((line, i, arr) => (
+                      <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
+                    ))}
                   </Copyable>
-                  {lang === "KR" ? (
+                ) : (
+                  <>
+                    {c.addressEn.split("\n").slice(1).map((line, i) => (
+                      <Copyable
+                        key={i}
+                        as="p"
+                        text={fullAddressEn}
+                        onCopied={addressCopy.notifyCopied}
+                        className="text-sm font-semibold text-[#080d1e] leading-relaxed break-words"
+                      >
+                        {line}
+                      </Copyable>
+                    ))}
                     <Copyable
                       as="p"
-                      text={fullAddressEn}
+                      text={c.address}
                       onCopied={addressCopy.notifyCopied}
-                      className="text-xs text-[#9ca3af] mt-1 leading-relaxed"
+                      className="text-xs text-[#9ca3af] mt-1 leading-relaxed break-words"
                     >
-                      {c.addressEn.split("\n").map((line, i, arr) => (
-                        <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
-                      ))}
+                      {c.address}
                     </Copyable>
-                  ) : (
-                    <>
-                      {c.addressEn.split("\n").slice(1).map((line, i) => (
-                        <Copyable
-                          key={i}
-                          as="p"
-                          text={fullAddressEn}
-                          onCopied={addressCopy.notifyCopied}
-                          className="text-sm font-semibold text-[#080d1e]"
-                        >
-                          {line}
-                        </Copyable>
-                      ))}
-                      <Copyable
-                        as="p"
-                        text={c.address}
-                        onCopied={addressCopy.notifyCopied}
-                        className="text-xs text-[#9ca3af] mt-1 whitespace-nowrap"
-                      >
-                        {c.address}
-                      </Copyable>
-                    </>
-                  )}
-                </div>
+                  </>
+                )}
               </div>
 
               {/* 전화 */}
