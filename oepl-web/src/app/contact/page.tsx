@@ -104,10 +104,10 @@ export default function ContactPage() {
             </div>
 
             {/* info row — address | phone | email */}
-            <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start w-full">
+            <div className="grid grid-cols-1 md:grid-cols-[auto_auto_auto] gap-10 md:gap-16 items-start w-full">
 
               {/* 주소 */}
-              <div className="w-full md:flex-1 min-w-0">
+              <div className="min-w-0 w-full md:w-auto md:max-w-xs lg:max-w-sm xl:max-w-md">
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-[#E88800]/10">
                     <MapPin size={14} className="text-[#E88800]" />

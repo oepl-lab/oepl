@@ -4,9 +4,11 @@ import {
   validateMemberPhotoFile,
 } from "@/lib/supabase/member-photos";
 
-export const NEWS_PHOTOS_BUCKET = "news-photos";
-export const GALLERY_PHOTOS_BUCKET = "gallery-photos";
-export const NEWS_FILES_BUCKET = "news-files";
+import {
+  NEWS_PHOTOS_BUCKET,
+  GALLERY_PHOTOS_BUCKET,
+  NEWS_FILES_BUCKET,
+} from "@/lib/supabase/content-media-constants";
 
 export { validateMemberPhotoFile as validateContentPhotoFile, readMemberPhotoPreview as readContentPhotoPreview };
 

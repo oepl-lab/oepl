@@ -21,11 +21,14 @@ import {
   useAdminPagination,
 } from "@/components/admin/AdminUi";
 import {
+  adminRemoveGalleryPhoto,
+  adminUploadFile,
+} from "@/lib/admin/client-api";
+import {
   readContentPhotoPreview,
-  removeGalleryPhoto,
-  uploadGalleryPhoto,
   validateContentPhotoFile,
 } from "@/lib/supabase/content-media";
+import { isSupabaseConfigured } from "@/lib/supabase/client";
 
 const emptyGallery = (): GalleryItem => ({
   id: NEW_ID,
@@ -102,10 +105,14 @@ export default function AdminGalleryPage() {
       setDraft((d) => (d ? { ...d, id: saved.id } : d));
 
       if (pendingPhotoFile) {
-        const url = await uploadGalleryPhoto(saved.id, pendingPhotoFile);
+        const url = isSupabaseConfigured()
+          ? await adminUploadFile("gallery-photo", pendingPhotoFile, saved.id)
+          : await readContentPhotoPreview(pendingPhotoFile);
         saved = await upsertGallery({ ...saved, photoUrl: url });
-      } else if (photoRemoved && draft.photoUrl) {
-        await removeGalleryPhoto(saved.id);
+      } else if (photoRemoved && draft.photoUrl && isSupabaseConfigured()) {
+        await adminRemoveGalleryPhoto(saved.id);
+      } else if (photoRemoved && draft.photoUrl && !isSupabaseConfigured()) {
+        saved = await upsertGallery({ ...saved, photoUrl: "" });
       }
 
       setDraft(null);

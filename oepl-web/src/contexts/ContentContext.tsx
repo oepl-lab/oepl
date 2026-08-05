@@ -26,19 +26,10 @@ import {
 } from "@/lib/data/mappers";
 import {
   fetchSiteContent,
-  persistGallery,
   persistLocalContent,
-  persistMember,
-  persistNews,
-  persistPatent,
   persistProfessorLocal,
-  persistPublication,
-  removeGallery,
-  removeMember,
-  removeNews,
-  removePatent,
-  removePublication,
 } from "@/lib/data/repository";
+import { adminContentMutate } from "@/lib/admin/client-api";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 
 interface ContentContextValue {
@@ -79,16 +70,19 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     } catch (err) {
       console.error("[ContentContext] persist failed", err);
       alert("저장에 실패했습니다. 로그인 상태를 확인해 주세요.");
+      throw err;
     } finally {
       setSaving(false);
     }
   }, []);
 
+  const useAdminApi = isSupabaseConfigured();
+
   const updateProfessor = useCallback((professor: Professor) => {
     setContent((prev) => {
       const next = { ...prev, members: { ...prev.members, professor } };
       persistProfessorLocal(professor);
-      if (!isSupabaseConfigured()) {
+      if (!useAdminApi) {
         persistLocalContent(next);
       }
       return next;
@@ -99,10 +93,10 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     const draftItem = { ...item, id: item.id || NEW_ID };
     const isNew = isNewId(draftItem.id);
 
-    if (isSupabaseConfigured()) {
+    if (useAdminApi) {
       setSaving(true);
       try {
-        const saved = await persistNews(draftItem);
+        const saved = await adminContentMutate<NewsItem>("upsertNews", draftItem);
         const full: NewsItem = {
           ...saved,
           date: saved.date?.trim() || draftItem.date?.trim() || formatNewsPostDate(),
@@ -150,8 +144,10 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
   const deleteNews = useCallback(async (id: number) => {
     setContent((prev) => {
       const next = { ...prev, news: prev.news.filter((n) => n.id !== id) };
-      if (isSupabaseConfigured()) {
-        void runPersist(() => removeNews(id));
+      if (useAdminApi) {
+        void runPersist(async () => {
+          await adminContentMutate("deleteNews", id);
+        });
       } else {
         persistLocalContent(next);
       }
@@ -170,9 +166,9 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
         : [draft, ...prev.publications];
       const next = { ...prev, publications };
 
-      if (isSupabaseConfigured()) {
+      if (useAdminApi) {
         void runPersist(async () => {
-          const saved = await persistPublication(draft);
+          const saved = await adminContentMutate<Publication>("upsertPublication", draft);
           setContent((p) => ({
             ...p,
             publications: isNew
@@ -198,7 +194,9 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
   const deletePublication = useCallback(async (id: number) => {
     setContent((prev) => {
       const next = { ...prev, publications: prev.publications.filter((p) => p.id !== id) };
-      if (isSupabaseConfigured()) void runPersist(() => removePublication(id));
+      if (useAdminApi) void runPersist(async () => {
+        await adminContentMutate("deletePublication", id);
+      });
       else persistLocalContent(next);
       return next;
     });
@@ -208,10 +206,10 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     const draftItem = { ...item, id: item.id || NEW_ID };
     const isNew = isNewId(draftItem.id);
 
-    if (isSupabaseConfigured()) {
+    if (useAdminApi) {
       setSaving(true);
       try {
-        const saved = await persistGallery(draftItem);
+        const saved = await adminContentMutate<GalleryItem>("upsertGallery", draftItem);
         const full: GalleryItem = {
           ...saved,
           photoUrl: draftItem.photoUrl,
@@ -249,7 +247,9 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
   const deleteGallery = useCallback(async (id: number) => {
     setContent((prev) => {
       const next = { ...prev, gallery: prev.gallery.filter((g) => g.id !== id) };
-      if (isSupabaseConfigured()) void runPersist(() => removeGallery(id));
+      if (useAdminApi) void runPersist(async () => {
+        await adminContentMutate("deleteGallery", id);
+      });
       else persistLocalContent(next);
       return next;
     });
@@ -266,9 +266,9 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
         : [draft, ...prev.patents];
       const next = { ...prev, patents };
 
-      if (isSupabaseConfigured()) {
+      if (useAdminApi) {
         void runPersist(async () => {
-          const saved = await persistPatent(draft);
+          const saved = await adminContentMutate<Patent>("upsertPatent", draft);
           setContent((p) => ({
             ...p,
             patents: isNew
@@ -294,7 +294,9 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
   const deletePatent = useCallback(async (id: number) => {
     setContent((prev) => {
       const next = { ...prev, patents: prev.patents.filter((p) => p.id !== id) };
-      if (isSupabaseConfigured()) void runPersist(() => removePatent(id));
+      if (useAdminApi) void runPersist(async () => {
+        await adminContentMutate("deletePatent", id);
+      });
       else persistLocalContent(next);
       return next;
     });
@@ -304,10 +306,10 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
     const draftItem = { ...item, id: item.id || NEW_ID };
     const isNew = isNewId(draftItem.id);
 
-    if (isSupabaseConfigured()) {
+    if (useAdminApi) {
       setSaving(true);
       try {
-        const saved = await persistMember(draftItem);
+        const saved = await adminContentMutate<MemberRecord>("upsertMember", draftItem);
         setContent((p) => ({
           ...p,
           members: applyMemberRecord(
@@ -349,7 +351,9 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
   const deleteMember = useCallback(async (id: number) => {
     setContent((prev) => {
       const next = { ...prev, members: removeMemberFromGroups(prev.members, id) };
-      if (isSupabaseConfigured()) void runPersist(() => removeMember(id));
+      if (useAdminApi) void runPersist(async () => {
+        await adminContentMutate("deleteMember", id);
+      });
       else persistLocalContent(next);
       return next;
     });

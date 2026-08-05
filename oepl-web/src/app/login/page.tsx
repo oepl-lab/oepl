@@ -7,7 +7,6 @@ import Header from "@/components/Header";
 import FooterCTA from "@/components/FooterCTA";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLang } from "@/contexts/LangContext";
-import { isLocalAuthAllowed } from "@/lib/supabase/security";
 
 function safeNextPath(next: string | null): string {
   if (!next || !next.startsWith("/admin")) return "/admin";
@@ -17,7 +16,7 @@ function safeNextPath(next: string | null): string {
 function LoginPageContent() {
   const { t } = useLang();
   const l = t.login;
-  const { login, isAuthenticated, loading, useSupabase } = useAuth();
+  const { login, isAuthenticated, loading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextPath = safeNextPath(searchParams.get("next"));
@@ -49,24 +48,6 @@ function LoginPageContent() {
     return null;
   }
 
-  if (!useSupabase && !isLocalAuthAllowed()) {
-    return (
-      <>
-        <Header />
-        <main className="min-h-screen bg-white flex items-center justify-center px-6">
-          <p className="text-sm text-[#6b7280] text-center max-w-md">
-            Admin login requires Supabase Auth in production. Configure NEXT_PUBLIC_SUPABASE_URL and
-            NEXT_PUBLIC_SUPABASE_ANON_KEY.
-          </p>
-        </main>
-        <FooterCTA />
-      </>
-    );
-  }
-
-  const accountLabel = useSupabase ? l.emailLabel : l.idLabel;
-  const accountPlaceholder = useSupabase ? l.emailPlaceholder : l.idPlaceholder;
-
   return (
     <>
       <Header />
@@ -97,15 +78,15 @@ function LoginPageContent() {
 
               <div className="flex flex-col gap-2">
                 <label htmlFor="login-id" className="text-xs font-semibold text-[#374151]">
-                  {accountLabel}
+                  {l.idLabel}
                 </label>
                 <input
                   id="login-id"
-                  type={useSupabase ? "email" : "text"}
+                  type="text"
                   value={id}
                   onChange={(e) => setId(e.target.value)}
-                  placeholder={accountPlaceholder}
-                  autoComplete={useSupabase ? "email" : "username"}
+                  placeholder={l.idPlaceholder}
+                  autoComplete="username"
                   required
                   className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-[#080d1e] placeholder:text-[#9ca3af] outline-none transition-colors focus:border-[#E88800]/60 focus:ring-2 focus:ring-[#E88800]/10"
                 />

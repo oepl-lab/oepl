@@ -34,6 +34,17 @@ yarn-error.log*
 .env*
 !.env.example
 
+# supabase local CLI
+.supabase/
+
+# service account / API credential files
+credentials.json
+*-credentials.json
+service-account*.json
+
+# API client env exports (Postman, etc.)
+*.postman_environment.json
+
 # vercel
 .vercel
 

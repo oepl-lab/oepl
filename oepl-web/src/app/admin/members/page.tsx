@@ -35,10 +35,13 @@ import { btnDangerClass, btnPrimaryClass, inputClass } from "@/components/admin/
 
 import { AdminDropdown, AdminModal, AdminPageHeader, AdminPhotoUpload, AdminRowActions, AdminRowIndex, AdminTable, AdminTablePagination, Field, useAdminPagination } from "@/components/admin/AdminUi";
 import {
+  adminRemoveMemberPhoto,
+  adminRemoveProfessorPhoto,
+  adminUploadFile,
+} from "@/lib/admin/client-api";
+import { isSupabaseConfigured } from "@/lib/supabase/client";
+import {
   readMemberPhotoPreview,
-  removeMemberPhoto,
-  removeProfessorPhoto,
-  uploadMemberPhoto,
   uploadProfessorPhoto,
   validateMemberPhotoFile,
 } from "@/lib/supabase/member-photos";
@@ -207,10 +210,12 @@ export default function AdminMembersPage() {
 
       if (profPhotoRemoved) {
         professor = { ...professor, photoUrl: "" };
-        if (hadStoragePhoto) await removeProfessorPhoto();
+        if (hadStoragePhoto && isSupabaseConfigured()) await adminRemoveProfessorPhoto();
       } else if (profPendingPhotoFile) {
-        if (hadStoragePhoto) await removeProfessorPhoto();
-        professor.photoUrl = await uploadProfessorPhoto(profPendingPhotoFile);
+        if (hadStoragePhoto && isSupabaseConfigured()) await adminRemoveProfessorPhoto();
+        professor.photoUrl = isSupabaseConfigured()
+          ? await adminUploadFile("professor-photo", profPendingPhotoFile)
+          : await uploadProfessorPhoto(profPendingPhotoFile);
       }
 
       updateProfessor(professor);
@@ -281,10 +286,12 @@ export default function AdminMembersPage() {
       let saved = await upsertMember(normalized);
 
       if (pendingPhotoFile) {
-        const url = await uploadMemberPhoto(saved.id, pendingPhotoFile);
+        const url = isSupabaseConfigured()
+          ? await adminUploadFile("member-photo", pendingPhotoFile, saved.id)
+          : await readMemberPhotoPreview(pendingPhotoFile);
         saved = await upsertMember({ ...saved, photoUrl: url });
-      } else if (photoRemoved && draft.photoUrl) {
-        await removeMemberPhoto(saved.id);
+      } else if (photoRemoved && draft.photoUrl && isSupabaseConfigured()) {
+        await adminRemoveMemberPhoto(saved.id);
       }
 
       setDraft(null);

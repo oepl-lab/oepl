@@ -1,6 +1,6 @@
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 
-export const MEMBER_PHOTOS_BUCKET = "member-photos";
+import { MEMBER_PHOTOS_BUCKET } from "@/lib/supabase/content-media-constants";
 
 const MAX_PHOTO_BYTES = 2 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);

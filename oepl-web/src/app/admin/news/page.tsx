@@ -24,9 +24,9 @@ import {
 } from "@/components/admin/AdminUi";
 import {
   buildLocalNewsMedia,
-  syncNewsMedia,
   type NewsMediaDraft,
 } from "@/lib/data/media-sync";
+import { adminSyncNewsMedia } from "@/lib/admin/client-api";
 import {
   readContentPhotoPreview,
   validateContentPhotoFile,
@@ -197,7 +197,7 @@ export default function AdminNewsPage() {
       };
 
       const media = isSupabaseConfigured()
-        ? await syncNewsMedia(saved.id, mediaDraft)
+        ? await adminSyncNewsMedia(saved.id, mediaDraft)
         : await buildLocalNewsMedia(mediaDraft);
 
       saved = await upsertNews({
