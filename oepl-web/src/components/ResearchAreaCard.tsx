@@ -25,6 +25,27 @@ function OverlayContent({ area, detailClassName }: { area: ResearchArea; detailC
   );
 }
 
+function CardBody({ area, image }: { area: ResearchArea; image: string | null }) {
+  return (
+    <>
+      <div className="w-full bg-gray-100 h-48 sm:h-52 md:h-60 flex items-center justify-center overflow-hidden shrink-0">
+        {image ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={image} alt="" className="w-full h-full object-contain bg-white" />
+        ) : null}
+      </div>
+
+      <div className="p-4 md:p-6 flex flex-col gap-2 md:gap-3 flex-1">
+        <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full w-fit bg-[#E88800]/10 text-[#E88800] border border-[#E88800]/20">
+          {area.tag}
+        </span>
+        <h3 className="font-bold text-sm md:text-base text-[#080d1e] leading-snug">{area.title}</h3>
+        <p className="text-xs md:text-sm leading-relaxed text-[#6b7280] line-clamp-3">{area.desc}</p>
+      </div>
+    </>
+  );
+}
+
 export default function ResearchAreaCard({
   area,
   expanded,
@@ -49,57 +70,29 @@ export default function ResearchAreaCard({
           onToggle();
         }
       }}
-      className={`relative rounded-2xl bg-white border border-gray-100 overflow-hidden flex flex-col hover:border-[#E88800]/40 transition-colors card-hover cursor-pointer group ${
-        elaExpanded ? "" : "min-h-[280px] md:min-h-[320px]"
-      }`}
+      className="relative rounded-2xl bg-white border border-gray-100 overflow-hidden flex flex-col hover:border-[#E88800]/40 transition-colors card-hover cursor-pointer group min-h-[280px] md:min-h-[320px]"
     >
-      {!elaExpanded && (
-        <>
-          <div className="w-full bg-gray-100 h-48 sm:h-52 md:h-60 flex items-center justify-center overflow-hidden shrink-0">
-            {image ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={image} alt="" className="w-full h-full object-contain bg-white" />
-            ) : null}
+      {elaExpanded ? (
+        <div className="grid flex-1">
+          <div className="col-start-1 row-start-1 flex flex-col invisible pointer-events-none" aria-hidden>
+            <CardBody area={area} image={image} />
           </div>
-
-          <div className="p-4 md:p-6 flex flex-col gap-2 md:gap-3 flex-1">
-            <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full w-fit bg-[#E88800]/10 text-[#E88800] border border-[#E88800]/20">
-              {area.tag}
-            </span>
-            <h3 className="font-bold text-sm md:text-base text-[#080d1e] leading-snug">{area.title}</h3>
-            <p className="text-xs md:text-sm leading-relaxed text-[#6b7280] line-clamp-3">{area.desc}</p>
-          </div>
-        </>
-      )}
-
-      {elaExpanded && (
-        <>
-          <div className="absolute top-0 left-0 right-0 h-48 sm:h-52 md:h-60 bg-gray-100 flex items-center justify-center overflow-hidden pointer-events-none">
-            {image ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={image} alt="" className="w-full h-full object-contain bg-white" />
-            ) : null}
-          </div>
-
-          <div className="invisible pointer-events-none shrink-0" aria-hidden>
-            <div className="p-5 md:p-6 flex flex-col">
-              <OverlayContent area={area} detailClassName={detailClassName} />
-            </div>
-          </div>
-
-          <div className="absolute inset-0 z-10 flex flex-col bg-white/80 backdrop-blur-md p-5 md:p-6">
+          <div className="col-start-1 row-start-1 z-10 flex min-h-full flex-col bg-white/80 backdrop-blur-md p-5 md:p-6">
             <OverlayContent area={area} detailClassName={detailClassName} />
           </div>
-        </>
-      )}
-
-      {expanded && !elaExpanded && (
-        <div className="absolute inset-0 z-10 flex flex-col bg-white/80 backdrop-blur-md p-5 md:p-6">
-          <OverlayContent
-            area={area}
-            detailClassName={`flex-1 overflow-y-auto ${detailClassName}`}
-          />
         </div>
+      ) : (
+        <>
+          <CardBody area={area} image={image} />
+          {expanded && (
+            <div className="absolute inset-0 z-10 flex flex-col bg-white/80 backdrop-blur-md p-5 md:p-6">
+              <OverlayContent
+                area={area}
+                detailClassName={`flex-1 overflow-y-auto ${detailClassName}`}
+              />
+            </div>
+          )}
+        </>
       )}
     </div>
   );
