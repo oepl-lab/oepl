@@ -3,6 +3,7 @@ import { requireAdminSession } from "@/lib/auth/require-admin-api";
 import { syncNewsMediaWithClient } from "@/lib/data/media-sync-server";
 import type { NewsMediaDraft } from "@/lib/data/media-sync";
 import { createServiceRoleClient, isAdminServerConfigured } from "@/lib/supabase/admin-server";
+import { validateContentPhotoFile, validateNewsFile } from "@/lib/supabase/content-media";
 
 export async function POST(request: Request) {
   const unauthorized = await requireAdminSession();
@@ -37,6 +38,19 @@ export async function POST(request: Request) {
       newPhotoFiles: form.getAll("newPhotoFiles").filter((v): v is File => v instanceof File),
       newFiles: form.getAll("newFiles").filter((v): v is File => v instanceof File),
     };
+
+    for (const file of draft.newPhotoFiles) {
+      const validationError = validateContentPhotoFile(file);
+      if (validationError) {
+        return NextResponse.json({ error: validationError }, { status: 400 });
+      }
+    }
+    for (const file of draft.newFiles) {
+      const validationError = validateNewsFile(file);
+      if (validationError) {
+        return NextResponse.json({ error: validationError }, { status: 400 });
+      }
+    }
 
     const client = createServiceRoleClient();
     const result = await syncNewsMediaWithClient(client, newsId, draft);

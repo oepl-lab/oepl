@@ -1,13 +1,6 @@
 "use client";
-import { Atom, Layers, Sun, TrendingUp } from "lucide-react";
 import { useLang } from "@/contexts/LangContext";
-
-const icons = [
-  <Atom key="atom" size={48} strokeWidth={1.5} color="#E88800" />,
-  <Layers key="layers" size={48} strokeWidth={1.5} color="#E88800" />,
-  <Sun key="sun" size={48} strokeWidth={1.5} color="#E88800" />,
-  <TrendingUp key="trending" size={48} strokeWidth={1.5} color="#E88800" />,
-];
+import { focusIcons, FOCUS_ICON_PROPS } from "@/components/icons/FocusIcons";
 
 export default function FocusSection() {
   const { lang, t } = useLang();
@@ -27,11 +20,13 @@ export default function FocusSection() {
           </div>
 
           {/* Right — 4 cards */}
-          <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-8 w-full">
-            {t.focus.items.map((item, i) => (
+          <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-8 w-full">
+            {t.focus.items.map((item, i) => {
+              const Icon = focusIcons[i];
+              return (
               <div key={i} className="flex flex-col items-center gap-4 text-center">
-                <div className="flex items-center justify-center">
-                  {icons[i]}
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center">
+                  <Icon {...FOCUS_ICON_PROPS} />
                 </div>
                 <div>
                   <div className="text-[#080d1e] font-semibold text-sm">{item.title}</div>
@@ -41,7 +36,8 @@ export default function FocusSection() {
                   <p className="text-[#6b7280] text-xs leading-relaxed break-keep">{item.desc}</p>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
 
         </div>

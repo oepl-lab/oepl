@@ -1,6 +1,8 @@
 "use client";
+import { useState } from "react";
 import Header from "@/components/Header";
 import FooterCTA from "@/components/FooterCTA";
+import ResearchAreaCard from "@/components/ResearchAreaCard";
 import { useLang } from "@/contexts/LangContext";
 import { useContent } from "@/contexts/ContentContext";
 import BrandIdentitySection from "@/components/BrandIdentitySection";
@@ -10,6 +12,7 @@ import { FileText } from "lucide-react";
 export default function AboutPage() {
   const { lang, t } = useLang();
   const { content } = useContent();
+  const [expandedTag, setExpandedTag] = useState<string | null>(null);
   return (
     <>
       <Header />
@@ -31,21 +34,14 @@ export default function AboutPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-[#080d1e]">{t.about.researchTitle}</h2>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6">
-              {t.about.areas.map((area, i) => (
-                <div
-                  key={i}
-                  className="rounded-2xl bg-white border border-gray-100 overflow-hidden flex flex-col hover:border-[#E88800]/40 transition-colors card-hover"
-                >
-                  <div className="w-full bg-gray-100 h-48 sm:h-52 md:h-60" />
-                  <div className="p-4 md:p-6 flex flex-col gap-2 md:gap-3">
-                    <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full w-fit bg-[#E88800]/10 text-[#E88800] border border-[#E88800]/20">
-                      {area.tag}
-                    </span>
-                    <h3 className="font-bold text-sm md:text-base text-[#080d1e] leading-snug">{area.title}</h3>
-                    <p className="text-xs md:text-sm leading-relaxed text-[#6b7280] line-clamp-3 md:line-clamp-none">{area.desc}</p>
-                  </div>
-                </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 items-start">
+              {t.about.areas.map((area) => (
+                <ResearchAreaCard
+                  key={area.tag}
+                  area={area}
+                  expanded={expandedTag === area.tag}
+                  onToggle={() => setExpandedTag((prev) => (prev === area.tag ? null : area.tag))}
+                />
               ))}
             </div>
           </div>

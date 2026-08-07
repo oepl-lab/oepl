@@ -3,10 +3,29 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { useLang } from "@/contexts/LangContext";
+import { researchAreaImage } from "@/lib/content/research-images";
 
 type ResearchItem = { tag: string; title: string; desc: string };
 
-const RESEARCH_ORDER = ["OSCs", "PSCs", "Metal Ink", "OFET"] as const;
+function ResearchCover({
+  tag,
+  className = "",
+}: {
+  tag: string;
+  className?: string;
+}) {
+  const image = researchAreaImage(tag);
+  return (
+    <div className={`bg-gray-100 overflow-hidden flex items-center justify-center ${className}`}>
+      {image ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={image} alt="" className="w-full h-full object-contain bg-white" />
+      ) : null}
+    </div>
+  );
+}
+
+const RESEARCH_ORDER = ["OSCs", "PSCs", "OFETs", "Metal Ink", "ELA"] as const;
 
 function sortResearchItems(items: ResearchItem[]) {
   return [...items].sort(
@@ -28,7 +47,9 @@ function FeaturedCard({ item }: { item: ResearchItem }) {
   return (
     <div className="card-hover relative overflow-hidden rounded-2xl border border-gray-200 bg-white h-full flex flex-col group transition-opacity duration-300">
       <div className="absolute inset-0 group-hover:bg-black/[0.025] transition-colors duration-300" />
-      <div className="relative flex-1 min-h-[260px] lg:min-h-[300px] bg-gray-100" />
+      <div className="relative flex-1 min-h-[260px] lg:min-h-[300px]">
+        <ResearchCover tag={item.tag} className="absolute inset-0" />
+      </div>
       <div className="relative z-10 p-6 flex flex-col gap-2">
         <TagBadge tag={item.tag} />
         <h3 className="text-[#080d1e] font-bold text-lg leading-snug">{item.title}</h3>
@@ -43,8 +64,32 @@ function CompactCard({
   onSelect,
 }: {
   item: ResearchItem;
-  onSelect: () => void;
+  onSelect?: () => void;
 }) {
+  const interactive = onSelect != null;
+  const className =
+    "card-hover relative overflow-hidden rounded-2xl border border-gray-200 bg-white flex flex-row gap-4 p-4 group transition-colors " +
+    (interactive ? "h-full cursor-pointer hover:border-[#E88800]/40" : "hover:border-[#E88800]/40");
+
+  const content = (
+    <>
+      <div className="absolute inset-0 group-hover:bg-black/[0.025] transition-colors duration-300" />
+      <ResearchCover
+        tag={item.tag}
+        className="relative shrink-0 w-24 sm:w-32 min-h-[80px] sm:min-h-[88px] rounded-xl self-stretch border border-gray-200/80 overflow-hidden"
+      />
+      <div className="relative z-10 flex flex-col justify-center gap-2 min-w-0 flex-1">
+        <TagBadge tag={item.tag} />
+        <h3 className="text-[#080d1e] font-bold text-sm leading-snug line-clamp-2">{item.title}</h3>
+        <p className="text-[#6b7280] text-xs leading-relaxed line-clamp-2">{item.desc}</p>
+      </div>
+    </>
+  );
+
+  if (!interactive) {
+    return <div className={className}>{content}</div>;
+  }
+
   return (
     <div
       role="button"
@@ -56,29 +101,9 @@ function CompactCard({
           onSelect();
         }
       }}
-      className="card-hover relative flex flex-1 min-h-0 h-full gap-4 rounded-2xl border border-gray-200 bg-white p-4 cursor-pointer group hover:border-[#E88800]/40 transition-colors"
+      className={className}
     >
-      <div className="absolute inset-0 group-hover:bg-black/[0.025] transition-colors duration-300 rounded-2xl" />
-      <div className="relative shrink-0 w-[72px] min-h-[72px] rounded-xl bg-gray-100 self-stretch" />
-      <div className="relative flex flex-col justify-center gap-1.5 min-w-0 py-0.5">
-        <TagBadge tag={item.tag} />
-        <h3 className="text-[#080d1e] font-bold text-sm leading-snug line-clamp-2">{item.title}</h3>
-        <p className="text-[#6b7280] text-xs leading-relaxed line-clamp-2">{item.desc}</p>
-      </div>
-    </div>
-  );
-}
-
-function MobileCard({ item }: { item: ResearchItem }) {
-  return (
-    <div className="card-hover relative overflow-hidden rounded-2xl border border-gray-200 bg-white group">
-      <div className="absolute inset-0 group-hover:bg-black/[0.025] transition-colors duration-300" />
-      <div className="relative w-full h-36 bg-gray-100" />
-      <div className="relative z-10 p-4 flex flex-col gap-2">
-        <TagBadge tag={item.tag} />
-        <h3 className="text-[#080d1e] font-bold text-sm leading-snug">{item.title}</h3>
-        <p className="text-[#6b7280] text-[11px] line-clamp-2">{item.desc}</p>
-      </div>
+      {content}
     </div>
   );
 }
@@ -105,7 +130,7 @@ export default function ResearchSection() {
           </div>
           <Link
             href="/about#research"
-            className="hidden md:inline-flex items-center gap-1.5 text-sm font-medium hover:opacity-70 transition-opacity"
+            className="hidden md:inline-flex items-center gap-1.5 text-sm font-medium hover:opacity-70 transition-opacity shrink-0"
             style={{ color: "#E88800" }}
           >
             {t.research.more}
@@ -113,10 +138,16 @@ export default function ResearchSection() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 md:hidden">
+        <div className="flex flex-col gap-4 md:hidden">
           {items.map((item) => (
-            <MobileCard key={item.tag} item={item} />
+            <CompactCard key={item.tag} item={item} />
           ))}
+        </div>
+
+        <div className="mt-8 text-center md:hidden">
+          <Link href="/about#research" className="btn-more">
+            {t.research.more} <ArrowRight size={13} />
+          </Link>
         </div>
 
         <div className="hidden md:grid md:grid-cols-2 gap-5 items-stretch min-h-0">

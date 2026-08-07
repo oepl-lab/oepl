@@ -5,14 +5,15 @@ import {
 } from "@/lib/supabase/member-photos";
 
 import {
-  NEWS_PHOTOS_BUCKET,
+  ATTACHMENT_MAX_BYTES,
+  ATTACHMENT_MAX_MB,
   GALLERY_PHOTOS_BUCKET,
   NEWS_FILES_BUCKET,
+  NEWS_PHOTOS_BUCKET,
 } from "@/lib/supabase/content-media-constants";
 
 export { validateMemberPhotoFile as validateContentPhotoFile, readMemberPhotoPreview as readContentPhotoPreview };
 
-const ATTACHMENT_MAX_BYTES = 10 * 1024 * 1024;
 const ATTACHMENT_TYPES = new Set([
   "application/pdf",
   "application/msword",
@@ -53,7 +54,9 @@ function readFileAsDataUrl(file: File): Promise<string> {
 }
 
 export function validateNewsFile(file: File): string | null {
-  if (file.size > ATTACHMENT_MAX_BYTES) return "첨부파일은 10MB 이하만 업로드할 수 있습니다.";
+  if (file.size > ATTACHMENT_MAX_BYTES) {
+    return `첨부파일은 ${ATTACHMENT_MAX_MB}MB 이하만 업로드할 수 있습니다.`;
+  }
   if (!ATTACHMENT_TYPES.has(file.type) && !file.name.match(/\.(pdf|doc|docx|ppt|pptx|zip|hwp|hwpx|jpg|jpeg|png|webp)$/i)) {
     return "지원하지 않는 파일 형식입니다.";
   }

@@ -1,7 +1,7 @@
 "use client";
 import Header from "@/components/Header";
 import FooterCTA from "@/components/FooterCTA";
-import { Mail, BookOpen, FlaskConical, GraduationCap, Briefcase, Star } from "lucide-react";
+import { Mail, BookOpen, FlaskConical, Briefcase } from "lucide-react";
 import { useLang } from "@/contexts/LangContext";
 import { useContent } from "@/contexts/ContentContext";
 import { groupMembersForDisplay, formatGraduationYear } from "@/lib/content/members";
@@ -147,36 +147,12 @@ export default function MembersPage() {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-[#E88800]/10 text-[#E88800]">
-                      <GraduationCap size={14} />
-                    </div>
-                    <p className="text-xs font-semibold uppercase tracking-widest text-[#9ca3af]">{m.educationLabel}</p>
-                  </div>
-                  {professor.education.map((e) => (
-                    <TimelineRow key={e.id} period={e.period} desc={lang === "KR" ? e.textKr : e.textEn} />
-                  ))}
-                </div>
-
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-[#E88800]/10 text-[#E88800]">
                       <Briefcase size={14} />
                     </div>
                     <p className="text-xs font-semibold uppercase tracking-widest text-[#9ca3af]">{m.careerLabel}</p>
                   </div>
                   {professor.career.map((c) => (
                     <TimelineRow key={c.id} period={c.period} desc={lang === "KR" ? c.textKr : c.textEn} />
-                  ))}
-                </div>
-
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-[#E88800]/10 text-[#E88800]">
-                      <Star size={14} />
-                    </div>
-                    <p className="text-xs font-semibold uppercase tracking-widest text-[#9ca3af]">{m.achievementsLabel}</p>
-                  </div>
-                  {professor.achievements.map((a) => (
-                    <TimelineRow key={a.id} period={a.period} desc={lang === "KR" ? a.textKr : a.textEn} />
                   ))}
                 </div>
               </div>

@@ -49,7 +49,7 @@ export interface Translations {
     banner: string; greetingLabel: string; greetingTitle: string;
     greetingPs: string[]; researchLabel: string; researchTitle: string;
     profPhoto: string;
-    areas: Array<{ tag: string; title: string; desc: string }>;
+    areas: Array<{ tag: string; title: string; desc: string; detail: string }>;
     patentLabel: string; patentTitle: string;
     patentStatusRegistered: string; patentStatusPending: string;
     brand: {
@@ -90,7 +90,7 @@ export interface Translations {
   members: {
     banner: string;
     professorLabel: string; professorTitle: string;
-    educationLabel: string; careerLabel: string; achievementsLabel: string;
+    careerLabel: string;
     postdocLabel: string; postdocTitle: string;
     gradLabel: string; gradTitle: string;
     phdAlumniLabel: string; phdAlumniTitle: string;
@@ -200,10 +200,10 @@ const KR: Translations = {
     label: "What We Do",
     title: "Our Focus",
     items: [
-      { title: "유기 소재",    enTitle: "Organic Materials",   desc: "차세대 유기전자 소자를 위한 π-공액 분자 소재 설계 및 합성 연구" },
-      { title: "소자 공학",    enTitle: "Device Engineering",  desc: "고성능 유기전자 소자 및 광전 변환 소자 제작 공정 연구" },
-      { title: "지속가능 에너지", enTitle: "Sustainable Energy", desc: "혁신적인 OPV 기술로 태양광을 청정 에너지로 전환하는 연구" },
-      { title: "연구 성과",    enTitle: "Impact",              desc: "과학과 글로벌 협력을 통한 실질적인 연구 성과 창출" },
+      { title: "첨단 소재",    enTitle: "Advanced Materials",   desc: "차세대 전자기기를 위한 기능성 소재 연구" },
+      { title: "소자 공학",    enTitle: "Device Engineering",  desc: "고성능 소자 구조 및 공정 기술 연구" },
+      { title: "첨단 분석", enTitle: "Advanced Characterization", desc: "전하 수송 및 소자 동작 메커니즘 연구" },
+      { title: "광전기", enTitle: "Photovoltaics", desc: "고효율 에너지 변환 및 응용 연구" },
     ],
   },
   research: {
@@ -211,10 +211,11 @@ const KR: Translations = {
     title: "연구 분야 소개",
     more: "더보기",
     items: [
-      { tag: "OSCs",  title: "유기태양전지", desc: "유기태양전지 소재 및 소자 개발, 고효율화 연구" },
-      { tag: "PSCs",  title: "페로브스카이트 태양전지", desc: "페로브스카이트 태양전지 소재·소자 공정 및 성능 분석 연구" },
-      { tag: "Metal Ink", title: "금속 잉크", desc: "전극 및 회로 형성을 위한 금속 잉크 소재 개발 연구" },
-      { tag: "OFET",  title: "유기 전계효과 트랜지스터", desc: "유기 전계효과 트랜지스터 소재 및 소자 특성 연구" },
+      { tag: "OSCs",  title: "유기태양전지", desc: "경량·유연·용액공정 유기태양전지 소재·소자 및 고효율화 연구" },
+      { tag: "PSCs",  title: "페로브스카이트 태양전지", desc: "고효율 페로브스카이트 태양전지 소재·소자 및 성능 분석 연구" },
+      { tag: "OFETs", title: "유기 전계효과 트랜지스터", desc: "유기 전계효과 트랜지스터 소재·소자 특성 연구" },
+      { tag: "Metal Ink", title: "금속 잉크", desc: "전극·회로 형성을 위한 금속 MOD 잉크 소재 개발" },
+      { tag: "ELA", title: "에너지 손실 분석", desc: "유기태양전지 에너지 손실 메커니즘 분석 및 효율 향상 연구" },
     ],
   },
   news: {
@@ -250,7 +251,7 @@ const KR: Translations = {
   footer: {
     columns: {
       "연구실": ["연구실 소개", "교수 소개", "연구원 소개", "졸업생"],
-      "연구":   ["유기 소재", "소자 공학", "유기태양전지", "에너지 분석"],
+      "연구":   ["유기태양전지", "페로브스카이트 태양전지", "유기 전계효과 트랜지스터", "금속 잉크", "에너지 손실 분석"],
       "정보":   ["논문 목록", "최근 소식", "갤러리", "Contact"],
     },
     copyright: "Copyright © Ulsan University OEPL Lab all right reserved ㅣ Designed by Haminji",
@@ -271,10 +272,41 @@ const KR: Translations = {
     researchTitle: "연구 분야 소개",
     profPhoto: "사진",
     areas: [
-      { tag: "OSCs",  title: "유기태양전지", desc: "유기태양전지 소재 및 소자 개발, 고효율화 연구를 진행하고 있습니다." },
-      { tag: "PSCs",  title: "페로브스카이트 태양전지", desc: "페로브스카이트 태양전지 소재·소자 공정 및 성능 분석 연구를 진행하고 있습니다." },
-      { tag: "Metal Ink", title: "금속 잉크", desc: "전극 및 회로 형성을 위한 금속 잉크 소재 개발 연구를 진행하고 있습니다." },
-      { tag: "OFET",  title: "유기 전계효과 트랜지스터", desc: "유기 전계효과 트랜지스터 소재 및 소자 특성 연구를 진행하고 있습니다." },
+      {
+        tag: "OSCs",
+        title: "유기태양전지",
+        desc: "경량·유연·용액공정 유기태양전지 소재·소자 및 고효율화 연구",
+        detail:
+          "유기태양전지(OSC)는 경량, 기계적 유연성, 용액 공정성으로 차세대 광전 기술로 주목받고 있습니다. 소자 물리와 계면 공학에 중점을 두고, 전하 생성·전달·추출 및 에너지 손실 메커니즘을 규명하여 고효율·고안정 광전 소자 개발을 목표로 합니다. 친환경 첨가제, 용액 공정 기술, 금속 산화물 전자 수송층 등을 활용해 박막 형상, 계면 특성, 소자 성능을 최적화합니다.",
+      },
+      {
+        tag: "PSCs",
+        title: "페로브스카이트 태양전지",
+        desc: "고효율 페로브스카이트 태양전지 소재·소자 및 성능 분석 연구",
+        detail:
+          "페로브스카이트 태양전지(PSC)는 고효율 에너지 변환의 뛰어난 잠재력을 지닌 광전 기술로 주목받고 있습니다. 연구는 탠덤 소자 구조, 상보적 소재 통합, 소자 공학을 포괄하여 태양 에너지 활용을 극대화합니다. 스펙트럼 흡수 범위 확장과 광전 변환 효율 향상을 위한 첨단 소재 및 구조 설계 전략을 탐구합니다.",
+      },
+      {
+        tag: "OFETs",
+        title: "유기 전계효과 트랜지스터",
+        desc: "유기 전계효과 트랜지스터 소재·소자 특성 연구",
+        detail:
+          "유기 전계효과 트랜지스터(OFET)는 유기 반도체를 이용해 전류 흐름을 제어하는 핵심 유기전자 소자로, 유연 전자, 웨어러블, 센서 등 다양한 응용이 가능합니다. 전하 수송, 트랜지스터 동작 메커니즘, 이동도와 스위칭 안정성 향상을 위한 소재·소자 전략을 연구합니다.",
+      },
+      {
+        tag: "Metal Ink",
+        title: "금속 잉크",
+        desc: "전극·회로 형성을 위한 금속 MOD 잉크 소재 개발",
+        detail:
+          "금속-유기 분해(MOD) 잉크는 유기 리간드와 배위된 금속 이온으로 구성된 입자 없는(particle-free) 금속 잉크로, 용해 가능한 금속-유기 착물 형태입니다. 분해 후 상대적으로 낮은 공정 온도에서 균일하고 고전도성인 금속 박막을 형성할 수 있습니다.",
+      },
+      {
+        tag: "ELA",
+        title: "에너지 손실 분석",
+        desc: "유기태양전지 에너지 손실 메커니즘 분석 및 효율 향상 연구",
+        detail:
+          "유기태양전지의 에너지 손실은 Shockley–Queisser(SQ) 상세 균형 프레임워크 내에서 정량 분석되며, 피할 수 없는 SQ 한계 손실, 비이상적 흡수 및 서브밴드갭 상태에서 기인하는 추가 복사 손실, 비복사 재결합 손실로 분해됩니다.\n\n전하 전달(CT) 상태는 donor–acceptor 벌크 이종접합의 계면 여기 상태로, 전하 생성과 재결합을 매개하여 서브밴드갭 흡수, 발광, 개방회로 전압에 큰 영향을 미칩니다.\n\n이러한 에너지 손실 메커니즘과 CT 상태 에너지 준위는 자체 구축 Fourier-transform photocurrent spectroscopy(FTPS-EQE) 시스템과 전계발광(EL), EL quantum efficiency(EQEEL) 측정을 통해 연구합니다.",
+      },
     ],
     patentLabel: "Patents",
     patentTitle: "특허 소개",
@@ -330,9 +362,7 @@ const KR: Translations = {
     banner: "Members",
     professorLabel: "Professor",
     professorTitle: "교수 소개",
-    educationLabel: "학력",
     careerLabel: "주요 경력",
-    achievementsLabel: "주요 실적",
     postdocLabel: "Post Doctoral Researchers",
     postdocTitle: "박사 후 연구원",
     gradLabel: "Graduate Students",
@@ -460,10 +490,10 @@ const EN: Translations = {
     label: "What We Do",
     title: "Our Focus",
     items: [
-      { title: "Organic Materials",   enTitle: "Organic Materials",   desc: "Design and synthesis of π-conjugated molecular materials for next-generation organic electronic devices" },
-      { title: "Device Engineering",  enTitle: "Device Engineering",  desc: "Fabrication processes for high-performance organic electronic and photoconversion devices" },
-      { title: "Sustainable Energy",  enTitle: "Sustainable Energy",  desc: "Converting solar light into clean energy through innovative OPV technology" },
-      { title: "Research Impact",     enTitle: "Impact",              desc: "Creating tangible research outcomes through science and global collaboration" },
+      { title: "Advanced Materials",   enTitle: "Advanced Materials",   desc: "Functional materials for emerging electronics" },
+      { title: "Device Engineering",  enTitle: "Device Engineering",  desc: "High-performance device architectures and processing technologies" },
+      { title: "Advanced Characterization",  enTitle: "Advanced Characterization",  desc: "Charge transport and device operation mechanisms" },
+      { title: "Photovoltaics",     enTitle: "Photovoltaics",     desc: "High-efficiency energy conversion and applications" },
     ],
   },
   research: {
@@ -471,10 +501,11 @@ const EN: Translations = {
     title: "Research Areas",
     more: "More",
     items: [
-      { tag: "OSCs",  title: "Organic solar cells", desc: "Research on organic solar cell materials, devices, and efficiency enhancement" },
-      { tag: "PSCs",  title: "Perovskite solar cells", desc: "Research on perovskite solar cell materials, fabrication, and performance analysis" },
-      { tag: "Metal Ink", title: "Metal ink", desc: "Development of metal ink materials for electrodes and circuit patterning" },
-      { tag: "OFET",  title: "Organic Field Effect Transistor", desc: "Research on organic field-effect transistor materials and device characteristics" },
+      { tag: "OSCs",  title: "Organic solar cells", desc: "Research on OSC materials, devices, and efficiency enhancement" },
+      { tag: "PSCs",  title: "Perovskite solar cells", desc: "Research on PSC materials, fabrication, and performance analysis" },
+      { tag: "OFETs", title: "Organic field effect transistors", desc: "Research on OFET materials and device characteristics" },
+      { tag: "Metal Ink", title: "Metal ink", desc: "Development of MOD metal inks for electrodes and circuit patterning" },
+      { tag: "ELA", title: "Energy loss analysis", desc: "Analysis of energy loss mechanisms in organic photovoltaics" },
     ],
   },
   news: {
@@ -510,7 +541,7 @@ const EN: Translations = {
   footer: {
     columns: {
       "Lab":      ["About",   "Professor", "Researchers", "Alumni"],
-      "Research": ["Organic Materials", "Device Engineering", "Organic Solar Cell", "Energy Analysis"],
+      "Research": ["Organic solar cells", "Perovskite solar cells", "Organic field effect transistors", "Metal ink", "Energy loss analysis"],
       "Info":     ["Publications", "News", "Gallery", "Contact"],
     },
     copyright: "Copyright © Ulsan University OEPL Lab all right reserved ㅣ Designed by Haminji",
@@ -531,10 +562,41 @@ const EN: Translations = {
     researchTitle: "Research Areas",
     profPhoto: "Professor Photo",
     areas: [
-      { tag: "OSCs",  title: "Organic solar cells", desc: "We conduct research on organic solar cell materials, devices, and efficiency enhancement." },
-      { tag: "PSCs",  title: "Perovskite solar cells", desc: "We conduct research on perovskite solar cell materials, fabrication, and performance analysis." },
-      { tag: "Metal Ink", title: "Metal ink", desc: "We develop metal ink materials for electrodes and circuit patterning." },
-      { tag: "OFET",  title: "Organic Field Effect Transistor", desc: "We conduct research on organic field-effect transistor materials and device characteristics." },
+      {
+        tag: "OSCs",
+        title: "Organic solar cells",
+        desc: "Research on OSC materials, devices, and efficiency enhancement",
+        detail:
+          "Organic solar cells (OSCs) have attracted considerable attention as next-generation photovoltaic technologies due to their lightweight, mechanical flexibility, and solution-processability. With particular emphasis on device physics and interface engineering, studies are directed toward understanding charge generation, transport, extraction, and energy-loss mechanisms for the development of high-efficiency and stable photovoltaic devices. Environmentally friendly additives, solution-processing technologies, and metal oxide electron transport layers are also explored to optimize thin-film morphology, interfacial properties, and overall device performance.",
+      },
+      {
+        tag: "PSCs",
+        title: "Perovskite solar cells",
+        desc: "Research on PSC materials, fabrication, and performance analysis",
+        detail:
+          "Perovskite solar cells (PSCs) have emerged as attractive photovoltaic technologies with exceptional potential for high-efficiency energy conversion. Research encompasses tandem device architectures, complementary material integration, and device engineering to maximize solar energy utilization. Advanced materials and structural design strategies are explored to extend the spectral absorption range and improve photovoltaic conversion efficiency.",
+      },
+      {
+        tag: "OFETs",
+        title: "Organic field effect transistors",
+        desc: "Research on OFET materials and device characteristics",
+        detail:
+          "Organic field-effect transistors (OFETs) are key organic electronic devices that regulate current flow using organic semiconductors, offering broad applications in flexible electronics, wearable systems, and sensors. Current research examines charge transport, transistor operating mechanisms, and material and device strategies for improving charge-carrier mobility and switching stability.",
+      },
+      {
+        tag: "Metal Ink",
+        title: "Metal ink",
+        desc: "Development of MOD metal inks for electrodes and circuit patterning",
+        detail:
+          "Metal–organic decomposition (MOD) inks are particle-free metal inks composed of metal ions coordinated with organic ligands to form soluble metal–organic complexes. Upon decomposition, these inks can produce uniform, highly conductive metal films at relatively low processing temperatures.",
+      },
+      {
+        tag: "ELA",
+        title: "Energy loss analysis",
+        desc: "Analysis of energy loss mechanisms in organic photovoltaics",
+        detail:
+          "Energy loss in organic solar cells is quantitatively analyzed within the Shockley–Queisser (SQ) detailed-balance framework and decomposed into the unavoidable SQ-limited loss, additional radiative loss arising from non-ideal absorption and sub-bandgap states, and non-radiative recombination loss.\n\nCharge-transfer (CT) states are interfacial excited states characteristic of donor–acceptor bulk heterojunctions that mediate charge generation and recombination, thereby strongly influencing sub-bandgap absorption, emission, and open-circuit voltage.\n\nThese energy-loss mechanisms and CT-state energetics are investigated using our home-built Fourier-transform photocurrent spectroscopy (FTPS-EQE) system together with electroluminescence (EL) and EL quantum efficiency (EQEEL) measurements.",
+      },
     ],
     patentLabel: "Patents",
     patentTitle: "Patents",
@@ -590,9 +652,7 @@ const EN: Translations = {
     banner: "Members",
     professorLabel: "Professor",
     professorTitle: "Professor",
-    educationLabel: "Education",
     careerLabel: "Career",
-    achievementsLabel: "Achievements",
     postdocLabel: "Post Doctoral Researchers",
     postdocTitle: "Post-Doctoral Researchers",
     gradLabel: "Graduate Students",

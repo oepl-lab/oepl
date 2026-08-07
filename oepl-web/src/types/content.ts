@@ -127,11 +127,7 @@ export interface Professor {
 
   photoUrl?: string;
 
-  education: TimelineEntry[];
-
   career: TimelineEntry[];
-
-  achievements: TimelineEntry[];
 
 }
 

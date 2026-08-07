@@ -98,20 +98,10 @@ const rawSeedContent = {
       affiliationEn: "Dept. of Semiconductor Physics Engineering, Univ. of Ulsan",
       email: "sucho@ulsan.ac.kr",
       scholar: "https://scholar.google.com/citations?hl=ko&user=aAVyRKoAAAAJ",
-      education: [
-        tl("2000 – 2005", "서울대학교 물리학과 학사", "B.S. in Physics, Seoul National University"),
-        tl("2005 – 2007", "서울대학교 물리학과 석사", "M.S. in Physics, Seoul National University"),
-        tl("2007 – 2012", "서울대학교 물리학과 박사", "Ph.D. in Physics, Seoul National University"),
-      ],
       career: [
         tl("2012 – 2015", "삼성전자 종합기술원 선임연구원", "Senior Researcher, Samsung Advanced Institute of Technology"),
         tl("2015 – 2018", "KAIST 물리학과 박사후연구원", "Postdoctoral Researcher, KAIST Dept. of Physics"),
         tl("2018 – 현재", "울산대학교 반도체물리공학과 교수", "Professor, Dept. of Semiconductor Physics Engineering, Univ. of Ulsan"),
-      ],
-      achievements: [
-        tl("2023", "유기태양전지 효율 17.38% 달성 (세계 최고 수준)", "17.38% OPV Efficiency Achieved (World-Class Level)"),
-        tl("2022", "국내 최초 완전한 에너지 손실 분석 시스템 구축", "First Complete Energy Loss Analysis System in Korea"),
-        tl("2020", "한국연구재단 우수연구자 선정", "Selected as Outstanding Researcher by NRF Korea"),
       ],
     },
     postdocs: [

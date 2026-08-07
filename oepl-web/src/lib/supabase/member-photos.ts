@@ -1,16 +1,14 @@
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 
-import { MEMBER_PHOTOS_BUCKET } from "@/lib/supabase/content-media-constants";
-
-const MAX_PHOTO_BYTES = 2 * 1024 * 1024;
+import { MEMBER_PHOTOS_BUCKET, PHOTO_MAX_BYTES, PHOTO_MAX_MB } from "@/lib/supabase/content-media-constants";
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 export function validateMemberPhotoFile(file: File): string | null {
   if (!ALLOWED_TYPES.has(file.type)) {
     return "JPEG, PNG, WebP 이미지만 업로드할 수 있습니다.";
   }
-  if (file.size > MAX_PHOTO_BYTES) {
-    return "이미지 크기는 2MB 이하여야 합니다.";
+  if (file.size > PHOTO_MAX_BYTES) {
+    return `이미지 크기는 ${PHOTO_MAX_MB}MB 이하여야 합니다.`;
   }
   return null;
 }

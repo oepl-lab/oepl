@@ -20,7 +20,7 @@ import { formatNewsPostDate, normalizePublication } from "@/lib/content/display"
 
 const PROFESSOR_ID = "default";
 
-type TimelineKind = "education" | "career" | "achievements";
+type TimelineKind = "career";
 
 function rowId(row: Record<string, unknown>): number {
   return Number(row.id);
@@ -226,9 +226,7 @@ export function timelineToRows(
   professor: Professor
 ): { id: number; professor_id: string; kind: TimelineKind; period: string; text_kr: string; text_en: string; sort_order: number }[] {
   const kinds: { kind: TimelineKind; entries: TimelineEntry[] }[] = [
-    { kind: "education", entries: professor.education },
     { kind: "career", entries: professor.career },
-    { kind: "achievements", entries: professor.achievements },
   ];
 
   return kinds.flatMap(({ kind, entries }) =>
@@ -329,9 +327,7 @@ export function buildProfessor(
     affiliationEn: row.affiliation_en as string,
     email: row.email as string,
     scholar: row.scholar as string,
-    education: byKind("education"),
     career: byKind("career"),
-    achievements: byKind("achievements"),
   };
 }
 

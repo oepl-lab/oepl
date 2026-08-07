@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useLang } from "@/contexts/LangContext";
+import { ATTACHMENT_MAX_MB, PHOTO_MAX_MB } from "@/lib/supabase/content-media-constants";
 import { btnDangerClass, btnGhostClass, btnPrimaryClass, inputClass } from "./form-styles";
 
 export function adminMatchesSearch(
@@ -406,7 +407,7 @@ export function AdminPhotoUpload({
             <span className="text-[10px] text-gray-400">No photo</span>
           )}
         </div>
-        <p className="text-[10px] text-[#9ca3af] whitespace-nowrap w-[140px] text-center">JPEG, PNG, WebP · 최대 2MB</p>
+        <p className="text-[10px] text-[#9ca3af] whitespace-nowrap w-[140px] text-center">JPEG, PNG, WebP · 최대 {PHOTO_MAX_MB}MB</p>
       </div>
       <div className="flex flex-col gap-2 pt-1">
         <input
@@ -456,8 +457,8 @@ export function AdminMultiPhotoUpload({
   const atLimit = maxItems != null && items.length >= maxItems;
   const defaultHint =
     maxItems === 1
-      ? "JPEG, PNG, WebP · 최대 2MB · 1장만 등록 가능"
-      : "JPEG, PNG, WebP · 최대 2MB · 여러 장 선택 가능";
+      ? `JPEG, PNG, WebP · 최대 ${PHOTO_MAX_MB}MB · 1장만 등록 가능`
+      : `JPEG, PNG, WebP · 최대 ${PHOTO_MAX_MB}MB · 여러 장 선택 가능`;
 
   return (
     <div className="flex flex-col gap-3">
@@ -548,7 +549,7 @@ export function AdminAttachmentUpload({
         <button type="button" onClick={() => inputRef.current?.click()} className={btnGhostClass}>
           {selectLabel}
         </button>
-        <p className="text-[10px] text-[#9ca3af] mt-1">PDF, DOC, PPT, ZIP, HWP 등 · 최대 10MB · 여러 개 선택 가능</p>
+        <p className="text-[10px] text-[#9ca3af] mt-1">PDF, DOC, PPT, ZIP, HWP 등 · 최대 {ATTACHMENT_MAX_MB}MB · 여러 개 선택 가능</p>
       </div>
     </div>
   );

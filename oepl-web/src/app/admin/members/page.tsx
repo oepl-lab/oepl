@@ -366,19 +366,9 @@ export default function AdminMembersPage() {
               <input className={inputClass} value={profDraft.scholar} onChange={(e) => patchProfessorDraft({ scholar: e.target.value })} />
             </Field>
             <TimelineSection
-              title="Education"
-              entries={profDraft.education}
-              onChange={(education) => patchProfessorDraft({ education })}
-            />
-            <TimelineSection
               title="Career"
               entries={profDraft.career}
               onChange={(career) => patchProfessorDraft({ career })}
-            />
-            <TimelineSection
-              title="Achievements"
-              entries={profDraft.achievements}
-              onChange={(achievements) => patchProfessorDraft({ achievements })}
             />
           </div>
         )}
