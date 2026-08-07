@@ -23,6 +23,40 @@ function isNavActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+function HeaderLogos({ priority = false, onLabLogoClick }: { priority?: boolean; onLabLogoClick?: () => void }) {
+  return (
+    <div className="flex items-center gap-3 flex-shrink-0">
+      <a
+        href="https://www.ulsan.ac.kr/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex-shrink-0"
+        aria-label="University of Ulsan"
+      >
+        <Image
+          src="/ulsan-university-logo.png"
+          alt="University of Ulsan"
+          width={180}
+          height={48}
+          className="h-8 w-auto object-contain"
+          priority={priority}
+        />
+      </a>
+      <span className="h-6 w-px bg-gray-200 shrink-0" aria-hidden />
+      <Link href="/" className="flex-shrink-0" onClick={onLabLogoClick}>
+        <Image
+          src="/oepl-logo.png"
+          alt="OEPL — Organic Electronic Physics Laboratory"
+          width={132}
+          height={44}
+          className="h-8 w-auto object-contain"
+          priority={priority}
+        />
+      </Link>
+    </div>
+  );
+}
+
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -58,16 +92,7 @@ export default function Header() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 h-16 grid grid-cols-[auto_1fr_auto] items-center gap-4">
-        <Link href="/" className="flex items-center flex-shrink-0">
-          <Image
-            src="/oepl-logo.png"
-            alt="OEPL — Organic Electronic Physics Laboratory"
-            width={132}
-            height={44}
-            className="h-8 w-auto object-contain"
-            priority
-          />
-        </Link>
+        <HeaderLogos priority />
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center justify-center gap-3 xl:gap-5 2xl:gap-7 min-w-0 px-2">
@@ -145,15 +170,7 @@ export default function Header() {
           >
             <div className="flex w-full flex-col gap-10 min-h-0">
               <div className="flex w-full items-center justify-between shrink-0">
-                <Link href="/" onClick={() => setMobileOpen(false)}>
-                  <Image
-                    src="/oepl-logo.png"
-                    alt="OEPL — Organic Electronic Physics Laboratory"
-                    width={132}
-                    height={44}
-                    className="h-8 w-auto object-contain"
-                  />
-                </Link>
+                <HeaderLogos onLabLogoClick={() => setMobileOpen(false)} />
                 <button
                   type="button"
                   className="text-[#6b7280] hover:text-[#080d1e] transition-colors"

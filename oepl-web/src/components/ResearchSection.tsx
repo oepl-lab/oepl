@@ -9,12 +9,14 @@ type ResearchItem = { tag: string; title: string; desc: string };
 
 function ResearchCover({
   tag,
+  featured = false,
   className = "",
 }: {
   tag: string;
+  featured?: boolean;
   className?: string;
 }) {
-  const image = researchAreaImage(tag);
+  const image = researchAreaImage(tag, featured);
   return (
     <div className={`bg-gray-100 overflow-hidden flex items-center justify-center ${className}`}>
       {image ? (
@@ -47,8 +49,8 @@ function FeaturedCard({ item }: { item: ResearchItem }) {
   return (
     <div className="card-hover relative overflow-hidden rounded-2xl border border-gray-200 bg-white h-full flex flex-col group transition-opacity duration-300">
       <div className="absolute inset-0 group-hover:bg-black/[0.025] transition-colors duration-300" />
-      <div className="relative flex-1 min-h-[260px] lg:min-h-[300px]">
-        <ResearchCover tag={item.tag} className="absolute inset-0" />
+      <div className="relative flex-1 min-h-[260px] lg:min-h-[300px] border-b border-gray-100">
+        <ResearchCover tag={item.tag} featured className="absolute inset-0" />
       </div>
       <div className="relative z-10 p-6 flex flex-col gap-2">
         <TagBadge tag={item.tag} />

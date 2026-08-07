@@ -28,7 +28,7 @@ function OverlayContent({ area, detailClassName }: { area: ResearchArea; detailC
 function CardBody({ area, image }: { area: ResearchArea; image: string | null }) {
   return (
     <>
-      <div className="w-full bg-gray-100 h-48 sm:h-52 md:h-60 flex items-center justify-center overflow-hidden shrink-0">
+      <div className="w-full bg-gray-100 h-48 sm:h-52 md:h-60 flex items-center justify-center overflow-hidden shrink-0 border-b border-gray-100">
         {image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={image} alt="" className="w-full h-full object-contain bg-white" />
