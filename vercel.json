@@ -1,5 +1,0 @@
-{
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "npm install --prefix oepl-web",
-  "buildCommand": "npm run build --prefix oepl-web"
-}

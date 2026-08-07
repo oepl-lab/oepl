@@ -27,7 +27,7 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "OEPL-Organic Electronic Physics Labotory",
+  title: "OEPL — Organic Electronic Physics Laboratory",
   description:
     "OEPL advances organic electronics and photovoltaic technologies for a sustainable tomorrow.",
   keywords: [
