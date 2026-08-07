@@ -5,6 +5,7 @@
     "dev": "npm run dev --prefix oepl-web",
     "build": "npm run build --prefix oepl-web",
     "start": "npm run start --prefix oepl-web",
-    "lint": "npm run lint --prefix oepl-web"
+    "lint": "npm run lint --prefix oepl-web",
+    "postinstall": "npm install --prefix oepl-web"
   }
 }

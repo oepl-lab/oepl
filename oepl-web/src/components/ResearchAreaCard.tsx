@@ -55,7 +55,7 @@ export default function ResearchAreaCard({
   expanded: boolean;
   onToggle: () => void;
 }) {
-  const image = researchAreaImage(area.tag);
+  const image = researchAreaImage(area.tag) ?? null;
   const elaExpanded = expanded && isEla(area.tag);
   const detailClassName = "text-xs md:text-sm leading-relaxed text-[#374151] whitespace-pre-line";
 
