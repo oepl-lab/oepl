@@ -14,8 +14,9 @@ type Props = {
 export default function PublicationCard({ pub, lang }: Props) {
   const doiHref = publicationDoiLink(pub);
   const pubDate = formatPublicationDate(pub);
-  const primaryTitle = lang === "KR" ? pub.titleKo : pub.titleEn;
-  const secondaryTitle = lang === "KR" ? pub.titleEn : pub.titleKo;
+  const titleKo = pub.titleKo.trim();
+  const titleEn = pub.titleEn.trim();
+  const title = lang === "KR" ? titleKo || titleEn : titleEn || titleKo;
 
   return (
     <div className="group rounded-2xl bg-white border border-gray-100 p-6 flex flex-col gap-3 hover:border-[#E88800]/40 transition-colors">
@@ -50,14 +51,9 @@ export default function PublicationCard({ pub, lang }: Props) {
         )}
       </div>
 
-      <div className="flex flex-col gap-1">
-        <h3 className="font-semibold text-sm leading-snug text-[#080d1e] group-hover:text-[#E88800] transition-colors">
-          {primaryTitle}
-        </h3>
-        {secondaryTitle && (
-          <p className="text-sm leading-snug text-[#9ca3af]">{secondaryTitle}</p>
-        )}
-      </div>
+      <h3 className="font-semibold text-sm leading-snug text-[#080d1e] group-hover:text-[#E88800] transition-colors">
+        {title}
+      </h3>
 
       <div>
         <p className="text-xs text-[#6b7280]">{pub.authors}</p>

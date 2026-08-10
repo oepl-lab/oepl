@@ -668,7 +668,7 @@ const EN: Translations = {
     banner: "Publication",
     yearAll: "All",
     count: (n) => `${n} paper${n !== 1 ? "s" : ""}`,
-    sortNewest: "Newest",
+    sortNewest: "Latest",
     sortOldest: "Oldest",
     noResults: "No papers found.",
   },
