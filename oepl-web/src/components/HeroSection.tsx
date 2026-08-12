@@ -157,7 +157,7 @@ export default function HeroSection() {
         aria-hidden
       />
 
-      <BannerGlassStrips variant="hero" className="z-[2]" />
+      <BannerGlassStrips className="z-[2]" />
 
       <HeroGlow />
 
