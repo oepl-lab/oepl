@@ -17,12 +17,14 @@ export const pageBannerGlassStripStyle = {
   WebkitBackdropFilter: "blur(90px)",
 } as const;
 
+type GlassStripStyle = typeof glassStripStyle | typeof pageBannerGlassStripStyle;
+
 function GlassStripRow({
   count,
   stripStyle,
 }: {
   count: number;
-  stripStyle: typeof glassStripStyle;
+  stripStyle: GlassStripStyle;
 }) {
   const stripWidth = 100 / count;
 
