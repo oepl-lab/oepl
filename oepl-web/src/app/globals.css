@@ -171,10 +171,10 @@ body {
 .hero-section {
   --hero-glow-x: 61%;
   --hero-glow-y: 37%;
-  --hero-glow-w: 470px;
-  --hero-glow-h: 441px;
-  --hero-glow-rx: 235px;
-  --hero-glow-ry: 220.5px;
+  --hero-glow-w: 376px;
+  --hero-glow-h: 353px;
+  --hero-glow-rx: 188px;
+  --hero-glow-ry: 176.4px;
   --hero-glow-blur: 75px;
   --hero-glow-mask-rx: calc(var(--hero-glow-rx) + var(--hero-glow-blur) * 0.5);
   --hero-glow-mask-ry: calc(var(--hero-glow-ry) + var(--hero-glow-blur) * 0.5);

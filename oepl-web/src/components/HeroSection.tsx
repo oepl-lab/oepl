@@ -8,13 +8,13 @@ import BannerGlassStrips from "@/components/banner/BannerGlassStrips";
 
 const GLOW_LERP = 0.1;
 
-/** Figma Ellipse 63 — boosted ~1.4× to match plus-lighter bloom at lower banner */
+/** Figma Ellipse 63 — 1.12× (1.4× base minus 20%) */
 const FIGMA_GLOW = {
   width: 336,
   height: 315,
   blur: 75,
-  minWidth: 300,
-  scale: 1.4,
+  minWidth: 240,
+  scale: 1.12,
 } as const;
 
 function HeroGlow() {
@@ -137,8 +137,8 @@ export default function HeroSection() {
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
     targetRef.current = {
-      x: Math.min(0.78, Math.max(0.22, x)),
-      y: Math.min(0.72, Math.max(0.26, y)),
+      x: Math.min(1, Math.max(0, x)),
+      y: Math.min(1, Math.max(0, y)),
     };
   };
 
@@ -146,10 +146,10 @@ export default function HeroSection() {
     <section
       ref={sectionRef}
       onPointerMove={handlePointerMove}
-      className="hero-section relative flex min-h-[min(640px,85svh)] flex-col pt-16"
+      className="hero-section relative flex min-h-[min(640px,85svh)] flex-col overflow-hidden pt-16"
     >
       <div
-        className="absolute inset-0 overflow-hidden pointer-events-none"
+        className="absolute inset-0 pointer-events-none"
         style={{
           background:
             "linear-gradient(to bottom, #e88800 0%, #e88800 4rem, #000 4rem, #e88800 51.923%, #fff 100%)",
