@@ -178,7 +178,7 @@ const KR: Translations = {
     title: "OEPL 유기전자 연구실",
     desc: "유기전자물리 연구실에서는 유기반도체를 이용한 전자 소자를 개발하는 연구를 진행하고 있습니다. 특히 유기태양전지 개발에 집중하며, 세계 최고 수준의 효율 달성을 목표로 합니다.",
     btn1: "연구 분야 보기",
-    btn2: "논문 목록",
+    btn2: "논문 보기",
   },
   intro: {
     label: "About Our Lab",
@@ -468,7 +468,7 @@ const EN: Translations = {
     title: "OEPL Organic Electronics Lab",
     desc: "We develop electronic devices using organic semiconductors, with a special focus on organic solar cells. Our goal is to achieve world-class efficiency and drive next-generation energy technology.",
     btn1: "Our Research",
-    btn2: "Publications",
+    btn2: "View Papers",
   },
   intro: {
     label: "About Our Lab",

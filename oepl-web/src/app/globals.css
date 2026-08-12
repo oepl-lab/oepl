@@ -169,76 +169,50 @@ body {
 
 /* Hero — Figma Frame 175 / Ellipse 63 */
 .hero-section {
+  color-scheme: light;
   /* vh fallback → svh/dvh; lvh on desktop for full laptop viewport */
   min-height: 100vh;
   min-height: 100svh;
   min-height: 100dvh;
-  --hero-glow-x: 61%;
-  --hero-glow-y: 37%;
-  --hero-glow-w: 376px;
-  --hero-glow-h: 353px;
-  --hero-glow-rx: 188px;
-  --hero-glow-ry: 176.4px;
+  --hero-glow-x: 71.2%;
+  --hero-glow-y: 57.2%;
+  --hero-glow-w: 336px;
+  --hero-glow-h: 315px;
+  --hero-glow-rx: 168px;
+  --hero-glow-ry: 157.5px;
   --hero-glow-blur: 75px;
-  --hero-glow-mask-rx: calc(var(--hero-glow-rx) + var(--hero-glow-blur) * 0.5);
-  --hero-glow-mask-ry: calc(var(--hero-glow-ry) + var(--hero-glow-blur) * 0.5);
 }
 @media (min-width: 768px) {
   .hero-section {
     min-height: 100lvh;
   }
 }
-/* Fill #FFF · Layer blur 75 · Blend plus-lighter (Figma Ellipse 63) */
+
+/* Figma Frame 175 — gradient from below header; black holds ~10% then orange */
+.hero-section__gradient {
+  background: linear-gradient(
+    180deg,
+    #000000 0%,
+    #000000 10%,
+    #e88800 58.24%,
+    #ffffff 100%
+  );
+}
+
+/* Figma Ellipse 63 — behind glass, fill #FFF, blur 75, plus-lighter */
 .hero-glow-ellipse {
   position: absolute;
-  z-index: 3;
+  z-index: 1;
   left: var(--hero-glow-x);
   top: var(--hero-glow-y);
   width: var(--hero-glow-w);
   height: var(--hero-glow-h);
   transform: translate(-50%, -50%);
   border-radius: 50%;
-}
-/* Screen base — keeps glow bright on dark gradient (position 1) */
-.hero-glow-ellipse--base {
-  background: radial-gradient(
-    ellipse 100% 100% at 50% 50%,
-    rgb(255 255 255 / 98%) 0%,
-    rgb(255 235 190 / 82%) 28%,
-    rgb(255 195 110 / 52%) 48%,
-    rgb(255 155 60 / 22%) 62%,
-    transparent 76%
-  );
-  mix-blend-mode: screen;
-  filter: blur(calc(var(--hero-glow-blur) * 1.05));
-  -webkit-filter: blur(calc(var(--hero-glow-blur) * 1.05));
-}
-/* Figma hot core — plus-lighter punch on lighter areas (position 2) */
-.hero-glow-ellipse--hot {
   background: #ffffff;
   mix-blend-mode: plus-lighter;
   filter: blur(var(--hero-glow-blur));
   -webkit-filter: blur(var(--hero-glow-blur));
-}
-.hero-glow-text-overlay {
-  -webkit-mask-image: radial-gradient(
-    ellipse var(--hero-glow-mask-rx) var(--hero-glow-mask-ry) at var(--hero-glow-x) var(--hero-glow-y),
-    #000 0%,
-    #000 14%,
-    rgb(0 0 0 / 88%) 28%,
-    rgb(0 0 0 / 52%) 42%,
-    rgb(0 0 0 / 22%) 56%,
-    transparent 72%
-  );
-  mask-image: radial-gradient(
-    ellipse var(--hero-glow-mask-rx) var(--hero-glow-mask-ry) at var(--hero-glow-x) var(--hero-glow-y),
-    #000 0%,
-    #000 14%,
-    rgb(0 0 0 / 88%) 28%,
-    rgb(0 0 0 / 52%) 42%,
-    rgb(0 0 0 / 22%) 56%,
-    transparent 72%
-  );
 }
 
 /* Inner page banner — Figma Frame 642:516 */
