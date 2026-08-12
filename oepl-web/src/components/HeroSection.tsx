@@ -8,6 +8,9 @@ import BannerGlassStrips from "@/components/banner/BannerGlassStrips";
 
 const GLOW_LERP = 0.1;
 
+const HERO_INSET =
+  "mx-auto flex w-full max-w-7xl flex-1 items-center px-10 sm:px-12 md:px-16 lg:px-20 xl:px-24";
+
 /** Figma Ellipse 63 — 1.12× (1.4× base minus 20%) */
 const FIGMA_GLOW = {
   width: 336,
@@ -219,7 +222,7 @@ export default function HeroSection() {
 
       <HeroGlow />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center px-6">
+      <div className={`relative z-10 ${HERO_INSET}`}>
         <HeroCopy
           subtitle={t.hero.subtitle}
           title={t.hero.title}
@@ -232,7 +235,7 @@ export default function HeroSection() {
         className="hero-glow-text-overlay pointer-events-none absolute inset-0 z-20 flex pt-16"
         aria-hidden
       >
-        <div className="mx-auto flex w-full max-w-7xl flex-1 items-center px-6">
+        <div className={HERO_INSET}>
           <HeroGlowAwareCopy
             subtitle={t.hero.subtitle}
             title={t.hero.title}

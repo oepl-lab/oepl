@@ -169,7 +169,10 @@ body {
 
 /* Hero — Figma Frame 175 / Ellipse 63 */
 .hero-section {
+  /* vh fallback → svh/dvh; lvh on desktop for full laptop viewport */
+  min-height: 100vh;
   min-height: 100svh;
+  min-height: 100dvh;
   --hero-glow-x: 61%;
   --hero-glow-y: 37%;
   --hero-glow-w: 376px;
@@ -179,6 +182,11 @@ body {
   --hero-glow-blur: 75px;
   --hero-glow-mask-rx: calc(var(--hero-glow-rx) + var(--hero-glow-blur) * 0.5);
   --hero-glow-mask-ry: calc(var(--hero-glow-ry) + var(--hero-glow-blur) * 0.5);
+}
+@media (min-width: 768px) {
+  .hero-section {
+    min-height: 100lvh;
+  }
 }
 /* Fill #FFF · Layer blur 75 · Blend plus-lighter (Figma Ellipse 63) */
 .hero-glow-ellipse {
