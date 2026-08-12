@@ -19,11 +19,18 @@ const FIGMA_GLOW = {
 
 function HeroGlow() {
   return (
-    <div
-      data-hero-glow
-      className="hero-glow-ellipse pointer-events-none"
-      aria-hidden
-    />
+    <>
+      <div
+        data-hero-glow
+        className="hero-glow-ellipse hero-glow-ellipse--base pointer-events-none"
+        aria-hidden
+      />
+      <div
+        data-hero-glow
+        className="hero-glow-ellipse hero-glow-ellipse--hot pointer-events-none"
+        aria-hidden
+      />
+    </>
   );
 }
 
@@ -36,7 +43,7 @@ type HeroCopyProps = {
 
 function HeroGlowAwareCopy({ subtitle, title, btn1, btn2 }: HeroCopyProps) {
   return (
-    <>
+    <div className="hero-copy w-full">
       <p className="mb-3 text-base font-medium leading-normal text-[#E88800] md:mb-4 md:text-lg">
         {subtitle}
       </p>
@@ -72,7 +79,58 @@ function HeroGlowAwareCopy({ subtitle, title, btn1, btn2 }: HeroCopyProps) {
           {btn2}
         </span>
       </div>
-    </>
+    </div>
+  );
+}
+
+function HeroCopy({
+  subtitle,
+  title,
+  btn1,
+  btn2,
+}: HeroCopyProps) {
+  return (
+    <div className="hero-copy w-full">
+      <p className="mb-3 text-base font-medium leading-normal text-white md:mb-4 md:text-lg">
+        {subtitle}
+      </p>
+
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/hero/oepl-wordmark.svg"
+        alt="OEPL"
+        className="mb-3 h-auto w-full max-w-[200px] sm:max-w-[240px] md:mb-4 md:max-w-[300px]"
+        draggable={false}
+      />
+
+      <h1 className="mb-8 text-2xl font-bold uppercase tracking-wide text-white md:mb-10 md:text-3xl md:leading-snug">
+        {title}
+      </h1>
+
+      <div className="flex flex-wrap items-center gap-3">
+        <a
+          href="/about#research"
+          className="inline-flex items-center gap-2 rounded-full bg-white text-sm font-semibold text-[#0a0a0a] glow-box-orange transition-opacity hover:opacity-90"
+          style={{
+            padding: "var(--spacing-300) var(--spacing-600)",
+            borderRadius: "var(--radius-pill)",
+          }}
+        >
+          {btn1}
+          <ArrowRight size={14} aria-hidden />
+        </a>
+        <a
+          href="#publications"
+          className="inline-flex items-center rounded-full border border-white text-sm font-medium text-white transition-opacity hover:opacity-80"
+          style={{
+            padding: "var(--spacing-300) var(--spacing-600)",
+            borderRadius: "var(--radius-pill)",
+          }}
+        >
+          {btn2}
+        </a>
+      </div>
+    </div>
   );
 }
 
@@ -146,7 +204,7 @@ export default function HeroSection() {
     <section
       ref={sectionRef}
       onPointerMove={handlePointerMove}
-      className="hero-section relative flex min-h-[min(640px,85svh)] flex-col overflow-hidden pt-16"
+      className="hero-section relative flex flex-col overflow-hidden pt-16"
     >
       <div
         className="absolute inset-0 pointer-events-none"
@@ -161,53 +219,20 @@ export default function HeroSection() {
 
       <HeroGlow />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-6 pb-12 pt-6 md:pb-16 md:pt-8">
-        <p className="mb-3 text-base font-medium leading-normal text-white md:mb-4 md:text-lg">
-          {t.hero.subtitle}
-        </p>
-
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/hero/oepl-wordmark.svg"
-          alt="OEPL"
-          className="mb-3 h-auto w-full max-w-[200px] sm:max-w-[240px] md:mb-4 md:max-w-[300px]"
-          draggable={false}
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 items-center px-6">
+        <HeroCopy
+          subtitle={t.hero.subtitle}
+          title={t.hero.title}
+          btn1={t.hero.btn1}
+          btn2={t.hero.btn2}
         />
-
-        <h1 className="mb-8 text-2xl font-bold uppercase tracking-wide text-white md:mb-10 md:text-3xl md:leading-snug">
-          {t.hero.title}
-        </h1>
-
-        <div className="flex flex-wrap items-center gap-3">
-          <a
-            href="/about#research"
-            className="inline-flex items-center gap-2 rounded-full bg-white text-sm font-semibold text-[#0a0a0a] glow-box-orange transition-opacity hover:opacity-90"
-            style={{
-              padding: "var(--spacing-300) var(--spacing-600)",
-              borderRadius: "var(--radius-pill)",
-            }}
-          >
-            {t.hero.btn1}
-            <ArrowRight size={14} aria-hidden />
-          </a>
-          <a
-            href="#publications"
-            className="inline-flex items-center rounded-full border border-white text-sm font-medium text-white transition-opacity hover:opacity-80"
-            style={{
-              padding: "var(--spacing-300) var(--spacing-600)",
-              borderRadius: "var(--radius-pill)",
-            }}
-          >
-            {t.hero.btn2}
-          </a>
-        </div>
       </div>
 
       <div
-        className="hero-glow-text-overlay pointer-events-none absolute inset-0 z-20 flex flex-col pt-16"
+        className="hero-glow-text-overlay pointer-events-none absolute inset-0 z-20 flex pt-16"
         aria-hidden
       >
-        <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-6 pb-12 pt-6 md:pb-16 md:pt-8">
+        <div className="mx-auto flex w-full max-w-7xl flex-1 items-center px-6">
           <HeroGlowAwareCopy
             subtitle={t.hero.subtitle}
             title={t.hero.title}

@@ -169,6 +169,7 @@ body {
 
 /* Hero — Figma Frame 175 / Ellipse 63 */
 .hero-section {
+  min-height: 100svh;
   --hero-glow-x: 61%;
   --hero-glow-y: 37%;
   --hero-glow-w: 376px;
@@ -189,10 +190,27 @@ body {
   height: var(--hero-glow-h);
   transform: translate(-50%, -50%);
   border-radius: 50%;
+}
+/* Screen base — keeps glow bright on dark gradient (position 1) */
+.hero-glow-ellipse--base {
+  background: radial-gradient(
+    ellipse 100% 100% at 50% 50%,
+    rgb(255 255 255 / 98%) 0%,
+    rgb(255 235 190 / 82%) 28%,
+    rgb(255 195 110 / 52%) 48%,
+    rgb(255 155 60 / 22%) 62%,
+    transparent 76%
+  );
+  mix-blend-mode: screen;
+  filter: blur(calc(var(--hero-glow-blur) * 1.05));
+  -webkit-filter: blur(calc(var(--hero-glow-blur) * 1.05));
+}
+/* Figma hot core — plus-lighter punch on lighter areas (position 2) */
+.hero-glow-ellipse--hot {
   background: #ffffff;
+  mix-blend-mode: plus-lighter;
   filter: blur(var(--hero-glow-blur));
   -webkit-filter: blur(var(--hero-glow-blur));
-  mix-blend-mode: plus-lighter;
 }
 .hero-glow-text-overlay {
   -webkit-mask-image: radial-gradient(
