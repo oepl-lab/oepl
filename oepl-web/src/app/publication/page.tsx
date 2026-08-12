@@ -7,6 +7,7 @@ import { useLang } from "@/contexts/LangContext";
 import { useContent } from "@/contexts/ContentContext";
 import { publicationSortKey, publicationFilterYear } from "@/lib/content/display";
 import PublicationCard from "@/components/publications/PublicationCard";
+import PageBanner from "@/components/PageBanner";
 
 function FilterBtn({ value, active, onClick }: { value: string; active: boolean; onClick: () => void }) {
   return (
@@ -186,12 +187,7 @@ export default function PublicationPage() {
       <main className="min-h-screen bg-white">
 
         {/* Banner */}
-        <section className="bg-[#080d1e] pt-16 flex items-center justify-center" style={{ minHeight: 200 }}>
-          <div className="text-center">
-            <p className="section-label mb-2">OEPL</p>
-            <h1 className="text-5xl font-bold leading-tight text-white">{t.publication.banner}</h1>
-          </div>
-        </section>
+        <PageBanner title={t.publication.banner} />
 
         {/* List */}
         <section className="section-y">

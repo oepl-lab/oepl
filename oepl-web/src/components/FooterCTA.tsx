@@ -1,7 +1,6 @@
 "use client";
 import { Mail, Phone, MapPin } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useLang } from "@/contexts/LangContext";
 
 export default function FooterCTA() {
@@ -60,12 +59,6 @@ export default function FooterCTA() {
           <div className="flex flex-1 justify-around">
             {Object.entries(t.footer.columns).map(([col, links]) => (
               <div key={col} className="flex-shrink-0">
-                <h4
-                  className="text-xs font-semibold tracking-widest uppercase mb-3"
-                  style={{ color: "var(--color-text)" }}
-                >
-                  {col}
-                </h4>
                 <ul className="flex flex-col gap-1.5">
                   {links.map((link) => (
                     <li key={link}>
@@ -92,10 +85,7 @@ export default function FooterCTA() {
         >
           <span className="text-center md:text-left">{t.footer.copyright}</span>
           <div className="flex items-center justify-center gap-3 flex-wrap">
-            <span className="text-[10px]">{t.footer.bizNum}</span>
-            <Link href="/contact" className="transition-colors hover:text-[var(--color-brand)]">
-              {t.footer.contactUs}
-            </Link>
+            <span className="text-2xs">{t.footer.bizNum}</span>
           </div>
         </div>
       </div>

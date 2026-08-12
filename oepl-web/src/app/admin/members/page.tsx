@@ -470,7 +470,7 @@ export default function AdminMembersPage() {
                 value={draft.graduationDate || ""}
                 onChange={(e) => setDraft({ ...draft, graduationDate: e.target.value })}
               />
-              <p className="text-[10px] text-[#9ca3af] mt-1">날짜 입력 시 졸업생으로 분류됩니다. 화면에는 연도만 표시됩니다.</p>
+              <p className="text-2xs text-[#9ca3af] mt-1">날짜 입력 시 졸업생으로 분류됩니다. 화면에는 연도만 표시됩니다.</p>
             </Field>
           </>
         )}

@@ -175,7 +175,7 @@ const KR: Translations = {
   header: { login: "로그인" },
   hero: {
     subtitle: "Organic Electronic Physics Laboratory",
-    title: "유기전자물리 연구실",
+    title: "OEPL 유기전자 연구실",
     desc: "유기전자물리 연구실에서는 유기반도체를 이용한 전자 소자를 개발하는 연구를 진행하고 있습니다. 특히 유기태양전지 개발에 집중하며, 세계 최고 수준의 효율 달성을 목표로 합니다.",
     btn1: "연구 분야 보기",
     btn2: "논문 목록",
@@ -250,16 +250,16 @@ const KR: Translations = {
   publications: { label: "Research Output", title: "최근 논문", more: "더보기" },
   footer: {
     columns: {
-      "연구실": ["연구실 소개", "교수 소개", "연구원 소개", "졸업생"],
-      "연구":   ["유기태양전지", "페로브스카이트 태양전지", "유기 전계효과 트랜지스터", "금속 잉크", "에너지 손실 분석"],
-      "정보":   ["논문 목록", "최근 소식", "갤러리", "Contact"],
+      "col1": ["연구실 소개", "교수 소개", "연구원 소개"],
+      "col2": ["논문 목록", "최근 소식", "갤러리"],
+      "col3": ["Contact"],
     },
     copyright: "Copyright © Ulsan University OEPL Lab all right reserved ㅣ Designed by Haminji",
     contactUs: "Contact Us",
     bizNum: "사업자등록번호: 206-82-07306",
   },
   about: {
-    banner: "Research",
+    banner: "About",
     greetingLabel: "인사말",
     greetingTitle: "빛을 에너지로,\n연구를 미래로.",
     greetingPs: [
@@ -325,8 +325,8 @@ const KR: Translations = {
         enTitle: "Symbol Mark",
         krTitle: "심볼마크",
         paragraphs: [
-          "OEPL 심볼마크는 벤젠 고리(유기분자·π-공액 구조)와 나뭇잎(친환경·지속가능 에너지), 두 개의 궤도 고리(전자물리·에너지 연구)를 결합한 그래픽 문양입니다.",
-          "유기전자물리 연구실의 학문적 정체성과 친환경 에너지 기술에 대한 비전을 동시에 전달합니다. 공식 행사, 포스터, 발표 자료 등에서 심볼마크 단독 또는 로고마크와 함께 사용할 수 있으며, 비율·색상·여백을 임의로 변경하지 않도록 해 주세요.",
+          "OEPL 심볼마크는 벤젠 고리(유기분자·π-공액 구조)와 잎(친환경·지속가능 에너지), 두 개의 궤도 고리(전자물리·에너지 연구)를 결합하여 OEPL 연구실의 학문적 정체성과 친환경 에너지 기술에 대한 비전을 동시에 전달합니다.",
+          "공식 행사, 포스터, 발표 자료 등에서 심볼마크 단독 또는 로고마크와 함께 사용할 수 있으며, 비율·색상·여백을 임의로 변경하지 않도록 해 주세요.",
         ],
         assets: { png: "/brand/oepl-symbol.png" },
       },
@@ -334,8 +334,8 @@ const KR: Translations = {
         enTitle: "Logo Mark",
         krTitle: "로고마크",
         paragraphs: [
-          "로고마크는 OEPL 워드마크와 영문 풀네임(Organic Electronic Physics Laboratory)을 조합한 공식 타이포 표기입니다.",
-          "웹사이트, 명함, 보도자료 등 연구실명과 함께 브랜드를 전달해야 하는 경우 로고마크 사용을 권장합니다. 어두운 배경 위 사용을 기본으로 합니다.",
+          "로고마크는 OEPL 타이포형 로고와 영문 풀네임(Organic Electronic Physics Laboratory)을 조합한 공식 타이포 표기입니다.",
+          "심볼뿐만 아니라 타이포형 로고에도 친환경 에너지 기술 이미지를 살리기 위해 잎을 형상화한 타이포형 로고타입을 아이콘화하였습니다.",
         ],
         assets: { png: "/brand/oepl-logo-mark.png" },
       },
@@ -352,7 +352,7 @@ const KR: Translations = {
         enTitle: "Brand Colors",
         krTitle: "전용색상",
         paragraphs: [
-          "OEPL 전용색상은 `src/styles/tokens.json`과 `globals.css`에 정의된 디자인 토큰 팔레트입니다. Brand Amber(`--color-brand`)는 심볼·강조 요소에, Neutral 900(`--color-neutral-900`)은 페이지·배너 배경에 사용합니다.",
+          "시각적 임팩트가 높은 #E88800로 표현하여 태양열의 밝은 이미지를 전달하였으며, 유기태양전지 기술의 밝은 미래와 열정을 의미하였다.",
         ],
         assets: { png: "/brand/oepl-brand-colors.png" },
       },
@@ -465,7 +465,7 @@ const EN: Translations = {
   header: { login: "Log in" },
   hero: {
     subtitle: "Organic Electronic Physics Laboratory",
-    title: "Organic Electronic\nPhysics Lab",
+    title: "OEPL Organic Electronics Lab",
     desc: "We develop electronic devices using organic semiconductors, with a special focus on organic solar cells. Our goal is to achieve world-class efficiency and drive next-generation energy technology.",
     btn1: "Our Research",
     btn2: "Publications",
@@ -540,16 +540,16 @@ const EN: Translations = {
   publications: { label: "Research Output", title: "Recent Publications", more: "More" },
   footer: {
     columns: {
-      "Lab":      ["About",   "Professor", "Researchers", "Alumni"],
-      "Research": ["Organic solar cells", "Perovskite solar cells", "Organic field effect transistors", "Metal ink", "Energy loss analysis"],
-      "Info":     ["Publications", "News", "Gallery", "Contact"],
+      "col1": ["About", "Professor", "Researchers"],
+      "col2": ["Publications", "News", "Gallery"],
+      "col3": ["Contact"],
     },
     copyright: "Copyright © Ulsan University OEPL Lab all right reserved ㅣ Designed by Haminji",
     contactUs: "Contact Us",
     bizNum: "Biz Reg. No.: 206-82-07306",
   },
   about: {
-    banner: "Research",
+    banner: "About",
     greetingLabel: "Greeting",
     greetingTitle: "Light into Energy,\nResearch into the Future.",
     greetingPs: [
@@ -615,8 +615,8 @@ const EN: Translations = {
         enTitle: "Symbol Mark",
         krTitle: "Symbol Mark",
         paragraphs: [
-          "The OEPL symbol combines a benzene ring (organic molecules and π-conjugation), a leaf (eco-friendly and sustainable energy), and two orbital rings (electronic physics and energy research).",
-          "It conveys both our scientific identity and our vision for green energy technology. Use it alone or with the logo mark on posters and official materials. Do not alter proportions, colors, or clear space.",
+          "The OEPL symbol combines a benzene ring (organic molecules and π-conjugation), a leaf (eco-friendly and sustainable energy), and two orbital rings (electronic physics and energy research) to convey both the lab’s scientific identity and its vision for green energy technology.",
+          "Use it alone or with the logo mark at official events, on posters, and in presentation materials. Do not alter proportions, colors, or clear space.",
         ],
         assets: { png: "/brand/oepl-symbol.png" },
       },
@@ -624,8 +624,8 @@ const EN: Translations = {
         enTitle: "Logo Mark",
         krTitle: "Logo Mark",
         paragraphs: [
-          "The logo mark is the official typographic lockup of the OEPL wordmark and full name (Organic Electronic Physics Laboratory).",
-          "Use the logo mark when the lab name and brand should appear together — on websites, business cards, and press materials. Dark backgrounds are preferred.",
+          "The logo mark is the official typographic lockup of the OEPL typographic logo and full name (Organic Electronic Physics Laboratory).",
+          "Beyond the symbol, the typographic logo also iconizes a leaf-shaped logotype to convey the image of eco-friendly energy technology.",
         ],
         assets: { png: "/brand/oepl-logo-mark.png" },
       },
@@ -642,7 +642,7 @@ const EN: Translations = {
         enTitle: "Brand Colors",
         krTitle: "Brand Colors",
         paragraphs: [
-          "OEPL brand colors come from the design tokens in `src/styles/tokens.json` and `globals.css`. Brand Amber (`--color-brand`) is used for symbols and accents; Neutral 900 (`--color-neutral-900`) for page and banner backgrounds.",
+          "Expressed in #E88800 with high visual impact, it conveys the bright image of solar heat and signifies the bright future and passion of organic solar cell technology.",
         ],
         assets: { png: "/brand/oepl-brand-colors.png" },
       },

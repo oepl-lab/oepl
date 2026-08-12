@@ -138,7 +138,7 @@ export default function NewsDetailArticle({ display, viewCount, lang, labels, is
                         <p className="text-sm font-medium text-[#374151] truncate group-hover:text-[#E88800] transition-colors">
                           {file.fileName}
                         </p>
-                        <p className="text-[10px] font-semibold mt-0.5" style={{ color: style.color }}>
+                        <p className="text-2xs font-semibold mt-0.5" style={{ color: style.color }}>
                           {ext}
                         </p>
                       </div>

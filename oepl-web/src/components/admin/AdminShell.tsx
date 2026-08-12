@@ -114,7 +114,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
                   <span>{t.admin[labelKey]}</span>
                   {lang === "KR" && (
                     <span
-                      className={`text-[10px] font-normal ${
+                      className={`text-2xs font-normal ${
                         active ? "text-white/75" : "text-white/40"
                       }`}
                     >

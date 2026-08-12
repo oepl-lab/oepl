@@ -287,7 +287,7 @@ export function AdminTable({
               {headers.map((h, i) => (
                 <th
                   key={i}
-                  className={`py-3 text-[10px] font-semibold text-[#9ca3af] whitespace-nowrap ${
+                  className={`py-3 text-2xs font-semibold text-[#9ca3af] whitespace-nowrap ${
                     i === 0 ? "px-2 w-14 min-w-[3.5rem] normal-case tracking-normal" : "px-4 uppercase tracking-widest"
                   } ${i === headers.length - 1 ? "text-right" : "text-center"}`}
                 >
@@ -404,10 +404,10 @@ export function AdminPhotoUpload({
             // eslint-disable-next-line @next/next/no-img-element
             <img src={previewUrl} alt="" className="w-full h-full object-cover" />
           ) : (
-            <span className="text-[10px] text-gray-400">No photo</span>
+            <span className="text-2xs text-gray-400">No photo</span>
           )}
         </div>
-        <p className="text-[10px] text-[#9ca3af] whitespace-nowrap w-[140px] text-center">JPEG, PNG, WebP · 최대 {PHOTO_MAX_MB}MB</p>
+        <p className="text-2xs text-[#9ca3af] whitespace-nowrap w-[140px] text-center">JPEG, PNG, WebP · 최대 {PHOTO_MAX_MB}MB</p>
       </div>
       <div className="flex flex-col gap-2 pt-1">
         <input
@@ -471,7 +471,7 @@ export function AdminMultiPhotoUpload({
               <button
                 type="button"
                 onClick={() => onRemove(item.id)}
-                className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/60 text-white text-[10px] leading-none"
+                className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/60 text-white text-2xs leading-none"
               >
                 ×
               </button>
@@ -498,7 +498,7 @@ export function AdminMultiPhotoUpload({
           <button type="button" onClick={() => inputRef.current?.click()} className={btnGhostClass}>
             {selectLabel}
           </button>
-          <p className="text-[10px] text-[#9ca3af] mt-1">{hint ?? defaultHint}</p>
+          <p className="text-2xs text-[#9ca3af] mt-1">{hint ?? defaultHint}</p>
         </div>
       )}
     </div>
@@ -549,7 +549,7 @@ export function AdminAttachmentUpload({
         <button type="button" onClick={() => inputRef.current?.click()} className={btnGhostClass}>
           {selectLabel}
         </button>
-        <p className="text-[10px] text-[#9ca3af] mt-1">PDF, DOC, PPT, ZIP, HWP 등 · 최대 {ATTACHMENT_MAX_MB}MB · 여러 개 선택 가능</p>
+        <p className="text-2xs text-[#9ca3af] mt-1">PDF, DOC, PPT, ZIP, HWP 등 · 최대 {ATTACHMENT_MAX_MB}MB · 여러 개 선택 가능</p>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import FooterCTA from "@/components/FooterCTA";
 import { useLang } from "@/contexts/LangContext";
 import { MapPin, Phone, Mail, ArrowRight } from "lucide-react";
+import PageBanner from "@/components/PageBanner";
 
 function useCopySection() {
   const [copied, setCopied] = useState(false);
@@ -56,7 +57,7 @@ function CopiedBadge({ show, label }: { show: boolean; label: string }) {
   return (
     <span
       aria-hidden={!show}
-      className={`absolute left-full ml-1 top-1/2 -translate-y-1/2 text-[10px] font-medium whitespace-nowrap pointer-events-none transition-opacity duration-200 ${
+      className={`absolute left-full ml-1 top-1/2 -translate-y-1/2 text-2xs font-medium whitespace-nowrap pointer-events-none transition-opacity duration-200 ${
         show ? "opacity-100" : "opacity-0"
       }`}
       style={{ color: "rgba(232, 136, 0, 0.45)" }}
@@ -79,13 +80,7 @@ export default function ContactPage() {
       <Header />
       <main className="min-h-screen bg-white">
 
-        {/* Banner */}
-        <section className="bg-[#080d1e] pt-16 flex items-center justify-center" style={{ minHeight: 200 }}>
-          <div className="text-center">
-            <p className="section-label mb-2">OEPL</p>
-            <h1 className="text-5xl font-bold leading-tight text-white">{c.title}</h1>
-          </div>
-        </section>
+        <PageBanner title={c.title} />
 
         {/* Content */}
         <section className="section-y">
@@ -93,7 +88,7 @@ export default function ContactPage() {
 
             {/* Title + description */}
             <div>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#E88800] mb-4 leading-tight">
+              <h2 className="text-3xl md:text-4xl font-bold text-[#E88800] mb-4 leading-tight">
                 {c.heading}
               </h2>
               <p className="text-sm text-[#6b7280] leading-relaxed max-w-lg">

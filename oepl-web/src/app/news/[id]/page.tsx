@@ -12,6 +12,7 @@ import { useLang } from "@/contexts/LangContext";
 import { useContent } from "@/contexts/ContentContext";
 import { latestNewsId, newsDisplay, newsNeighbors } from "@/lib/content/display";
 import { incrementNewsViewCount } from "@/lib/supabase/news-views";
+import PageBanner from "@/components/PageBanner";
 
 export default function NewsDetailPage() {
   const params = useParams();
@@ -45,12 +46,7 @@ export default function NewsDetailPage() {
     <>
       <Header />
       <main className="min-h-screen bg-[#f9fafb]">
-        <section className="bg-[#080d1e] pt-16 flex items-center justify-center" style={{ minHeight: 200 }}>
-          <div className="text-center px-6">
-            <p className="section-label mb-2">OEPL</p>
-            <h1 className="text-5xl font-bold leading-tight text-white">{t.news.banner}</h1>
-          </div>
-        </section>
+        <PageBanner title={t.news.banner} />
 
         <section className="section-y">
           <div className="max-w-3xl mx-auto px-6">

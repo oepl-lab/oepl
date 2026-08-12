@@ -10,7 +10,7 @@ import { headerBtnClass } from "@/components/admin/form-styles";
 
 const navLinks = [
   { label: "Home",        href: "/" },
-  { label: "Research",    href: "/about" },
+  { label: "About",       href: "/about" },
   { label: "Members",     href: "/members" },
   { label: "Publication", href: "/publication" },
   { label: "News",        href: "/news" },
@@ -23,9 +23,20 @@ function isNavActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-function HeaderLogos({ priority = false, onLabLogoClick }: { priority?: boolean; onLabLogoClick?: () => void }) {
+function HeaderLogos({
+  priority = false,
+  compact = false,
+  onLabLogoClick,
+}: {
+  priority?: boolean;
+  compact?: boolean;
+  onLabLogoClick?: () => void;
+}) {
+  const logoClass = compact ? "h-6 w-auto object-contain" : "h-8 w-auto object-contain";
+  const dividerClass = compact ? "h-4 w-px bg-gray-200 shrink-0" : "h-6 w-px bg-gray-200 shrink-0";
+
   return (
-    <div className="flex items-center gap-3 flex-shrink-0">
+    <div className={`flex items-center flex-shrink-0 ${compact ? "gap-2" : "gap-3"}`}>
       <a
         href="https://www.ulsan.ac.kr/"
         target="_blank"
@@ -38,18 +49,18 @@ function HeaderLogos({ priority = false, onLabLogoClick }: { priority?: boolean;
           alt="University of Ulsan"
           width={180}
           height={48}
-          className="h-8 w-auto object-contain"
+          className={logoClass}
           priority={priority}
         />
       </a>
-      <span className="h-6 w-px bg-gray-200 shrink-0" aria-hidden />
+      <span className={dividerClass} aria-hidden />
       <Link href="/" className="flex-shrink-0" onClick={onLabLogoClick}>
         <Image
           src="/oepl-logo.png"
           alt="OEPL — Organic Electronic Physics Laboratory"
           width={132}
           height={44}
-          className="h-8 w-auto object-contain"
+          className={logoClass}
           priority={priority}
         />
       </Link>
@@ -170,7 +181,7 @@ export default function Header() {
           >
             <div className="flex w-full flex-col gap-10 min-h-0">
               <div className="flex w-full items-center justify-between shrink-0">
-                <HeaderLogos onLabLogoClick={() => setMobileOpen(false)} />
+                <HeaderLogos compact onLabLogoClick={() => setMobileOpen(false)} />
                 <button
                   type="button"
                   className="text-[#6b7280] hover:text-[#080d1e] transition-colors"
@@ -188,7 +199,7 @@ export default function Header() {
                     <Link
                       key={link.label}
                       href={link.href}
-                      className={`text-sm font-medium transition-colors ${
+                      className={`text-base font-medium transition-colors ${
                         active
                           ? "text-[#E88800]"
                           : "text-[#6b7280] hover:text-[#E88800]"
@@ -213,22 +224,22 @@ export default function Header() {
             <div className="flex w-full flex-col gap-6 shrink-0">
               <div className="h-px w-full bg-gray-100" />
 
-              <div className="flex items-center gap-1.5" aria-label="Switch language">
-                <Globe size={14} strokeWidth={1.8} className="text-[#6b7280]" />
+              <div className="flex items-center gap-2" aria-label="Switch language">
+                <Globe size={16} strokeWidth={1.8} className="text-[#6b7280]" />
                 <button
                   type="button"
                   onClick={() => setLang("KR")}
-                  className={`text-xs font-semibold transition-colors ${
+                  className={`text-sm font-semibold transition-colors ${
                     lang === "KR" ? "text-[#E88800]" : "text-[#9ca3af] hover:text-[#080d1e]"
                   }`}
                 >
                   KO
                 </button>
-                <span className="text-[#d1d5db] text-xs">|</span>
+                <span className="text-[#d1d5db] text-sm">|</span>
                 <button
                   type="button"
                   onClick={() => setLang("EN")}
-                  className={`text-xs font-semibold transition-colors ${
+                  className={`text-sm font-semibold transition-colors ${
                     lang === "EN" ? "text-[#E88800]" : "text-[#9ca3af] hover:text-[#080d1e]"
                   }`}
                 >

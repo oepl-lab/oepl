@@ -15,7 +15,7 @@ export default function FocusSection() {
               <p className="text-xs tracking-widest uppercase font-semibold mb-3" style={{ color: "#E88800" }}>
                 {t.focus.label}
               </p>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#080d1e]">{t.focus.title}</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-[#080d1e]">{t.focus.title}</h2>
             </div>
           </div>
 

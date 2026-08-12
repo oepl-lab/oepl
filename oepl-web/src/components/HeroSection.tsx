@@ -1,74 +1,203 @@
 "use client";
+
+import { useRef, useEffect, useCallback } from "react";
 import { ArrowRight } from "lucide-react";
-import OPVDiagram from "./OPVDiagram";
 import { useLang } from "@/contexts/LangContext";
+
+import BannerGlassStrips from "@/components/banner/BannerGlassStrips";
+
+const GLOW_LERP = 0.1;
+
+function HeroGlow() {
+  return (
+    <div
+      data-hero-glow
+      className="absolute pointer-events-none -translate-x-1/2 -translate-y-1/2"
+      style={{
+        left: "61%",
+        top: "37%",
+        width: 260,
+        height: 240,
+        mixBlendMode: "plus-lighter",
+      }}
+      aria-hidden
+    >
+      <div className="absolute inset-[-48%_-45%]">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/hero/ellipse-glow.svg"
+          alt=""
+          className="block size-full max-w-none"
+          draggable={false}
+        />
+      </div>
+    </div>
+  );
+}
+
+type HeroCopyProps = {
+  subtitle: string;
+  title: string;
+  btn1: string;
+  btn2: string;
+};
+
+function HeroGlowAwareCopy({ subtitle, title, btn1, btn2 }: HeroCopyProps) {
+  return (
+    <>
+      <p className="mb-3 text-base font-medium leading-normal text-[#E88800] md:mb-4 md:text-lg">
+        {subtitle}
+      </p>
+
+      <div
+        className="mb-3 w-full max-w-[200px] sm:max-w-[240px] md:mb-4 md:max-w-[300px] aspect-[460/148]"
+        aria-hidden
+      />
+
+      <h1 className="mb-8 text-2xl font-bold uppercase tracking-wide text-[#E88800] md:mb-10 md:text-3xl md:leading-snug">
+        {title}
+      </h1>
+
+      <div className="flex flex-wrap items-center gap-3">
+        <span
+          className="inline-flex items-center gap-2 rounded-full bg-white text-sm font-semibold opacity-0"
+          style={{
+            padding: "var(--spacing-300) var(--spacing-600)",
+            borderRadius: "var(--radius-pill)",
+          }}
+          aria-hidden
+        >
+          {btn1}
+          <ArrowRight size={14} />
+        </span>
+        <span
+          className="inline-flex items-center rounded-full border border-[#E88800] text-sm font-medium text-[#E88800]"
+          style={{
+            padding: "var(--spacing-300) var(--spacing-600)",
+            borderRadius: "var(--radius-pill)",
+          }}
+        >
+          {btn2}
+        </span>
+      </div>
+    </>
+  );
+}
 
 export default function HeroSection() {
   const { t } = useLang();
+  const sectionRef = useRef<HTMLElement>(null);
+  const targetRef = useRef({ x: 0.61, y: 0.37 });
+  const currentRef = useRef({ x: 0.61, y: 0.37 });
+  const rafRef = useRef<number | undefined>(undefined);
+
+  const animate = useCallback(() => {
+    const section = sectionRef.current;
+    if (section) {
+      const cur = currentRef.current;
+      const tgt = targetRef.current;
+      cur.x += (tgt.x - cur.x) * GLOW_LERP;
+      cur.y += (tgt.y - cur.y) * GLOW_LERP;
+      section.querySelectorAll<HTMLElement>("[data-hero-glow]").forEach((el) => {
+        el.style.left = `${cur.x * 100}%`;
+        el.style.top = `${cur.y * 100}%`;
+      });
+      section.style.setProperty("--hero-glow-x", `${cur.x * 100}%`);
+      section.style.setProperty("--hero-glow-y", `${cur.y * 100}%`);
+    }
+    rafRef.current = requestAnimationFrame(animate);
+  }, []);
+
+  useEffect(() => {
+    rafRef.current = requestAnimationFrame(animate);
+    const section = sectionRef.current;
+    if (section) {
+      section.style.setProperty("--hero-glow-x", "61%");
+      section.style.setProperty("--hero-glow-y", "37%");
+    }
+    return () => {
+      if (rafRef.current !== undefined) cancelAnimationFrame(rafRef.current);
+    };
+  }, [animate]);
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    const rect = sectionRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    targetRef.current = {
+      x: Math.min(0.88, Math.max(0.12, x)),
+      y: Math.min(0.82, Math.max(0.18, y)),
+    };
+  };
+
   return (
-    <section className="relative min-h-screen flex flex-col overflow-hidden bg-[var(--color-bg)]">
-      {/* Background stars */}
-      <div className="absolute inset-0 hero-stars opacity-25 pointer-events-none" />
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 80% at 65% 50%, rgba(36,36,36,0.6) 0%, transparent 70%)",
-        }}
-      />
-      {/* Brand ambient glow */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          width: 600,
-          height: 400,
-          borderRadius: "50%",
-          background:
-            "radial-gradient(ellipse, rgba(232,136,0,0.06) 0%, transparent 70%)",
-          top: "30%",
-          left: "-10%",
-        }}
-      />
+    <section
+      ref={sectionRef}
+      onPointerMove={handlePointerMove}
+      className="hero-section relative flex min-h-[min(640px,85svh)] flex-col overflow-hidden pt-16"
+      style={{
+        background:
+          "linear-gradient(to bottom, #e88800 0%, #e88800 4rem, #000 4rem, #e88800 51.923%, #fff 100%)",
+      }}
+    >
+      <BannerGlassStrips />
 
-      {/* Main */}
-      <div className="relative flex-1 max-w-7xl mx-auto w-full px-6 flex flex-col md:flex-row items-center gap-8 pt-16 pb-16">
-        {/* Left */}
-        <div className="flex-1 flex flex-col justify-center">
-          <p className="section-label mb-5">{t.hero.subtitle}</p>
+      <HeroGlow />
 
-          <h1 className="text-5xl font-bold leading-tight text-[var(--color-text)]">
-            OEPL
-          </h1>
-          <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold leading-[1.1] mb-8 text-[var(--color-text)] whitespace-pre-line">
-            {t.hero.title}
-          </h1>
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-6 pb-12 pt-6 md:pb-16 md:pt-8">
+        <p className="mb-3 text-base font-medium leading-normal text-white md:mb-4 md:text-lg">
+          {t.hero.subtitle}
+        </p>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <a
-              href="/about#research"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--color-brand)] text-[var(--color-neutral-950)] font-semibold text-sm hover:bg-[var(--color-brand-hover)] transition-colors glow-box-orange"
-              style={{ padding: "var(--spacing-300) var(--spacing-600)" }}
-            >
-              {t.hero.btn1}
-              <ArrowRight size={15} />
-            </a>
-            <a
-              href="#publications"
-              className="inline-flex items-center gap-2 rounded-full border text-[var(--color-subtle)] font-medium text-sm transition-all hover:border-[var(--color-brand)] hover:text-[var(--color-text)]"
-              style={{
-                padding: "var(--spacing-300) var(--spacing-600)",
-                borderColor: "var(--color-border)",
-                borderRadius: "var(--radius-pill)",
-              }}
-            >
-              {t.hero.btn2}
-            </a>
-          </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/hero/oepl-wordmark.svg"
+          alt="OEPL"
+          className="mb-3 h-auto w-full max-w-[200px] sm:max-w-[240px] md:mb-4 md:max-w-[300px]"
+          draggable={false}
+        />
+
+        <h1 className="mb-8 text-2xl font-bold uppercase tracking-wide text-white md:mb-10 md:text-3xl md:leading-snug">
+          {t.hero.title}
+        </h1>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <a
+            href="/about#research"
+            className="inline-flex items-center gap-2 rounded-full bg-white text-sm font-semibold text-[#0a0a0a] glow-box-orange transition-opacity hover:opacity-90"
+            style={{
+              padding: "var(--spacing-300) var(--spacing-600)",
+              borderRadius: "var(--radius-pill)",
+            }}
+          >
+            {t.hero.btn1}
+            <ArrowRight size={14} aria-hidden />
+          </a>
+          <a
+            href="#publications"
+            className="inline-flex items-center rounded-full border border-white text-sm font-medium text-white transition-opacity hover:opacity-80"
+            style={{
+              padding: "var(--spacing-300) var(--spacing-600)",
+              borderRadius: "var(--radius-pill)",
+            }}
+          >
+            {t.hero.btn2}
+          </a>
         </div>
+      </div>
 
-        {/* Right — OPV Diagram */}
-        <div className="flex-1 relative min-h-[340px] hidden md:block">
-          <OPVDiagram />
+      <div
+        className="hero-glow-text-overlay pointer-events-none absolute inset-0 z-20 flex flex-col pt-16"
+        aria-hidden
+      >
+        <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-6 pb-12 pt-6 md:pb-16 md:pt-8">
+          <HeroGlowAwareCopy
+            subtitle={t.hero.subtitle}
+            title={t.hero.title}
+            btn1={t.hero.btn1}
+            btn2={t.hero.btn2}
+          />
         </div>
       </div>
     </section>

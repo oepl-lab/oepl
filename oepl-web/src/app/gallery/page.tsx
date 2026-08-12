@@ -7,6 +7,7 @@ import { useLang } from "@/contexts/LangContext";
 import { useContent } from "@/contexts/ContentContext";
 import type { GalleryCategory } from "@/types/content";
 import { galleryCoverPhoto } from "@/lib/content/display";
+import PageBanner from "@/components/PageBanner";
 
 type Category = "전체" | GalleryCategory;
 
@@ -47,12 +48,7 @@ export default function GalleryPage() {
       <main className="min-h-screen bg-white">
 
         {/* Banner */}
-        <section className="bg-[#080d1e] pt-16 flex items-center justify-center" style={{ minHeight: 200 }}>
-          <div className="text-center">
-            <p className="section-label mb-2">OEPL</p>
-            <h1 className="text-5xl font-bold leading-tight text-white">{t.gallery.banner}</h1>
-          </div>
-        </section>
+        <PageBanner title={t.gallery.banner} />
 
         {/* Gallery */}
         <section className="section-y">
@@ -113,7 +109,7 @@ export default function GalleryPage() {
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span
-                        className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+                        className="text-2xs font-semibold px-2 py-0.5 rounded-full"
                         style={{
                           background: catColors[photo.category].bg || "#f3f4f6",
                           color: catColors[photo.category].text,
@@ -122,7 +118,7 @@ export default function GalleryPage() {
                       >
                         {photo.category}
                       </span>
-                      <span className="text-[10px] text-[#9ca3af]">{photo.date}</span>
+                      <span className="text-2xs text-[#9ca3af]">{photo.date}</span>
                     </div>
                     <p className="text-sm font-medium text-[#080d1e] leading-snug break-keep group-hover:text-[#E88800] transition-colors">
                       {photo.title}

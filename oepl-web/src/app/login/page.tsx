@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import FooterCTA from "@/components/FooterCTA";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLang } from "@/contexts/LangContext";
+import PageBanner from "@/components/PageBanner";
 
 function safeNextPath(next: string | null): string {
   if (!next || !next.startsWith("/admin")) return "/admin";
@@ -52,12 +53,7 @@ function LoginPageContent() {
     <>
       <Header />
       <main className="min-h-screen bg-white">
-        <section className="bg-[#080d1e] pt-16 flex items-center justify-center" style={{ minHeight: 200 }}>
-          <div className="text-center">
-            <p className="section-label mb-2">OEPL</p>
-            <h1 className="text-5xl font-bold leading-tight text-white">{l.banner}</h1>
-          </div>
-        </section>
+        <PageBanner title={l.banner} />
 
         <section className="section-y">
           <div className="max-w-md mx-auto px-6">

@@ -29,22 +29,6 @@ export const brandPalette: BrandColorToken[] = [
     lightLabel: true,
     name: { kr: "Neutral 900", en: "Neutral 900" },
   },
-  {
-    id: "subtle",
-    token: "color.neutral.500",
-    cssVar: "--color-subtle",
-    hex: c.neutral["500"].$value,
-    lightLabel: false,
-    name: { kr: "Neutral 500", en: "Neutral 500" },
-  },
-  {
-    id: "surface",
-    token: "color.neutral.50",
-    cssVar: "--color-neutral-50",
-    hex: c.neutral["50"].$value,
-    lightLabel: false,
-    name: { kr: "Neutral 50", en: "Neutral 50" },
-  },
 ];
 
 export function brandColorStyle(cssVar: string): string {

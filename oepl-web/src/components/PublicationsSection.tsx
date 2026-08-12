@@ -20,7 +20,7 @@ export default function PublicationsSection() {
         <div className="flex items-center justify-between mb-10">
           <div>
             <p className="section-label mb-1">{t.publications.label}</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#080d1e]">{t.publications.title}</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-[#080d1e]">{t.publications.title}</h2>
           </div>
           <Link
             href="/publication"

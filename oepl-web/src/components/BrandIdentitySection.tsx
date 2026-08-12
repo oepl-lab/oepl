@@ -41,7 +41,7 @@ export default function BrandIdentitySection() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-10">
           <p className="section-label mb-1">{b.label}</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-[var(--color-neutral-900)]">{b.sectionTitle}</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-[var(--color-neutral-900)]">{b.sectionTitle}</h2>
         </div>
 
         <div className="flex flex-wrap gap-0 border border-[var(--color-neutral-200)] rounded-t-xl overflow-hidden mb-0">
@@ -72,24 +72,26 @@ export default function BrandIdentitySection() {
                 ))}
               </div>
 
-              <div className="mt-6 flex flex-wrap gap-3">
-                {(
-                  [
-                    { label: b.downloadPng, href: active.assets.png, key: "png" },
-                    { label: b.downloadAi, href: b.aiDownload, key: "ai" },
-                  ] as const
-                ).map((dl) => (
-                  <a
-                    key={dl.key}
-                    href={dl.href}
-                    download
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-[var(--color-neutral-200)] bg-white text-sm font-medium text-[var(--color-neutral-700)] hover:border-[color-mix(in_srgb,var(--color-brand)_50%,transparent)] hover:text-[var(--color-brand)] transition-colors"
-                  >
-                    {dl.label}
-                    <Download size={16} />
-                  </a>
-                ))}
-              </div>
+              {tab !== "colors" && (
+                <div className="mt-6 flex flex-wrap gap-3">
+                  {(
+                    [
+                      { label: b.downloadPng, href: active.assets.png, key: "png" },
+                      { label: b.downloadAi, href: b.aiDownload, key: "ai" },
+                    ] as const
+                  ).map((dl) => (
+                    <a
+                      key={dl.key}
+                      href={dl.href}
+                      download
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md border border-[var(--color-neutral-200)] bg-white text-sm font-medium text-[var(--color-neutral-700)] hover:border-[color-mix(in_srgb,var(--color-brand)_50%,transparent)] hover:text-[var(--color-brand)] transition-colors"
+                    >
+                      {dl.label}
+                      <Download size={16} />
+                    </a>
+                  ))}
+                </div>
+              )}
 
               {tab === "colors" && (
                 <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-6">
@@ -113,7 +115,7 @@ export default function BrandIdentitySection() {
 
             <div className="p-6 md:p-8 flex flex-col items-center justify-center bg-[var(--color-neutral-50)]">
               {tab === "colors" ? (
-                <div className="w-full max-w-full md:max-w-xs grid grid-cols-4 md:grid-cols-2 gap-2 md:gap-3">
+                <div className="w-full max-w-full md:max-w-xs grid grid-cols-2 gap-2 md:gap-3">
                   {brandPalette.map((item) => (
                     <div
                       key={item.id}
@@ -121,7 +123,7 @@ export default function BrandIdentitySection() {
                       style={{ background: brandColorStyle(item.cssVar) }}
                     >
                       <span
-                        className="text-[10px] md:text-xs font-mono font-semibold px-1.5 py-0.5 md:px-2 md:py-1 rounded"
+                        className="text-2xs md:text-xs font-mono font-semibold px-1.5 py-0.5 md:px-2 md:py-1 rounded"
                         style={{
                           background: item.lightLabel ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.06)",
                           color: item.lightLabel ? "#fff" : "var(--color-neutral-700)",

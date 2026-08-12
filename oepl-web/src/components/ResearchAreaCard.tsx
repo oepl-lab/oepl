@@ -15,7 +15,7 @@ function OverlayContent({ area, detailClassName }: { area: ResearchArea; detailC
   return (
     <>
       <div className="flex flex-col gap-2 mb-4 shrink-0">
-        <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full w-fit bg-[#E88800]/10 text-[#E88800] border border-[#E88800]/20">
+        <span className="text-2xs font-semibold px-2.5 py-0.5 rounded-full w-fit bg-[#E88800]/10 text-[#E88800] border border-[#E88800]/20">
           {area.tag}
         </span>
         <h3 className="font-bold text-sm md:text-base text-[#080d1e] leading-snug">{area.title}</h3>
@@ -36,7 +36,7 @@ function CardBody({ area, image }: { area: ResearchArea; image: string | null })
       </div>
 
       <div className="p-4 md:p-6 flex flex-col gap-2 md:gap-3 flex-1">
-        <span className="text-[10px] font-semibold px-2.5 py-0.5 rounded-full w-fit bg-[#E88800]/10 text-[#E88800] border border-[#E88800]/20">
+        <span className="text-2xs font-semibold px-2.5 py-0.5 rounded-full w-fit bg-[#E88800]/10 text-[#E88800] border border-[#E88800]/20">
           {area.tag}
         </span>
         <h3 className="font-bold text-sm md:text-base text-[#080d1e] leading-snug">{area.title}</h3>

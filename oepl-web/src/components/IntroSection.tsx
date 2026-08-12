@@ -11,7 +11,7 @@ export default function IntroSection() {
           <div>
             <div className="mb-10">
               <p className="section-label mb-1">{t.intro.label}</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-[#080d1e] mb-4 leading-snug">
+              <h2 className="text-2xl md:text-3xl font-bold text-[#080d1e] mb-4 leading-snug">
                 {t.intro.title}
               </h2>
             </div>

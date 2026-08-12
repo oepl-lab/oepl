@@ -33,7 +33,7 @@ function NewsCard({
       className="group flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-5 transition-colors hover:border-[#E88800]/40"
     >
       <div className="flex items-center justify-between gap-2 mb-3">
-        <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#E88800]/15 text-[#E88800] border border-[#E88800]/30 truncate">
+        <span className="px-2 py-0.5 rounded-full text-2xs font-semibold bg-[#E88800]/15 text-[#E88800] border border-[#E88800]/30 truncate">
           {display.type}
         </span>
         <span className="text-xs text-[#9ca3af] shrink-0">{display.date}</span>
@@ -274,7 +274,7 @@ export default function NewsSection() {
         <div className="flex items-center justify-between mb-10">
           <div>
             <p className="section-label mb-1">{t.news.label}</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#080d1e]">{t.news.title}</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-[#080d1e]">{t.news.title}</h2>
           </div>
           <Link
             href="/news"

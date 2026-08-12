@@ -24,7 +24,7 @@ export default function PublicationCard({ pub, lang }: Props) {
         <div className="flex flex-wrap items-center gap-2">
           {pub.journal?.trim() && (
             <span
-              className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+              className="text-2xs font-semibold px-2 py-0.5 rounded-full"
               style={{
                 background: "rgba(232,136,0,0.1)",
                 color: "#E88800",
@@ -35,7 +35,7 @@ export default function PublicationCard({ pub, lang }: Props) {
             </span>
           )}
           {pubDate && (
-            <span className="text-[10px] font-medium text-[#9ca3af]">{pubDate}</span>
+            <span className="text-2xs font-medium text-[#9ca3af]">{pubDate}</span>
           )}
         </div>
         {doiHref && (

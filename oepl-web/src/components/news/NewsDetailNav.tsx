@@ -28,7 +28,7 @@ function NavCell({
   const Icon = isPrev ? ChevronDown : ChevronUp;
 
   const labelEl = (
-    <span className="inline-flex shrink-0 items-center gap-1 text-[10px] font-semibold text-[#9ca3af] uppercase tracking-wide">
+    <span className="inline-flex shrink-0 items-center gap-1 text-2xs font-semibold text-[#9ca3af] uppercase tracking-wide">
       <Icon size={12} />
       {label}
     </span>

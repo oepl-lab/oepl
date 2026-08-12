@@ -39,7 +39,7 @@ function sortResearchItems(items: ResearchItem[]) {
 
 function TagBadge({ tag }: { tag: string }) {
   return (
-    <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#E88800]/15 text-[#E88800] border border-[#E88800]/30 w-fit">
+    <span className="inline-block px-2.5 py-0.5 rounded-full text-2xs font-semibold bg-[#E88800]/15 text-[#E88800] border border-[#E88800]/30 w-fit">
       {tag}
     </span>
   );
@@ -126,7 +126,7 @@ export default function ResearchSection() {
         <div className="flex items-end justify-between mb-10">
           <div>
             <p className="section-label mb-3">{t.research.label}</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#080d1e]">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#080d1e]">
               {t.research.title}
             </h2>
           </div>

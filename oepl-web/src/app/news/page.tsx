@@ -9,6 +9,7 @@ import { useContent } from "@/contexts/ContentContext";
 import { newsDisplay, sortNewsItems, latestNewsId } from "@/lib/content/display";
 import NewsNewBadge from "@/components/news/NewsNewBadge";
 import NewsPinnedBadge from "@/components/news/NewsPinnedBadge";
+import PageBanner from "@/components/PageBanner";
 
 const PER_PAGE = 10;
 
@@ -131,13 +132,7 @@ export default function NewsPage() {
       <Header />
       <main className="min-h-screen bg-white">
 
-        {/* Banner */}
-        <section className="bg-[#080d1e] pt-16 flex items-center justify-center" style={{ minHeight: 200 }}>
-          <div className="text-center">
-            <p className="section-label mb-2">OEPL</p>
-            <h1 className="text-5xl font-bold leading-tight text-white">{t.news.banner}</h1>
-          </div>
-        </section>
+        <PageBanner title={t.news.banner} />
 
         {/* Notice list */}
         <section className="section-y">
@@ -148,7 +143,7 @@ export default function NewsPage() {
               <SortDropdown sortOrder={sortOrder} setSortOrder={setSortOrderAndReset} />
             </div>
             {/* List header — desktop */}
-            <div className="hidden sm:grid grid-cols-[48px_1fr_96px] gap-4 px-4 py-3 border-y border-gray-200 bg-gray-50 text-[10px] font-semibold uppercase tracking-widest text-[#9ca3af] text-center">
+            <div className="hidden sm:grid grid-cols-[48px_1fr_96px] gap-4 px-4 py-3 border-y border-gray-200 bg-gray-50 text-2xs font-semibold uppercase tracking-widest text-[#9ca3af] text-center">
               <span>{t.news.colNo}</span>
               <span>{t.news.colTitle}</span>
               <span>{t.news.colDate}</span>
@@ -175,7 +170,7 @@ export default function NewsPage() {
                   <div className="min-w-0">
                     <div className="sm:hidden mb-1 flex items-center gap-1.5">
                       {item.pinned && <NewsPinnedBadge label={t.news.badgePinned} />}
-                      <span className="text-[10px] text-[#9ca3af]">{display.date}</span>
+                      <span className="text-2xs text-[#9ca3af]">{display.date}</span>
                     </div>
                     <h2 className="text-sm font-semibold text-[#080d1e] leading-snug group-hover:text-[#E88800] transition-colors flex items-center gap-1.5 min-w-0">
                       {item.id === latestId && <NewsNewBadge label={t.news.badgeNew} />}
