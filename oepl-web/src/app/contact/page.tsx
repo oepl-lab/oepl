@@ -80,7 +80,7 @@ export default function ContactPage() {
       <Header />
       <main className="min-h-screen bg-white">
 
-        <PageBanner title={c.title} />
+        <PageBanner title={c.banner} />
 
         {/* Content */}
         <section className="section-y">

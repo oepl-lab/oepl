@@ -215,24 +215,30 @@ body {
   -webkit-filter: blur(var(--hero-glow-blur));
 }
 
-/* Inner page banner — Figma Frame 642:516 */
+/* Inner page banner — Figma Frame 642:516 / Frame 179 */
 .page-banner {
   isolation: isolate;
 }
-.page-banner__atmosphere {
-  background:
-    radial-gradient(ellipse 130% 100% at 50% 55%, rgba(232, 136, 0, 0.9) 0%, rgba(180, 95, 0, 0.5) 45%, rgba(40, 22, 0, 0.85) 100%),
-    linear-gradient(180deg, #3d2200 0%, #1a1a1a 100%);
-}
-.page-banner-glow {
-  pointer-events: none;
+.page-banner__ellipse {
+  position: absolute;
   z-index: 0;
+  transform: rotate(180deg);
 }
-.page-banner-glow--wide {
-  background: radial-gradient(ellipse 110% 90% at 50% 45%, rgba(255, 200, 80, 0.45) 0%, rgba(232, 136, 0, 0.2) 50%, transparent 78%);
+/* Figma 642:516 — banner band 135px; ellipses from y=134/97 frame → top 70/33 below header */
+.page-banner__ellipse--wide {
+  top: 53%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 86.67%;
 }
-.page-banner-glow--center {
-  background: radial-gradient(ellipse 75% 70% at 50% 40%, rgba(255, 210, 100, 0.35) 0%, transparent 68%);
+.page-banner__ellipse--center {
+  top: 29%;
+  left: 50%;
+  width: 74.31%;
+  max-width: 1070px;
+  height: 114.07%;
+  transform: translateX(-50%) rotate(180deg);
 }
 
 /* Card hover */

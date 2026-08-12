@@ -111,7 +111,7 @@ export interface Translations {
     empty: string;
   };
   contact: {
-    label: string; title: string; heading: string;
+    label: string; banner: string; title: string; heading: string;
     addressLabel: string; address: string; addressEn: string;
     phoneLabel: string; emailLabel: string; hoursLabel: string; hours: string;
     copySuccess: string;
@@ -389,7 +389,7 @@ const KR: Translations = {
     empty: "해당 카테고리의 행사가 없습니다.",
   },
   contact: {
-    label: "Contact Us", title: "연락처", heading: "Contact Us",
+    label: "Contact Us", banner: "Contact", title: "연락처", heading: "Contact Us",
     addressLabel: "주소",
     address: "(44610) 울산광역시 남구 대학로 93, 울산대학교 자연과학대학 8호관 8-224호 / 8-228호",
     addressEn: "(44610) Room 8-224 / 8-228, Building 8, College of Natural Sciences, Ulsan University,\n93, Daehak-ro, Nam-gu, Ulsan, Republic of Korea",
@@ -679,7 +679,7 @@ const EN: Translations = {
     empty: "No events in this category.",
   },
   contact: {
-    label: "Contact Us", title: "Contact", heading: "Contact Us",
+    label: "Contact Us", banner: "Contact", title: "Contact", heading: "Contact Us",
     addressLabel: "Address",
     address: "(44610) 울산광역시 남구 대학로 93, 울산대학교 자연과학대학 8호관 8-224호 / 8-228호",
     addressEn: "(44610) Room 8-224 / 8-228, Building 8, College of Natural Sciences, Ulsan University,\n93, Daehak-ro, Nam-gu, Ulsan, Republic of Korea",
