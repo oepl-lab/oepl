@@ -167,15 +167,36 @@ body {
     0 0 60px rgba(232, 136, 0, 0.10);
 }
 
-/* Hero — orange copy reveals only inside the ellipse glow (per-pixel mask) */
+/* Hero — Figma Frame 175 / Ellipse 63 */
 .hero-section {
   --hero-glow-x: 61%;
   --hero-glow-y: 37%;
-  --hero-glow-r: clamp(170px, 34vw, 280px);
+  --hero-glow-w: 470px;
+  --hero-glow-h: 441px;
+  --hero-glow-rx: 235px;
+  --hero-glow-ry: 220.5px;
+  --hero-glow-blur: 75px;
+  --hero-glow-mask-rx: calc(var(--hero-glow-rx) + var(--hero-glow-blur) * 0.5);
+  --hero-glow-mask-ry: calc(var(--hero-glow-ry) + var(--hero-glow-blur) * 0.5);
+}
+/* Fill #FFF · Layer blur 75 · Blend plus-lighter (Figma Ellipse 63) */
+.hero-glow-ellipse {
+  position: absolute;
+  z-index: 3;
+  left: var(--hero-glow-x);
+  top: var(--hero-glow-y);
+  width: var(--hero-glow-w);
+  height: var(--hero-glow-h);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #ffffff;
+  filter: blur(var(--hero-glow-blur));
+  -webkit-filter: blur(var(--hero-glow-blur));
+  mix-blend-mode: plus-lighter;
 }
 .hero-glow-text-overlay {
   -webkit-mask-image: radial-gradient(
-    circle var(--hero-glow-r) at var(--hero-glow-x) var(--hero-glow-y),
+    ellipse var(--hero-glow-mask-rx) var(--hero-glow-mask-ry) at var(--hero-glow-x) var(--hero-glow-y),
     #000 0%,
     #000 14%,
     rgb(0 0 0 / 88%) 28%,
@@ -184,7 +205,7 @@ body {
     transparent 72%
   );
   mask-image: radial-gradient(
-    circle var(--hero-glow-r) at var(--hero-glow-x) var(--hero-glow-y),
+    ellipse var(--hero-glow-mask-rx) var(--hero-glow-mask-ry) at var(--hero-glow-x) var(--hero-glow-y),
     #000 0%,
     #000 14%,
     rgb(0 0 0 / 88%) 28%,

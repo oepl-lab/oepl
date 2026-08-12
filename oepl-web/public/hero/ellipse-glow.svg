@@ -3,9 +3,7 @@
 <ellipse cx="318" cy="307.5" rx="168" ry="157.5" fill="white"/>
 </g>
 <defs>
-<filter id="filter0_f_629_468" x="0" y="0" width="636" height="615" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<filter id="filter0_f_629_468" x="-40%" y="-40%" width="180%" height="180%" filterUnits="objectBoundingBox" color-interpolation-filters="sRGB">
 <feGaussianBlur stdDeviation="75" result="effect1_foregroundBlur_629_468"/>
 </filter>
 </defs>

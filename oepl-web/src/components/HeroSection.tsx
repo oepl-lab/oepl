@@ -8,30 +8,22 @@ import BannerGlassStrips from "@/components/banner/BannerGlassStrips";
 
 const GLOW_LERP = 0.1;
 
+/** Figma Ellipse 63 — boosted ~1.4× to match plus-lighter bloom at lower banner */
+const FIGMA_GLOW = {
+  width: 336,
+  height: 315,
+  blur: 75,
+  minWidth: 300,
+  scale: 1.4,
+} as const;
+
 function HeroGlow() {
   return (
     <div
       data-hero-glow
-      className="absolute pointer-events-none -translate-x-1/2 -translate-y-1/2"
-      style={{
-        left: "61%",
-        top: "37%",
-        width: 260,
-        height: 240,
-        mixBlendMode: "plus-lighter",
-      }}
+      className="hero-glow-ellipse pointer-events-none"
       aria-hidden
-    >
-      <div className="absolute inset-[-48%_-45%]">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/hero/ellipse-glow.svg"
-          alt=""
-          className="block size-full max-w-none"
-          draggable={false}
-        />
-      </div>
-    </div>
+    />
   );
 }
 
@@ -111,12 +103,31 @@ export default function HeroSection() {
   useEffect(() => {
     rafRef.current = requestAnimationFrame(animate);
     const section = sectionRef.current;
-    if (section) {
-      section.style.setProperty("--hero-glow-x", "61%");
-      section.style.setProperty("--hero-glow-y", "37%");
-    }
+    if (!section) return;
+
+    section.style.setProperty("--hero-glow-x", "61%");
+    section.style.setProperty("--hero-glow-y", "37%");
+
+    const syncGlowSize = () => {
+      const sectionWidth = section.getBoundingClientRect().width;
+      const scaled =
+        FIGMA_GLOW.width * FIGMA_GLOW.scale * (sectionWidth / 1440);
+      const maxW = FIGMA_GLOW.width * FIGMA_GLOW.scale;
+      const glowW = Math.min(maxW, Math.max(FIGMA_GLOW.minWidth, scaled));
+      const glowH = glowW * (FIGMA_GLOW.height / FIGMA_GLOW.width);
+      section.style.setProperty("--hero-glow-w", `${glowW}px`);
+      section.style.setProperty("--hero-glow-h", `${glowH}px`);
+      section.style.setProperty("--hero-glow-rx", `${glowW / 2}px`);
+      section.style.setProperty("--hero-glow-ry", `${glowH / 2}px`);
+    };
+
+    syncGlowSize();
+    const observer = new ResizeObserver(syncGlowSize);
+    observer.observe(section);
+
     return () => {
       if (rafRef.current !== undefined) cancelAnimationFrame(rafRef.current);
+      observer.disconnect();
     };
   }, [animate]);
 
@@ -126,8 +137,8 @@ export default function HeroSection() {
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
     targetRef.current = {
-      x: Math.min(0.88, Math.max(0.12, x)),
-      y: Math.min(0.82, Math.max(0.18, y)),
+      x: Math.min(0.78, Math.max(0.22, x)),
+      y: Math.min(0.72, Math.max(0.26, y)),
     };
   };
 
@@ -135,13 +146,18 @@ export default function HeroSection() {
     <section
       ref={sectionRef}
       onPointerMove={handlePointerMove}
-      className="hero-section relative flex min-h-[min(640px,85svh)] flex-col overflow-hidden pt-16"
-      style={{
-        background:
-          "linear-gradient(to bottom, #e88800 0%, #e88800 4rem, #000 4rem, #e88800 51.923%, #fff 100%)",
-      }}
+      className="hero-section relative flex min-h-[min(640px,85svh)] flex-col pt-16"
     >
-      <BannerGlassStrips />
+      <div
+        className="absolute inset-0 overflow-hidden pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to bottom, #e88800 0%, #e88800 4rem, #000 4rem, #e88800 51.923%, #fff 100%)",
+        }}
+        aria-hidden
+      />
+
+      <BannerGlassStrips variant="hero" className="z-[2]" />
 
       <HeroGlow />
 
