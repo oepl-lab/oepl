@@ -10,7 +10,7 @@ import { headerBtnClass } from "@/components/admin/form-styles";
 
 const navLinks = [
   { label: "Home",        href: "/" },
-  { label: "About",       href: "/about" },
+  { label: "Research",    href: "/about" },
   { label: "Members",     href: "/members" },
   { label: "Publication", href: "/publication" },
   { label: "News",        href: "/news" },

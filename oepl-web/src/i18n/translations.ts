@@ -174,8 +174,8 @@ export interface Translations {
 const KR: Translations = {
   header: { login: "로그인" },
   hero: {
-    subtitle: "Organic Electronic Physics Laboratory",
-    title: "OEPL 유기전자 연구실",
+    subtitle: "Organic Electronic Physics Labotory",
+    title: "OEPL 유기전자물리 연구실",
     desc: "유기전자물리 연구실에서는 유기반도체를 이용한 전자 소자를 개발하는 연구를 진행하고 있습니다. 특히 유기태양전지 개발에 집중하며, 세계 최고 수준의 효율 달성을 목표로 합니다.",
     btn1: "연구 분야 보기",
     btn2: "논문 보기",
@@ -259,7 +259,7 @@ const KR: Translations = {
     bizNum: "사업자등록번호: 206-82-07306",
   },
   about: {
-    banner: "About",
+    banner: "Research",
     greetingLabel: "인사말",
     greetingTitle: "빛을 에너지로,\n연구를 미래로.",
     greetingPs: [
@@ -298,7 +298,7 @@ const KR: Translations = {
         title: "금속 잉크",
         desc: "전극·회로 형성을 위한 금속 MOD 잉크 소재 개발",
         detail:
-          "금속-유기 분해(MOD) 잉크는 유기 리간드와 배위된 금속 이온으로 구성된 입자 없는(particle-free) 금속 잉크로, 용해 가능한 금속-유기 착물 형태입니다. 분해 후 상대적으로 낮은 공정 온도에서 균일하고 고전도성인 금속 박막을 형성할 수 있습니다.",
+          "금속-유기 분해(MOD) 잉크는 유기 리간드와 배위된 금속 이온으로 구성된 입자 없는(particle-free) 금속 잉크로, 용해 가능한 금속-유기 착물 형태입니다. 분해 후 상대적으로 낮은 공정 온도에서 균일하고 고전도성인 금속 박막을 형성할 수 있습니다.\n\n특히 금속-리간드 착물 설계, 잉크 제형, 열·광·마이크로파 공정을 이용한 제어 소결에 중점을 두고, 박막 형성, 기판 접착, 전기 전도도 및 기계적 내구성을 좌우하는 메커니즘을 연구합니다.",
       },
       {
         tag: "ELA",
@@ -464,19 +464,19 @@ const KR: Translations = {
 const EN: Translations = {
   header: { login: "Log in" },
   hero: {
-    subtitle: "Organic Electronic Physics Laboratory",
-    title: "OEPL Organic Electronics Lab",
+    subtitle: "Organic Electronic Physics Labotory",
+    title: "OEPL 유기전자물리 연구실",
     desc: "We develop electronic devices using organic semiconductors, with a special focus on organic solar cells. Our goal is to achieve world-class efficiency and drive next-generation energy technology.",
     btn1: "Our Research",
     btn2: "View Papers",
   },
   intro: {
     label: "About Our Lab",
-    title: "About OEPL",
+    title: "Organic Electronic\nPhysics\u00a0Labotory(OEPL)",
     tagline: "Light into Energy, Research into the Future.",
-    p1: "Welcome to OEPL — Organic Electronic Physics Laboratory. We research next-generation energy and electronic device technologies based on organic semiconductors, working toward innovative organic solar cell development for a sustainable future.",
-    p2: "Organic semiconductors are organic molecular materials with a π-conjugated structure formed by alternating single and double bonds of carbon and hydrogen atoms. This enables flexible, lightweight next-generation electronic devices.",
-    p3: "Our lab systematically conducts material, process, and device research to improve organic photovoltaic (OPV) efficiency, aiming for world-leading research outcomes in collaboration with top institutions.",
+    p1: "Our lab is dedicated to the development of advanced electronic devices based on semiconductors. We focus on organic photovoltaics (OPVs), perovskite solar cells (PSCs), organic field-effect transistors (OFETs), and device physics, including charge transport, interfacial engineering, and comprehensive energy-loss analysis using Korea's only independently established energy-loss analysis system for organic solar cells.",
+    p2: "In addition, we actively collaborate with leading universities and research institutes in Korea and abroad to drive advances in electronic device technologies.",
+    p3: "",
     btn1: "Our Research",
     btn2: "Members",
     stats: [
@@ -511,7 +511,7 @@ const EN: Translations = {
   news: {
     banner: "News",
     label: "Latest News",
-    title: "Latest from OEPL",
+    title: "News of OEPL",
     more: "More",
     readMore: "Read more",
     colNo: "No.",
@@ -549,7 +549,7 @@ const EN: Translations = {
     bizNum: "Biz Reg. No.: 206-82-07306",
   },
   about: {
-    banner: "About",
+    banner: "Research",
     greetingLabel: "Greeting",
     greetingTitle: "Light into Energy,\nResearch into the Future.",
     greetingPs: [
@@ -560,7 +560,7 @@ const EN: Translations = {
     ],
     researchLabel: "About our Research",
     researchTitle: "Research Areas",
-    profPhoto: "Professor Photo",
+    profPhoto: "Photo",
     areas: [
       {
         tag: "OSCs",
@@ -588,7 +588,7 @@ const EN: Translations = {
         title: "Metal ink",
         desc: "Development of MOD metal inks for electrodes and circuit patterning",
         detail:
-          "Metal–organic decomposition (MOD) inks are particle-free metal inks composed of metal ions coordinated with organic ligands to form soluble metal–organic complexes. Upon decomposition, these inks can produce uniform, highly conductive metal films at relatively low processing temperatures.",
+          "Metal–organic decomposition (MOD) inks are particle-free metal inks composed of metal ions coordinated with organic ligands to form soluble metal–organic complexes. Upon decomposition, these inks can produce uniform, highly conductive metal films at relatively low processing temperatures.\n\nWith a particular focus on metal–ligand complex design, ink formulation, and controlled sintering using thermal, photonic, and microwave processes, we investigate the mechanisms governing film formation, substrate adhesion, electrical conductivity, and mechanical durability.",
       },
       {
         tag: "ELA",

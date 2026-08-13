@@ -47,7 +47,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="ko"
+      lang="en"
       className={`${googleSans.variable} ${notoSansKR.variable} ${ibmPlexMono.variable}`}
     >
       <body className="min-h-screen antialiased font-sans">

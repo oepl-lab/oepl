@@ -11,8 +11,15 @@ export default function IntroSection() {
           <div>
             <div className="mb-10">
               <p className="section-label mb-1">{t.intro.label}</p>
-              <h2 className="text-2xl md:text-3xl font-bold text-[#080d1e] mb-4 leading-snug">
-                {t.intro.title}
+              <h2 className="text-[clamp(1.125rem,4.6vw,1.875rem)] font-bold text-[#080d1e] mb-4 leading-snug">
+                {t.intro.title.split("\n").map((line, i) => (
+                  <span
+                    key={i}
+                    className={i > 0 ? "block whitespace-nowrap" : "block"}
+                  >
+                    {line}
+                  </span>
+                ))}
               </h2>
             </div>
 
@@ -21,9 +28,11 @@ export default function IntroSection() {
                 {t.intro.tagline}
               </p>
               <div className="space-y-4 text-[#6b7280] text-sm leading-relaxed">
-                <p>{t.intro.p1}</p>
-                <p>{t.intro.p2}</p>
-                <p>{t.intro.p3}</p>
+                {[t.intro.p1, t.intro.p2, t.intro.p3]
+                  .filter(Boolean)
+                  .map((paragraph, i) => (
+                    <p key={i}>{paragraph}</p>
+                  ))}
               </div>
             </div>
 

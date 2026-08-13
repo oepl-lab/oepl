@@ -93,7 +93,7 @@ const rawSeedContent = {
   members: {
     professor: {
       nameKo: "조신욱 교수",
-      nameEn: "Shin Uk Choi",
+      nameEn: "Prof. Choi Shin Uk",
       affiliationKr: "울산대학교 공과대학 반도체물리공학과",
       affiliationEn: "Dept. of Semiconductor Physics Engineering, Univ. of Ulsan",
       email: "sucho@ulsan.ac.kr",
