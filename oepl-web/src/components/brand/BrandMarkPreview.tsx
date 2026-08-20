@@ -3,17 +3,13 @@
 import { useEffect, useState } from "react";
 import { useLang } from "@/contexts/LangContext";
 import AnimatedSymbolMark from "@/components/brand/AnimatedSymbolMark";
+import AnimatedLogoMark from "@/components/brand/AnimatedLogoMark";
 
 type BrandPreviewTab = "symbol" | "logo" | "signature";
 
 type Props = {
   tab: BrandPreviewTab;
 };
-
-const LOGO_SRC = {
-  light: "/brand/oepl-logo-mark-light.png",
-  dark: "/brand/oepl-logo-mark-dark.png",
-} as const;
 
 const SIGNATURE_SRC = {
   light: "/brand/oepl-signature-light.png",
@@ -69,15 +65,11 @@ export default function BrandMarkPreview({ tab }: Props) {
   const previewBorder =
     hasBgToggle && darkBg ? "1px solid var(--color-neutral-800)" : "1px solid var(--color-neutral-200)";
 
-  const imageSrc = isLogo
+  const imageSrc = isSignature
     ? darkBg
-      ? LOGO_SRC.dark
-      : LOGO_SRC.light
-    : isSignature
-      ? darkBg
-        ? SIGNATURE_SRC.dark
-        : SIGNATURE_SRC.light
-      : null;
+      ? SIGNATURE_SRC.dark
+      : SIGNATURE_SRC.light
+    : null;
 
   return (
     <div className="flex flex-col items-center w-full">
@@ -90,15 +82,19 @@ export default function BrandMarkPreview({ tab }: Props) {
       >
         {isSymbol ? (
           <AnimatedSymbolMark playToken={playToken} className="w-32 h-32" />
+        ) : isLogo ? (
+          <AnimatedLogoMark
+            playToken={playToken}
+            darkMode={darkBg}
+            className="max-w-[280px]"
+          />
         ) : imageSrc ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             key={`${playToken}-${darkBg ? "dark" : "light"}`}
             src={imageSrc}
-            alt={isLogo ? "OEPL Logo Mark" : "OEPL Signature"}
-            className={`brand-reveal-image object-contain w-full h-auto ${
-              isSignature ? "max-h-32" : "max-h-28"
-            }`}
+            alt="OEPL Signature"
+            className="brand-reveal-image object-contain w-full h-auto max-h-32"
           />
         ) : null}
       </div>

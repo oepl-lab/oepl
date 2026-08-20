@@ -352,6 +352,12 @@ body {
   }
 }
 
+@keyframes brand-stroke-draw-offset {
+  to {
+    stroke-dashoffset: var(--draw-end-offset, 0);
+  }
+}
+
 @keyframes brand-image-reveal {
   from {
     clip-path: inset(0 100% 0 0);
@@ -363,8 +369,60 @@ body {
   }
 }
 
+@keyframes brand-logo-subtitle-reveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0.35;
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+@keyframes brand-logo-reveal-circle {
+  from {
+    clip-path: circle(0% at var(--reveal-origin-x, 50%) var(--reveal-origin-y, 6%));
+  }
+  to {
+    clip-path: circle(160% at var(--reveal-origin-x, 50%) var(--reveal-origin-y, 50%));
+  }
+}
+
+@keyframes brand-logo-reveal-from-top {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes brand-logo-reveal-from-bottom {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes brand-logo-reveal-from-left {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
 .brand-draw-stroke {
   animation: brand-stroke-draw var(--draw-duration, 1s) ease forwards;
+  animation-delay: var(--draw-delay, 0s);
+}
+
+.brand-draw-stroke-offset {
+  animation: brand-stroke-draw-offset var(--draw-duration, 1s) ease forwards;
   animation-delay: var(--draw-delay, 0s);
 }
 
@@ -372,8 +430,57 @@ body {
   animation: brand-image-reveal 1.05s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
+.brand-logo-subtitle-visible {
+  animation: brand-logo-subtitle-reveal 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.brand-logo-subtitle-pending {
+  clip-path: inset(0 100% 0 0);
+}
+
+.brand-logo-reveal-circle {
+  clip-path: circle(0% at var(--reveal-origin-x, 50%) var(--reveal-origin-y, 6%));
+  animation: brand-logo-reveal-circle var(--reveal-duration, 0.44s) ease forwards;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+.brand-logo-reveal-from-top {
+  clip-path: inset(0 0 100% 0);
+  animation: brand-logo-reveal-from-top var(--reveal-duration, 0.44s) ease forwards;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+.brand-logo-reveal-from-bottom {
+  clip-path: inset(100% 0 0 0);
+  animation: brand-logo-reveal-from-bottom var(--reveal-duration, 0.44s) ease forwards;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+.brand-logo-reveal-from-left {
+  clip-path: inset(0 100% 0 0);
+  animation: brand-logo-reveal-from-left var(--reveal-duration, 0.44s) ease forwards;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+.brand-logo-letter-pending.brand-logo-reveal-circle {
+  clip-path: circle(0% at var(--reveal-origin-x, 50%) var(--reveal-origin-y, 6%));
+}
+
+.brand-logo-letter-pending.brand-logo-reveal-from-top {
+  clip-path: inset(0 0 100% 0);
+}
+
+.brand-logo-letter-pending.brand-logo-reveal-from-bottom {
+  clip-path: inset(100% 0 0 0);
+}
+
+.brand-logo-letter-pending.brand-logo-reveal-from-left {
+  clip-path: inset(0 100% 0 0);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .brand-draw-stroke {
+  .brand-draw-stroke,
+  .brand-draw-stroke-offset {
     animation: none;
     stroke-dashoffset: 0;
   }
@@ -382,5 +489,20 @@ body {
     animation: none;
     clip-path: inset(0 0 0 0);
     opacity: 1;
+  }
+
+  .brand-logo-subtitle-visible,
+  .brand-logo-subtitle-pending {
+    animation: none;
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+
+  .brand-logo-reveal-circle,
+  .brand-logo-reveal-from-top,
+  .brand-logo-reveal-from-bottom,
+  .brand-logo-reveal-from-left {
+    animation: none;
+    clip-path: inset(0 0 0 0);
   }
 }
