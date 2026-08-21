@@ -10,22 +10,46 @@
   /* ----------------------------------------------------------
      FONT FAMILIES
   ---------------------------------------------------------- */
-  --font-sans:    "Pretendard", var(--font-noto-sans-kr), system-ui, sans-serif;
-  --font-sans-ko: var(--font-noto-sans-kr), "Noto Sans KR", sans-serif;
+  --font-sans:    var(--font-google-sans), var(--font-noto-sans-kr), system-ui, sans-serif;
+  --font-sans-ko: var(--font-noto-sans-kr), var(--font-google-sans), system-ui, sans-serif;
   --font-mono:    var(--font-ibm-plex-mono), "IBM Plex Mono", Menlo, monospace;
 
   /* ----------------------------------------------------------
      TYPE SCALE
+     Tailwind utilities use --text-* (text-sm, text-2xs, …).
+     --font-size-* aliases are for custom CSS (.section-label, etc.).
   ---------------------------------------------------------- */
-  --font-size-xs:   12px;
-  --font-size-sm:   13px;
-  --font-size-base: 16px;
-  --font-size-lg:   18px;
-  --font-size-xl:   20px;
-  --font-size-2xl:  24px;
-  --font-size-3xl:  36px;
-  --font-size-4xl:  48px;
-  --font-size-5xl:  64px;
+  --text-2xs: 11px;
+  --text-2xs--line-height: 1.45;
+  --text-xs: 12px;
+  --text-xs--line-height: 1.5;
+  --text-sm: 13px;
+  --text-sm--line-height: 1.5;
+  --text-base: 16px;
+  --text-base--line-height: 1.5;
+  --text-lg: 18px;
+  --text-lg--line-height: 1.4;
+  --text-xl: 20px;
+  --text-xl--line-height: 1.4;
+  --text-2xl: 24px;
+  --text-2xl--line-height: 1.3;
+  --text-3xl: 36px;
+  --text-3xl--line-height: 1.2;
+  --text-4xl: 48px;
+  --text-4xl--line-height: 1.15;
+  --text-5xl: 64px;
+  --text-5xl--line-height: 1.1;
+
+  --font-size-2xs:  var(--text-2xs);
+  --font-size-xs:   var(--text-xs);
+  --font-size-sm:   var(--text-sm);
+  --font-size-base: var(--text-base);
+  --font-size-lg:   var(--text-lg);
+  --font-size-xl:   var(--text-xl);
+  --font-size-2xl:  var(--text-2xl);
+  --font-size-3xl:  var(--text-3xl);
+  --font-size-4xl:  var(--text-4xl);
+  --font-size-5xl:  var(--text-5xl);
 
   /* ----------------------------------------------------------
      FONT WEIGHTS
@@ -80,6 +104,7 @@
 
   /* Brand */
   --color-brand:       #E88800;   /* amber-500 */
+  --color-brand-tint:  #F9E1BF;
   --color-brand-hover: #CC7700;   /* amber-hover */
   --color-brand-dark:  #A86000;   /* amber-dark */
 
@@ -102,6 +127,7 @@
   --spacing-2400: 96px;
   --spacing-3200: 128px;
   --spacing-4000: 160px;
+  --section-padding-y: var(--spacing-1200);
 
   /* ----------------------------------------------------------
      BORDER RADIUS
@@ -141,13 +167,87 @@ body {
     0 0 60px rgba(232, 136, 0, 0.10);
 }
 
+/* Hero — Figma Frame 175 / Ellipse 63 */
+.hero-section {
+  color-scheme: light;
+  /* vh fallback → svh/dvh; lvh on desktop for full laptop viewport */
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  --hero-glow-x: 71.2%;
+  --hero-glow-y: 57.2%;
+  --hero-glow-w: 336px;
+  --hero-glow-h: 315px;
+  --hero-glow-rx: 168px;
+  --hero-glow-ry: 157.5px;
+  --hero-glow-blur: 75px;
+}
+@media (min-width: 768px) {
+  .hero-section {
+    min-height: 100lvh;
+  }
+}
+
+/* Figma Frame 175 — gradient from below header; black holds ~10% then orange */
+.hero-section__gradient {
+  background: linear-gradient(
+    180deg,
+    #000000 0%,
+    #000000 10%,
+    #e88800 58.24%,
+    #ffffff 100%
+  );
+}
+
+/* Figma Ellipse 63 — behind glass, fill #FFF, blur 75, plus-lighter */
+.hero-glow-ellipse {
+  position: absolute;
+  z-index: 1;
+  left: var(--hero-glow-x);
+  top: var(--hero-glow-y);
+  width: var(--hero-glow-w);
+  height: var(--hero-glow-h);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #ffffff;
+  mix-blend-mode: plus-lighter;
+  filter: blur(var(--hero-glow-blur));
+  -webkit-filter: blur(var(--hero-glow-blur));
+}
+
+/* Inner page banner — Figma Frame 642:516 / Frame 179 */
+.page-banner {
+  isolation: isolate;
+}
+.page-banner__ellipse {
+  position: absolute;
+  z-index: 0;
+  transform: rotate(180deg);
+}
+/* Figma 642:516 — banner band 135px; ellipses from y=134/97 frame → top 70/33 below header */
+.page-banner__ellipse--wide {
+  top: 53%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 86.67%;
+}
+.page-banner__ellipse--center {
+  top: 29%;
+  left: 50%;
+  width: 74.31%;
+  max-width: 1070px;
+  height: 114.07%;
+  transform: translateX(-50%) rotate(180deg);
+}
+
 /* Card hover */
 .card-hover {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(232, 136, 0, 0.30);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(232, 136, 0, 0.16);
 }
 
 /* Star background */
@@ -166,6 +266,15 @@ body {
   text-transform: uppercase;
   color: var(--color-brand);
   font-weight: var(--font-weight-semibold);
+}
+
+/* Unified section vertical padding — token: section.paddingY / spacing-1200 (48px) */
+.section-y {
+  padding-block: var(--section-padding-y);
+}
+
+.section-anchor {
+  scroll-margin-top: var(--spacing-1600);
 }
 
 /* More / CTA button — token 기반 */
@@ -192,8 +301,208 @@ body {
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* Admin table — thin horizontal scrollbar + wheel scroll target */
+.admin-table-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db #f9fafb;
+}
+.admin-table-scroll::-webkit-scrollbar {
+  height: 3px;
+}
+.admin-table-scroll::-webkit-scrollbar-track {
+  background: #f9fafb;
+}
+.admin-table-scroll::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 9999px;
+}
+.admin-table-scroll::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* Admin modal — scrollbar inside white panel */
+.admin-modal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #E88800 #ffffff;
+}
+.admin-modal-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.admin-modal-scroll::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+.admin-modal-scroll::-webkit-scrollbar-thumb {
+  background: #E88800;
+  border-radius: 9999px;
+}
+.admin-modal-scroll::-webkit-scrollbar-thumb:hover {
+  background: #CC7700;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--color-bg); }
 ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-brand); }
+
+/* Brand CI — draw / reveal animations */
+@keyframes brand-stroke-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes brand-stroke-draw-offset {
+  to {
+    stroke-dashoffset: var(--draw-end-offset, 0);
+  }
+}
+
+@keyframes brand-image-reveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0.35;
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+@keyframes brand-logo-subtitle-reveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0.35;
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+@keyframes brand-logo-reveal-circle {
+  from {
+    clip-path: circle(0% at var(--reveal-origin-x, 50%) var(--reveal-origin-y, 6%));
+  }
+  to {
+    clip-path: circle(160% at var(--reveal-origin-x, 50%) var(--reveal-origin-y, 50%));
+  }
+}
+
+@keyframes brand-logo-reveal-from-top {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes brand-logo-reveal-from-bottom {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes brand-logo-reveal-from-left {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.brand-draw-stroke {
+  animation: brand-stroke-draw var(--draw-duration, 1s) ease forwards;
+  animation-delay: var(--draw-delay, 0s);
+}
+
+.brand-draw-stroke-offset {
+  animation: brand-stroke-draw-offset var(--draw-duration, 1s) ease forwards;
+  animation-delay: var(--draw-delay, 0s);
+}
+
+.brand-reveal-image {
+  animation: brand-image-reveal 1.05s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.brand-logo-subtitle-visible {
+  animation: brand-logo-subtitle-reveal 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.brand-logo-subtitle-pending {
+  clip-path: inset(0 100% 0 0);
+}
+
+.brand-logo-reveal-circle {
+  clip-path: circle(0% at var(--reveal-origin-x, 50%) var(--reveal-origin-y, 6%));
+  animation: brand-logo-reveal-circle var(--reveal-duration, 0.44s) ease forwards;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+.brand-logo-reveal-from-top {
+  clip-path: inset(0 0 100% 0);
+  animation: brand-logo-reveal-from-top var(--reveal-duration, 0.44s) ease forwards;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+.brand-logo-reveal-from-bottom {
+  clip-path: inset(100% 0 0 0);
+  animation: brand-logo-reveal-from-bottom var(--reveal-duration, 0.44s) ease forwards;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+.brand-logo-reveal-from-left {
+  clip-path: inset(0 100% 0 0);
+  animation: brand-logo-reveal-from-left var(--reveal-duration, 0.44s) ease forwards;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+.brand-logo-letter-pending.brand-logo-reveal-circle {
+  clip-path: circle(0% at var(--reveal-origin-x, 50%) var(--reveal-origin-y, 6%));
+}
+
+.brand-logo-letter-pending.brand-logo-reveal-from-top {
+  clip-path: inset(0 0 100% 0);
+}
+
+.brand-logo-letter-pending.brand-logo-reveal-from-bottom {
+  clip-path: inset(100% 0 0 0);
+}
+
+.brand-logo-letter-pending.brand-logo-reveal-from-left {
+  clip-path: inset(0 100% 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-draw-stroke,
+  .brand-draw-stroke-offset {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  .brand-reveal-image {
+    animation: none;
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+
+  .brand-logo-subtitle-visible,
+  .brand-logo-subtitle-pending {
+    animation: none;
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+
+  .brand-logo-reveal-circle,
+  .brand-logo-reveal-from-top,
+  .brand-logo-reveal-from-bottom,
+  .brand-logo-reveal-from-left {
+    animation: none;
+    clip-path: inset(0 0 0 0);
+  }
+}

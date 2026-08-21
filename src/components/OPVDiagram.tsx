@@ -68,7 +68,7 @@ export default function OPVDiagram() {
               style={{ borderColor: l.border }}
             />
             <span
-              className="text-[10px] whitespace-nowrap"
+              className="text-2xs whitespace-nowrap"
               style={{ color: l.glow ? "#E88800" : "#7f93b8" }}
             >
               {l.label}

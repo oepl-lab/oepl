@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main>
+      <main className="bg-white">
         {/* 01 – 히어로 배너 (Figma: banner-section) */}
         <HeroSection />
 
