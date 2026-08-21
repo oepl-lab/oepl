@@ -21,6 +21,8 @@ export type LogoDrawStep = {
   drawDirection?: LogoDrawDirection;
   /** Full mask path in _02 coords — overrides stroke SVG and drawStart */
   drawPath?: string;
+  /** Mask stroke-linejoin. Defaults to "round". */
+  strokeLinejoin?: "round" | "miter";
 };
 
 export type LogoClipBox = {
@@ -46,15 +48,60 @@ export type LogoClipBox = {
 export const LOGO_DRAW_SEQUENCE: LogoDrawStep[] = [
   {
     id: "o",
-    // CI: top-right → left → bottom-left → bottom-right (stem on mask-off reveal)
-    // Omit final V73 — butt cap on vertical end at (527,73) protrudes horizontally
+    // CI direction (matches the Figma reference): top-right → left → bottom-left →
+    // bottom-right, closing back at the start (527,73).
+    // Close with Z (not a coordinate-matched "H527") so the seam is a proper linejoin, not
+    // two overlapping butt caps.
     drawPath:
-      "M527 73H275C164.543 73 75 162.543 75 273V363C75 473.457 164.543 563 275 563H327C437.457 563 527 473.457 527 363",
+      "M527 73H275C164.543 73 75 162.543 75 273V363C75 473.457 164.543 563 275 563H327C437.457 563 527 473.457 527 363Z",
+    // The seam at (527,73) is the letterform's one genuinely sharp (non-tangent) corner —
+    // matching the Figma mark's square top-right corner (rounded-tl/bl/br only, no tr radius).
+    // "round" softens it into a visible bump right before the mask is stripped; "miter" keeps
+    // it crisp the whole time, so there's no round-then-snap flash at the end of the draw.
+    strokeLinejoin: "miter",
   },
   { id: "e", reverse: true },
   { id: "p" },
   { id: "l" },
 ];
+
+/**
+ * The "o" corner block (top-right, ~290 units tall) is much thicker than the ring's normal
+ * ~167-187 unit stroke width, so the main sweep's H275 pass only ever grazes its top edge —
+ * never enough to reveal it whole. Rather than let that show as a partial sliver (hollow
+ * notch) or patch it in early (a piece appearing before the sweep reaches it), this rect is
+ * added as its own white shape INSIDE "o"'s mask (unioned with the stroke path there — see
+ * AnimatedLogoMark's mask defs), not as a second clip-path/fill-path pair. Two separately
+ * clipped copies of the same fill, sitting edge to edge, each get their own antialiasing and
+ * leave a faint seam where they meet; one mask with two shapes doesn't. It stays invisible
+ * (zero size) until the tail end of the step, then grows in whole. Coordinates are in the
+ * fill's own viewBox (2428 × 956).
+ *
+ * The main sweep's own visible motion is actually done by ~75-78% of its length — the last
+ * quarter of drawPath lies inside the corner hole (clipped away), so it keeps "animating"
+ * with nothing to show for it. The corner reveal starts right around there — overlapping the
+ * dead tail of the main sweep in time, but not in anything actually visible, since nothing
+ * else is moving on screen during that window — and finishes exactly when the main sweep's
+ * own duration ends, so the two feel like one continuous motion instead of a separate second
+ * animation bolted on the end (starting the corner earlier, while the main sweep still has
+ * visible ground to cover, is what read as two things moving at once).
+ */
+export const LOGO_O_CORNER_CLIP: LogoClipBox = {
+  x: 560.103,
+  // Starts at the letter clip's own top (-20), not the "excess thickness" boundary
+  // (166.697) — the main stroke's start point (527,73 in _02 coords) has a butt cap, so it
+  // never reaches past x=527 there (butt caps don't extend past the path endpoint at all,
+  // only the perpendicular stroke width does). That leaves the sliver from x=527 out to the
+  // hole's right edge, for y above 166.697, permanently uncovered by the main layer — not a
+  // timing issue, a geometry one. Extending the hole to the full tab height hands that sliver
+  // to the corner layer too, instead of leaving a gap neither layer paints.
+  y: -20,
+  width: 186.701,
+  height: 464.526,
+};
+
+/** [start, end] as a fraction of the "o" main sweep's own duration. */
+export const LOGO_O_CORNER_REVEAL = { start: 0.78, end: 1 } as const;
 
 /** Map 02 stroke coords → original fill viewBox */
 export const LOGO_STROKE_SCALE = {
@@ -69,6 +116,33 @@ export const LOGO_LETTER_CLIPS: Record<LogoLetterId, LogoClipBox> = {
   p: { x: 1490, y: -20, width: 730, height: 820 },
   l: { x: 2225, y: -20, width: 215, height: 820 },
 };
+
+/**
+ * Excludes LOGO_O_CORNER_CLIP from whatever it's applied to — an evenodd "frame with a
+ * hole" path, in the fill's own viewBox. Applied to the STROKE PATH only (not the corner
+ * rect, and not the fill-o element itself — see AnimatedLogoMark's mask defs): the main
+ * sweep's stroke width reaches partway into the corner block as it passes by, and without
+ * this, that graze shows up as a small early rectangular nub — the same premature-reveal
+ * problem the corner layer exists to avoid, just re-opened from a different angle. Clipping
+ * only the stroke, not the corner rect, keeps them both painting into the same mask (no
+ * seam) while still keeping the corner invisible until its own reveal says otherwise.
+ */
+export const LOGO_O_STROKE_EXCLUDE_CORNER_PATH = (() => {
+  const box = LOGO_LETTER_CLIPS.o;
+  const hole = LOGO_O_CORNER_CLIP;
+  return [
+    `M${box.x},${box.y}`,
+    `H${box.x + box.width}`,
+    `V${box.y + box.height}`,
+    `H${box.x}`,
+    "Z",
+    `M${hole.x},${hole.y}`,
+    `H${hole.x + hole.width}`,
+    `V${hole.y + hole.height}`,
+    `H${hole.x}`,
+    "Z",
+  ].join(" ");
+})();
 
 export const LOGO_SUBTITLE_CLIP: LogoClipBox = {
   x: 0,

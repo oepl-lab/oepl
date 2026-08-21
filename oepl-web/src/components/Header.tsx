@@ -152,7 +152,7 @@ export default function Header() {
         {/* Mobile toggle */}
         <button
           type="button"
-          className="lg:hidden justify-self-end text-[#6b7280] hover:text-[#080d1e] transition-colors"
+          className="lg:hidden col-start-3 justify-self-end text-[#6b7280] hover:text-[#080d1e] transition-colors"
           onClick={() => setMobileOpen(true)}
           aria-expanded={mobileOpen}
           aria-controls="mobile-nav"

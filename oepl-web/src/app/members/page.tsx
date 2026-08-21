@@ -50,13 +50,13 @@ function ResearcherCard({ r, lang, degreeMap }: {
         <span className="text-2xs font-semibold px-2 py-0.5 rounded-full w-fit bg-[#E88800]/10 text-[#E88800] border border-[#E88800]/20">
           {degreeMap[r.degree] ?? r.degree}
         </span>
-        <div className="flex items-center gap-1.5 text-2xs sm:text-xs leading-tight text-[#6b7280] min-w-0">
-          <FlaskConical size={11} className="text-[#E88800] flex-shrink-0" />
-          <span className="truncate">{field}</span>
+        <div className="flex items-start gap-1.5 text-2xs sm:text-xs leading-normal text-[#6b7280] min-w-0">
+          <FlaskConical size={11} className="text-[#E88800] flex-shrink-0 mt-0.5" />
+          <span className="break-words min-w-0">{field}</span>
         </div>
-        <div className="flex items-center gap-1.5 text-2xs sm:text-xs leading-tight text-[#9ca3af] min-w-0">
-          <Mail size={11} className="flex-shrink-0" />
-          <span className="truncate">{r.email}</span>
+        <div className="flex items-start gap-1.5 text-2xs sm:text-xs leading-tight text-[#9ca3af] min-w-0">
+          <Mail size={11} className="flex-shrink-0 mt-0.5" />
+          <span className="break-words min-w-0">{r.email}</span>
         </div>
       </div>
     </div>
@@ -125,7 +125,7 @@ export default function MembersPage() {
               <div className="flex flex-col gap-6">
                 <div>
                   <p className="text-xs text-[#9ca3af] mb-1">{affiliation}</p>
-                  <div className="flex items-baseline gap-3">
+                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
                     <h3 className="text-2xl font-bold text-[#080d1e]">{lang === "KR" ? professor.nameKo : professor.nameEn}</h3>
                     <span className="text-base text-[#9ca3af]">{lang === "KR" ? professor.nameEn : professor.nameKo}</span>
                   </div>
