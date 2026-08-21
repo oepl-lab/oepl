@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
-import { getAdminSession } from "@/lib/auth/dal";
+import { cookies } from "next/headers";
+import { ADMIN_SESSION_COOKIE, isValidSessionToken } from "@/lib/auth/admin-session";
 
 export async function GET() {
-  const session = await getAdminSession();
-  return NextResponse.json({
-    authenticated: session !== null,
-    email: session?.user.email ?? null,
-  });
+  const cookieStore = await cookies();
+  const token = cookieStore.get(ADMIN_SESSION_COOKIE)?.value;
+  return NextResponse.json({ authenticated: isValidSessionToken(token) });
 }

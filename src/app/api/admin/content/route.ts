@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
-import { requireAdmin } from "@/lib/auth/require-admin-api";
+import { requireAdminSession } from "@/lib/auth/require-admin-api";
 import {
   type AdminContentAction,
   runAdminContentAction,
 } from "@/lib/data/repository-admin";
+import { isAdminServerConfigured } from "@/lib/supabase/admin-server";
 
 const ACTIONS = new Set<AdminContentAction>([
   "upsertNews",
@@ -19,8 +20,12 @@ const ACTIONS = new Set<AdminContentAction>([
 ]);
 
 export async function POST(request: Request) {
-  const guard = await requireAdmin();
-  if (!guard.ok) return guard.response;
+  const unauthorized = await requireAdminSession();
+  if (unauthorized) return unauthorized;
+
+  if (!isAdminServerConfigured()) {
+    return NextResponse.json({ error: "Supabase admin is not configured" }, { status: 503 });
+  }
 
   const body = (await request.json()) as { action?: string; payload?: unknown };
   if (!body.action || !ACTIONS.has(body.action as AdminContentAction)) {
@@ -28,11 +33,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const result = await runAdminContentAction(
-      guard.session.client,
-      body.action as AdminContentAction,
-      body.payload,
-    );
+    const result = await runAdminContentAction(body.action as AdminContentAction, body.payload);
     return NextResponse.json(result);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Persist failed";

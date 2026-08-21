@@ -118,7 +118,8 @@ export interface Translations {
   };
   login: {
     banner: string; heading: string; desc: string;
-    passwordLabel: string; passwordPlaceholder: string;
+    idLabel: string; passwordLabel: string;
+    idPlaceholder: string; passwordPlaceholder: string;
     emailLabel: string; emailPlaceholder: string;
     submit: string; backHome: string; error: string;
   };
@@ -402,13 +403,15 @@ const KR: Translations = {
     banner: "Login",
     heading: "연구실 관리자 로그인",
     desc: "연구실 구성원 전용 페이지입니다.",
+    idLabel: "아이디",
     passwordLabel: "비밀번호",
+    idPlaceholder: "아이디를 입력하세요",
     passwordPlaceholder: "비밀번호를 입력하세요",
     emailLabel: "이메일",
-    emailPlaceholder: "이메일을 입력하세요",
+    emailPlaceholder: "admin@example.com",
     submit: "로그인",
     backHome: "홈으로 돌아가기",
-    error: "이메일 또는 비밀번호가 올바르지 않거나, 관리자 권한이 없는 계정입니다.",
+    error: "아이디 또는 비밀번호가 올바르지 않습니다.",
   },
   notFoundPage: {
     title: "페이지를 찾을 수 없습니다",
@@ -690,13 +693,15 @@ const EN: Translations = {
     banner: "Login",
     heading: "Lab Admin Login",
     desc: "This page is for lab members only.",
+    idLabel: "Username",
     passwordLabel: "Password",
+    idPlaceholder: "Enter your username",
     passwordPlaceholder: "Enter your password",
     emailLabel: "Email",
-    emailPlaceholder: "Enter your email",
+    emailPlaceholder: "admin@example.com",
     submit: "Log in",
     backHome: "Back to home",
-    error: "Invalid email or password, or this account is not an admin.",
+    error: "Invalid username or password.",
   },
   notFoundPage: {
     title: "Page Not Found",

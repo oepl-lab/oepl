@@ -19,10 +19,7 @@ alter table public.news enable row level security;
 drop policy if exists "news_public_read" on public.news;
 drop policy if exists "news_authenticated_write" on public.news;
 create policy "news_public_read" on public.news for select using (true);
--- Write requires membership in public.admin_users (see admins.sql), not just
--- a signed-in account.
-drop policy if exists "news_admin_write" on public.news;
-create policy "news_admin_write" on public.news for all to authenticated using (public.is_admin()) with check (public.is_admin());
+create policy "news_authenticated_write" on public.news for all to authenticated using (true) with check (true);
 
 -- RPC: increment view_count on detail page (anon-safe)
 create or replace function public.increment_news_view_count(p_news_id bigint)

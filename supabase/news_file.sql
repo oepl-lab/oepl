@@ -15,7 +15,4 @@ alter table public.news_file enable row level security;
 drop policy if exists "news_file_public_read" on public.news_file;
 drop policy if exists "news_file_authenticated_write" on public.news_file;
 create policy "news_file_public_read" on public.news_file for select using (true);
--- Write requires membership in public.admin_users (see admins.sql), not just
--- a signed-in account.
-drop policy if exists "news_file_admin_write" on public.news_file;
-create policy "news_file_admin_write" on public.news_file for all to authenticated using (public.is_admin()) with check (public.is_admin());
+create policy "news_file_authenticated_write" on public.news_file for all to authenticated using (true) with check (true);

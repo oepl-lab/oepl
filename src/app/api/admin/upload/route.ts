@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { requireAdmin } from "@/lib/auth/require-admin-api";
+import { requireAdminSession } from "@/lib/auth/require-admin-api";
+import { createServiceRoleClient, isAdminServerConfigured } from "@/lib/supabase/admin-server";
 import {
   removeGalleryPhotoWithClient,
   removeMemberPhotoWithClient,
@@ -13,9 +14,12 @@ import { validateContentPhotoFile } from "@/lib/supabase/content-media";
 type UploadKind = "gallery-photo" | "member-photo" | "professor-photo";
 
 export async function POST(request: Request) {
-  const guard = await requireAdmin();
-  if (!guard.ok) return guard.response;
+  const unauthorized = await requireAdminSession();
+  if (unauthorized) return unauthorized;
 
+  if (!isAdminServerConfigured()) {
+    return NextResponse.json({ error: "Supabase admin is not configured" }, { status: 503 });
+  }
 
   try {
     const form = await request.formData();
@@ -32,7 +36,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: validationError }, { status: 400 });
     }
 
-    const client = guard.session.client;
+    const client = createServiceRoleClient();
     let url = "";
 
     switch (kind as UploadKind) {
@@ -67,13 +71,16 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-  const guard = await requireAdmin();
-  if (!guard.ok) return guard.response;
+  const unauthorized = await requireAdminSession();
+  if (unauthorized) return unauthorized;
 
+  if (!isAdminServerConfigured()) {
+    return NextResponse.json({ error: "Supabase admin is not configured" }, { status: 503 });
+  }
 
   try {
     const body = (await request.json()) as { kind?: UploadKind; entityId?: number };
-    const client = guard.session.client;
+    const client = createServiceRoleClient();
 
     switch (body.kind) {
       case "gallery-photo":

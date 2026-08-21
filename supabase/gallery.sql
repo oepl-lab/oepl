@@ -14,7 +14,4 @@ alter table public.gallery enable row level security;
 drop policy if exists "gallery_public_read" on public.gallery;
 drop policy if exists "gallery_authenticated_write" on public.gallery;
 create policy "gallery_public_read" on public.gallery for select using (true);
--- Write requires membership in public.admin_users (see admins.sql), not just
--- a signed-in account.
-drop policy if exists "gallery_admin_write" on public.gallery;
-create policy "gallery_admin_write" on public.gallery for all to authenticated using (public.is_admin()) with check (public.is_admin());
+create policy "gallery_authenticated_write" on public.gallery for all to authenticated using (true) with check (true);

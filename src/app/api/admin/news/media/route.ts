@@ -1,13 +1,17 @@
 import { NextResponse } from "next/server";
-import { requireAdmin } from "@/lib/auth/require-admin-api";
+import { requireAdminSession } from "@/lib/auth/require-admin-api";
 import { syncNewsMediaWithClient } from "@/lib/data/media-sync-server";
 import type { NewsMediaDraft } from "@/lib/data/media-sync";
+import { createServiceRoleClient, isAdminServerConfigured } from "@/lib/supabase/admin-server";
 import { validateContentPhotoFile, validateNewsFile } from "@/lib/supabase/content-media";
 
 export async function POST(request: Request) {
-  const guard = await requireAdmin();
-  if (!guard.ok) return guard.response;
+  const unauthorized = await requireAdminSession();
+  if (unauthorized) return unauthorized;
 
+  if (!isAdminServerConfigured()) {
+    return NextResponse.json({ error: "Supabase admin is not configured" }, { status: 503 });
+  }
 
   try {
     const form = await request.formData();
@@ -48,7 +52,7 @@ export async function POST(request: Request) {
       }
     }
 
-    const client = guard.session.client;
+    const client = createServiceRoleClient();
     const result = await syncNewsMediaWithClient(client, newsId, draft);
     return NextResponse.json(result);
   } catch (err) {
