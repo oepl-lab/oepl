@@ -21,4 +21,7 @@ alter table public.members enable row level security;
 drop policy if exists "members_public_read" on public.members;
 drop policy if exists "members_authenticated_write" on public.members;
 create policy "members_public_read" on public.members for select using (true);
-create policy "members_authenticated_write" on public.members for all to authenticated using (true) with check (true);
+-- Write requires membership in public.admin_users (see admins.sql), not just
+-- a signed-in account.
+drop policy if exists "members_admin_write" on public.members;
+create policy "members_admin_write" on public.members for all to authenticated using (public.is_admin()) with check (public.is_admin());

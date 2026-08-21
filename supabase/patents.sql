@@ -16,4 +16,7 @@ alter table public.patents enable row level security;
 drop policy if exists "patents_public_read" on public.patents;
 drop policy if exists "patents_authenticated_write" on public.patents;
 create policy "patents_public_read" on public.patents for select using (true);
-create policy "patents_authenticated_write" on public.patents for all to authenticated using (true) with check (true);
+-- Write requires membership in public.admin_users (see admins.sql), not just
+-- a signed-in account.
+drop policy if exists "patents_admin_write" on public.patents;
+create policy "patents_admin_write" on public.patents for all to authenticated using (public.is_admin()) with check (public.is_admin());

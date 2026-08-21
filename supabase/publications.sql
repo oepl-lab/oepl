@@ -19,4 +19,7 @@ alter table public.publications enable row level security;
 drop policy if exists "publications_public_read" on public.publications;
 drop policy if exists "publications_authenticated_write" on public.publications;
 create policy "publications_public_read" on public.publications for select using (true);
-create policy "publications_authenticated_write" on public.publications for all to authenticated using (true) with check (true);
+-- Write requires membership in public.admin_users (see admins.sql), not just
+-- a signed-in account.
+drop policy if exists "publications_admin_write" on public.publications;
+create policy "publications_admin_write" on public.publications for all to authenticated using (public.is_admin()) with check (public.is_admin());

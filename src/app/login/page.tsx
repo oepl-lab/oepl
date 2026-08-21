@@ -21,7 +21,7 @@ function LoginPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextPath = safeNextPath(searchParams.get("next"));
-  const [id, setId] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -36,7 +36,7 @@ function LoginPageContent() {
     e.preventDefault();
     setError("");
     setSubmitting(true);
-    const ok = await login(id, password);
+    const ok = await login(email, password);
     setSubmitting(false);
     if (ok) {
       router.replace(nextPath);
@@ -73,16 +73,16 @@ function LoginPageContent() {
               )}
 
               <div className="flex flex-col gap-2">
-                <label htmlFor="login-id" className="text-xs font-semibold text-[#374151]">
-                  {l.idLabel}
+                <label htmlFor="login-email" className="text-xs font-semibold text-[#374151]">
+                  {l.emailLabel}
                 </label>
                 <input
-                  id="login-id"
-                  type="text"
-                  value={id}
-                  onChange={(e) => setId(e.target.value)}
-                  placeholder={l.idPlaceholder}
-                  autoComplete="username"
+                  id="login-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={l.emailPlaceholder}
+                  autoComplete="email"
                   required
                   className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-[#080d1e] placeholder:text-[#9ca3af] outline-none transition-colors focus:border-[#E88800]/60 focus:ring-2 focus:ring-[#E88800]/10"
                 />
