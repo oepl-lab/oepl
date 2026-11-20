@@ -124,6 +124,7 @@ export interface Translations {
   login: {
     banner: string; heading: string; desc: string;
     passwordLabel: string; passwordPlaceholder: string;
+    showPassword: string; hidePassword: string;
     emailLabel: string; emailPlaceholder: string;
     submit: string; backHome: string; error: string;
   };
@@ -435,6 +436,8 @@ const KR: Translations = {
     desc: "연구실 관리자 전용 페이지입니다.",
     passwordLabel: "비밀번호",
     passwordPlaceholder: "비밀번호를 입력하세요",
+    showPassword: "비밀번호 보기",
+    hidePassword: "비밀번호 숨기기",
     emailLabel: "이메일",
     emailPlaceholder: "이메일을 입력하세요",
     submit: "로그인",
@@ -749,6 +752,8 @@ const EN: Translations = {
     desc: "This page is for lab members only.",
     passwordLabel: "Password",
     passwordPlaceholder: "Enter your password",
+    showPassword: "Show password",
+    hidePassword: "Hide password",
     emailLabel: "Email",
     emailPlaceholder: "Enter your email",
     submit: "Log in",
