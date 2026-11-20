@@ -30,6 +30,8 @@ import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 
 import { buildMemberGroupsFromRows } from "@/lib/content/members";
 
+import { fetchProfessorWithClient } from "@/lib/data/professor-query";
+
 import {
 
   galleryFromRow,
@@ -93,141 +95,88 @@ async function upsertEntity<T extends { id: number }>(
 
 
 export async function fetchSiteContent(): Promise<SiteContent> {
-
-  const professor = loadProfessor();
-
-
-
   if (!isSupabaseConfigured()) {
-
+    // Supabase 없이 로컬에서 돌릴 때만 교수 프로필을 localStorage에서 읽는다.
     const local = loadContent();
-
-    return { ...local, members: { ...local.members, professor } };
-
+    return { ...local, members: { ...local.members, professor: loadProfessor() } };
   }
 
+  const sb = supabase();
 
+  // 교수 프로필은 다른 콘텐츠와 별개로 조회한다. 테이블이 아직 없거나 조회가
+  // 실패해도 나머지 콘텐츠는 보여야 하므로, 실패는 시드 값으로 대체한다.
+  const professorPromise: Promise<Professor> = fetchProfessorWithClient(sb)
+    .then((p) => p ?? seedContent.members.professor)
+    .catch((err) => {
+      console.error("[fetchSiteContent] professor", err);
+      return seedContent.members.professor;
+    });
+
+  const seedWith = (professor: Professor): SiteContent => ({
+    ...seedContent,
+    members: { ...seedContent.members, professor },
+  });
 
   try {
-
-    const sb = supabase();
-
-
-
-    const [newsRes, publicationsRes, galleryRes, patentsRes, membersRes, newsPhotosRes, newsFilesRes] = await Promise.all([
-
-      sb.from("news").select("*").order("created_at", { ascending: false }),
-
-      sb.from("publications").select("*").order("published_at", { ascending: false }),
-
-      sb.from("gallery").select("*").order("created_at", { ascending: false }),
-
-      sb.from("patents").select("*").order("created_at", { ascending: false }),
-
-      sb.from("members").select("*").order("created_at", { ascending: true }),
-
-      sb.from("news_photos").select("*").order("sort_order"),
-
-      sb.from("news_file").select("*").order("sort_order"),
-
-    ]);
-
-
+    const [newsRes, publicationsRes, galleryRes, patentsRes, membersRes, newsPhotosRes, newsFilesRes, professor] =
+      await Promise.all([
+        sb.from("news").select("*").order("created_at", { ascending: false }),
+        sb.from("publications").select("*").order("published_at", { ascending: false }),
+        sb.from("gallery").select("*").order("created_at", { ascending: false }),
+        sb.from("patents").select("*").order("created_at", { ascending: false }),
+        sb.from("members").select("*").order("created_at", { ascending: true }),
+        sb.from("news_photos").select("*").order("sort_order"),
+        sb.from("news_file").select("*").order("sort_order"),
+        professorPromise,
+      ]);
 
     const errors = [
-
       newsRes.error,
-
       publicationsRes.error,
-
       galleryRes.error,
-
       patentsRes.error,
-
       membersRes.error,
-
     ].filter(Boolean);
 
-
-
     if (errors.length > 0) {
-
       console.error("[fetchSiteContent]", errors.map((e) => e!.message).join("; "));
-
-      return { ...seedContent, members: { ...seedContent.members, professor } };
-
+      return seedWith(professor);
     }
-
-
 
     const memberGroups = buildMemberGroupsFromRows(membersRes.data ?? []);
 
-
-
     const hasAnyData =
-
       (newsRes.data?.length ?? 0) > 0 ||
-
       (publicationsRes.data?.length ?? 0) > 0 ||
-
       (galleryRes.data?.length ?? 0) > 0 ||
-
       (patentsRes.data?.length ?? 0) > 0 ||
-
       (membersRes.data?.length ?? 0) > 0;
 
-
-
     if (!hasAnyData) {
-
-      return { ...seedContent, members: { ...seedContent.members, professor } };
-
+      return seedWith(professor);
     }
 
-
-
     return {
-
       news: attachNewsMedia(
-
         (newsRes.data ?? []).map(newsFromRow),
-
         newsPhotosRes.error ? [] : (newsPhotosRes.data ?? []),
-
         newsFilesRes.error ? [] : (newsFilesRes.data ?? [])
-
       ),
-
       publications: (publicationsRes.data ?? []).map(publicationFromRow),
-
       gallery: (galleryRes.data ?? []).map(galleryFromRow),
-
       patents: (patentsRes.data ?? []).map(patentFromRow),
-
       members: {
-
         professor,
-
         postdocs: memberGroups.postdocs as ResearcherMember[],
-
         gradStudents: memberGroups.gradStudents as ResearcherMember[],
-
         phdAlumni: memberGroups.phdAlumni as AlumniMember[],
-
         msAlumni: memberGroups.msAlumni as AlumniMember[],
-
       },
-
     };
-
   } catch (err) {
-
     console.error("[fetchSiteContent]", err);
-
-    return { ...seedContent, members: { ...seedContent.members, professor } };
-
+    return seedWith(await professorPromise);
   }
-
 }
 
 

@@ -22,8 +22,6 @@ import { formatNewsPostDate, normalizePublication } from "@/lib/content/display"
 
 const PROFESSOR_ID = "default";
 
-type TimelineKind = "career";
-
 function rowId(row: Record<string, unknown>): number {
   return Number(row.id);
 }
@@ -211,6 +209,7 @@ export function timelineFromRow(row: Record<string, unknown>): TimelineEntry {
   };
 }
 
+/** professor 테이블 행 (id 고정) */
 export function professorToRow(professor: Professor) {
   return {
     id: PROFESSOR_ID,
@@ -220,28 +219,38 @@ export function professorToRow(professor: Professor) {
     affiliation_en: professor.affiliationEn,
     email: professor.email,
     scholar: professor.scholar,
+    photo_url: professor.photoUrl?.trim() || null,
     updated_at: new Date().toISOString(),
   };
 }
 
-export function timelineToRows(
-  professor: Professor
-): { id: number; professor_id: string; kind: TimelineKind; period: string; text_kr: string; text_en: string; sort_order: number }[] {
-  const kinds: { kind: TimelineKind; entries: TimelineEntry[] }[] = [
-    { kind: "career", entries: professor.career },
-  ];
+/** professor_career 테이블 행 — 배열 순서가 sort_order가 된다 */
+export function careerToRows(professor: Professor) {
+  return professor.career.map((entry, index) => ({
+    professor_id: PROFESSOR_ID,
+    period: entry.period,
+    text_kr: entry.textKr,
+    text_en: entry.textEn,
+    sort_order: index,
+  }));
+}
 
-  return kinds.flatMap(({ kind, entries }) =>
-    entries.map((entry, index) => ({
-      id: entry.id,
-      professor_id: PROFESSOR_ID,
-      kind,
+/** public.save_professor(p jsonb) 호출 인자 (supabase/professor.sql) */
+export function professorToRpcPayload(professor: Professor) {
+  return {
+    name_ko: professor.nameKo,
+    name_en: professor.nameEn,
+    affiliation_kr: professor.affiliationKr,
+    affiliation_en: professor.affiliationEn,
+    email: professor.email,
+    scholar: professor.scholar,
+    photo_url: professor.photoUrl?.trim() || "",
+    career: professor.career.map((entry) => ({
       period: entry.period,
       text_kr: entry.textKr,
       text_en: entry.textEn,
-      sort_order: index,
-    }))
-  );
+    })),
+  };
 }
 
 export function researcherFromRow(row: Record<string, unknown>): ResearcherMember {
@@ -310,26 +319,26 @@ export function alumniToRow(group: "phdAlumni" | "msAlumni", item: AlumniMember)
   };
 }
 
+/** professor 행 + professor_career 행들 → Professor. 프로필 행이 없으면 null */
 export function buildProfessor(
-  row: Record<string, unknown> | null,
-  timelines: Record<string, unknown>[]
+  row: Record<string, unknown> | null | undefined,
+  careerRows: Record<string, unknown>[]
 ): Professor | null {
   if (!row) return null;
 
-  const byKind = (kind: TimelineKind) =>
-    timelines
-      .filter((t) => t.kind === kind)
-      .sort((a, b) => (a.sort_order as number) - (b.sort_order as number))
-      .map(timelineFromRow);
+  const career: TimelineEntry[] = [...careerRows]
+    .sort((a, b) => Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0))
+    .map(timelineFromRow);
 
   return {
-    nameKo: row.name_ko as string,
-    nameEn: row.name_en as string,
-    affiliationKr: row.affiliation_kr as string,
-    affiliationEn: row.affiliation_en as string,
-    email: row.email as string,
-    scholar: row.scholar as string,
-    career: byKind("career"),
+    nameKo: (row.name_ko as string) ?? "",
+    nameEn: (row.name_en as string) ?? "",
+    affiliationKr: (row.affiliation_kr as string) ?? "",
+    affiliationEn: (row.affiliation_en as string) ?? "",
+    email: (row.email as string) ?? "",
+    scholar: (row.scholar as string) ?? "",
+    photoUrl: (row.photo_url as string) ?? "",
+    career,
   };
 }
 

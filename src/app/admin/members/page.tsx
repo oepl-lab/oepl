@@ -218,9 +218,9 @@ export default function AdminMembersPage() {
           : await uploadProfessorPhoto(profPendingPhotoFile);
       }
 
-      updateProfessor(professor);
-      setProfDraft(professor);
-      setProfPhotoPreview(professor.photoUrl || null);
+      const saved = await updateProfessor(professor);
+      setProfDraft(saved);
+      setProfPhotoPreview(saved.photoUrl || null);
       setProfPendingPhotoFile(null);
       setProfPhotoRemoved(false);
     } catch (err) {

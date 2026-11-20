@@ -6,6 +6,7 @@ import type {
   MemberRecord,
   NewsItem,
   Patent,
+  Professor,
   Publication,
 } from "@/types/content";
 import { isNewId } from "@/lib/data/ids";
@@ -19,8 +20,10 @@ import {
   patentFromRow,
   patentToRow,
   publicationFromRow,
+  professorToRpcPayload,
   publicationToRow,
 } from "@/lib/data/mappers";
+import { fetchProfessorWithClient } from "@/lib/data/professor-query";
 import { removeNewsMediaWithClient } from "@/lib/data/media-sync-server";
 import { removeGalleryPhotoWithClient } from "@/lib/supabase/content-media-server";
 
@@ -93,6 +96,18 @@ export async function removeMemberAdmin(client: SupabaseClient, id: number): Pro
   if (error) throw new Error(error.message);
 }
 
+/**
+ * 교수 프로필 + 이력을 save_professor()로 한 트랜잭션에 저장하고, 저장된 결과
+ * (새로 발급된 이력 id 포함)를 다시 읽어 돌려준다.
+ */
+export async function persistProfessorAdmin(client: SupabaseClient, professor: Professor): Promise<Professor> {
+  const { error } = await client.rpc("save_professor", { p: professorToRpcPayload(professor) });
+  if (error) throw new Error(error.message);
+  const saved = await fetchProfessorWithClient(client);
+  if (!saved) throw new Error("교수 프로필 저장 후 조회에 실패했습니다.");
+  return saved;
+}
+
 export type AdminContentAction =
   | "upsertNews"
   | "deleteNews"
@@ -103,7 +118,8 @@ export type AdminContentAction =
   | "upsertPatent"
   | "deletePatent"
   | "upsertMember"
-  | "deleteMember";
+  | "deleteMember"
+  | "updateProfessor";
 
 export async function runAdminContentAction(
   client: SupabaseClient,
@@ -136,6 +152,8 @@ export async function runAdminContentAction(
     case "deleteMember":
       await removeMemberAdmin(client, Number(payload));
       return { ok: true };
+    case "updateProfessor":
+      return persistProfessorAdmin(client, payload as Professor);
     default:
       throw new Error("Unknown action");
   }
