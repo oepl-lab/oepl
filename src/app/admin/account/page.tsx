@@ -7,6 +7,7 @@ import { useLang } from "@/contexts/LangContext";
 import { AdminPageHeader, Field } from "@/components/admin/AdminUi";
 import { btnPrimaryClass, inputClass } from "@/components/admin/form-styles";
 import { changeAdminPassword } from "@/lib/admin/client-api";
+import PasswordInput from "@/components/PasswordInput";
 
 const MIN_LENGTH = 8;
 
@@ -57,8 +58,7 @@ export default function AdminAccountPage() {
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <Field label={a.currentPassword}>
-            <input
-              type="password"
+            <PasswordInput
               value={current}
               onChange={(e) => setCurrent(e.target.value)}
               autoComplete="current-password"
@@ -68,8 +68,7 @@ export default function AdminAccountPage() {
           </Field>
 
           <Field label={a.newPassword}>
-            <input
-              type="password"
+            <PasswordInput
               value={next}
               onChange={(e) => setNext(e.target.value)}
               autoComplete="new-password"
@@ -80,8 +79,7 @@ export default function AdminAccountPage() {
           </Field>
 
           <Field label={a.confirmPassword}>
-            <input
-              type="password"
+            <PasswordInput
               value={confirm}
               onChange={(e) => setConfirm(e.target.value)}
               autoComplete="new-password"

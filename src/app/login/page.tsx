@@ -10,6 +10,7 @@ import Footer from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLang } from "@/contexts/LangContext";
 import PageBanner from "@/components/PageBanner";
+import PasswordInput from "@/components/PasswordInput";
 
 function safeNextPath(next: string | null): string {
   if (!next || !next.startsWith("/admin")) return "/admin";
@@ -87,9 +88,8 @@ function LoginPageContent() {
                 <label htmlFor="login-password" className="label">
                   {l.passwordLabel}
                 </label>
-                <input
+                <PasswordInput
                   id="login-password"
-                  type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder={l.passwordPlaceholder}
