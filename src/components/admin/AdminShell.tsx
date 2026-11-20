@@ -133,39 +133,45 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
       </aside>
 
       <div className="flex-1 min-w-0 bg-[#f9fafb] flex flex-col">
-        <header className="bg-white border-b border-gray-200 px-4 md:px-8 py-4 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3 min-w-0">
-            {!sidebarOpen && (
+        <header className="bg-white border-b border-gray-200 px-4 md:px-8 py-4">
+          {/* 본문(<main>)과 같은 최대 너비 — 넓은 화면에서도 버튼이 본문 오른쪽 끝에 맞춰진다 */}
+          <div className="w-full max-w-5xl flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3 min-w-0">
+              {!sidebarOpen && (
+                <button
+                  type="button"
+                  onClick={() => setSidebarOpen(true)}
+                  className="inline-flex items-center justify-center size-9 rounded-lg border border-gray-200 text-[#6b7280] hover:text-[#080d1e] hover:border-[#E88800]/40 transition-colors"
+                  aria-expanded={sidebarOpen}
+                  aria-label="Open sidebar"
+                >
+                  <PanelLeft size={18} aria-hidden />
+                </button>
+              )}
+              {saving && (
+                <span className="text-xs text-[#E88800]">{t.admin.saving}</span>
+              )}
+            </div>
+            <div className="flex items-center gap-3 shrink-0">
+              <Link href="/" className={`${headerBtnClass} inline-flex items-center gap-1.5`}>
+                <Globe size={14} aria-hidden />
+                <span className="hidden sm:inline">{t.admin.viewSite}</span>
+              </Link>
               <button
                 type="button"
-                onClick={() => setSidebarOpen(true)}
-                className="inline-flex items-center justify-center size-9 rounded-lg border border-gray-200 text-[#6b7280] hover:text-[#080d1e] hover:border-[#E88800]/40 transition-colors"
-                aria-expanded={sidebarOpen}
-                aria-label="Open sidebar"
+                onClick={handleLogout}
+                className={`${headerBtnClass} inline-flex items-center gap-1.5`}
               >
-                <PanelLeft size={18} aria-hidden />
+                <LogOut size={14} />
+                <span className="hidden sm:inline">{t.admin.logout}</span>
               </button>
-            )}
-            {saving && (
-              <span className="text-xs text-[#E88800]">{t.admin.saving}</span>
-            )}
-          </div>
-          <div className="flex items-center gap-3 shrink-0">
-            <Link href="/" className={`${headerBtnClass} inline-flex items-center gap-1.5`}>
-              <Globe size={14} aria-hidden />
-              <span className="hidden sm:inline">{t.admin.viewSite}</span>
-            </Link>
-            <button
-              type="button"
-              onClick={handleLogout}
-              className={`${headerBtnClass} inline-flex items-center gap-1.5`}
-            >
-              <LogOut size={14} />
-              <span className="hidden sm:inline">{t.admin.logout}</span>
-            </button>
+            </div>
           </div>
         </header>
-        <main className="flex-1 p-4 md:p-8 pb-12 bg-[#f9fafb]">{children}</main>
+        <main className="flex-1 p-4 md:p-8 pb-12 bg-[#f9fafb]">
+          {/* 화면이 넓어져도 1024px(max-w-5xl)까지만 늘어나고 왼쪽에 붙는다 */}
+          <div className="w-full max-w-5xl">{children}</div>
+        </main>
       </div>
     </div>
   );
