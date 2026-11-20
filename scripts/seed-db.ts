@@ -8,11 +8,13 @@ import { resolve } from "node:path";
 import { createClient } from "@supabase/supabase-js";
 import { seedContent } from "../src/lib/data/seed";
 import {
+  careerToRows,
   flattenMembers,
   galleryToRow,
   memberRecordToRow,
   newsToRow,
   patentToRow,
+  professorToRow,
   publicationToRow,
 } from "../src/lib/data/mappers";
 
@@ -88,6 +90,24 @@ if (memberRows.length > 0) {
   const { error } = await sb.from("members").insert(memberRows);
   if (error) throw new Error(`members insert: ${error.message}`);
   console.log(`✅ members: ${memberRows.length} rows`);
+}
+
+// 교수 프로필: save_professor()는 is_admin()을 요구해 service role(auth.uid() 없음)로는
+// 호출할 수 없으므로 두 테이블에 직접 쓴다.
+{
+  const professor = content.members.professor;
+  const { error: profError } = await sb.from("professor").upsert(professorToRow(professor));
+  if (profError) throw new Error(`professor upsert: ${profError.message}`);
+
+  const { error: delError } = await sb.from("professor_career").delete().eq("professor_id", "default");
+  if (delError) throw new Error(`professor_career delete: ${delError.message}`);
+
+  const careerRows = careerToRows(professor);
+  if (careerRows.length > 0) {
+    const { error } = await sb.from("professor_career").insert(careerRows);
+    if (error) throw new Error(`professor_career insert: ${error.message}`);
+  }
+  console.log(`✅ professor: 1 row, professor_career: ${careerRows.length} rows`);
 }
 
 console.log("\n시드 완료.");

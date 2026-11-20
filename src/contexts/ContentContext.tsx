@@ -46,7 +46,7 @@ interface ContentContextValue {
   deleteGallery: (id: number) => Promise<void>;
   upsertPatent: (item: Patent) => Promise<void>;
   deletePatent: (id: number) => Promise<void>;
-  updateProfessor: (professor: Professor) => void;
+  updateProfessor: (professor: Professor) => Promise<Professor>;
   upsertMember: (item: MemberRecord) => Promise<MemberRecord>;
   deleteMember: (id: number) => Promise<void>;
 }
@@ -80,15 +80,30 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
 
   const useAdminApi = isSupabaseConfigured();
 
-  const updateProfessor = useCallback((professor: Professor) => {
+  const updateProfessor = useCallback(async (professor: Professor): Promise<Professor> => {
+    if (useAdminApi) {
+      setSaving(true);
+      try {
+        const saved = await adminContentMutate<Professor>("updateProfessor", professor);
+        setContent((prev) => ({ ...prev, members: { ...prev.members, professor: saved } }));
+        return saved;
+      } catch (err) {
+        console.error("[ContentContext] persist failed", err);
+        alert("저장에 실패했습니다. 로그인 상태를 확인해 주세요.");
+        throw err;
+      } finally {
+        setSaving(false);
+      }
+    }
+
+    // Supabase 미설정(로컬 개발) — 브라우저 localStorage에만 저장
     setContent((prev) => {
       const next = { ...prev, members: { ...prev.members, professor } };
       persistProfessorLocal(professor);
-      if (!useAdminApi) {
-        persistLocalContent(next);
-      }
+      persistLocalContent(next);
       return next;
     });
+    return professor;
   }, []);
 
   const upsertNews = useCallback(async (item: NewsItem): Promise<NewsItem> => {

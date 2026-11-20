@@ -18,6 +18,7 @@ const ACTIONS = new Set<AdminContentAction>([
   "deletePatent",
   "upsertMember",
   "deleteMember",
+  "updateProfessor",
 ]);
 
 export async function POST(request: Request) {

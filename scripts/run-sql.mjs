@@ -23,6 +23,7 @@ const ORDERED_FILES = [
   "supabase/publications.sql",
   "supabase/patents.sql",
   "supabase/members.sql",
+  "supabase/professor.sql",
   "supabase/gallery.sql",
   "supabase/storage.sql",
 ];
