@@ -135,7 +135,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
       <div className="flex-1 min-w-0 bg-[#f9fafb] flex flex-col">
         <header className="bg-white border-b border-gray-200 px-4 md:px-8 py-4">
           {/* 본문(<main>)과 같은 최대 너비 — 넓은 화면에서도 버튼이 본문 오른쪽 끝에 맞춰진다 */}
-          <div className="w-full max-w-5xl flex items-center justify-between gap-4">
+          <div className="w-full max-w-[1200px] flex items-center justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
               {!sidebarOpen && (
                 <button
@@ -169,8 +169,8 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
           </div>
         </header>
         <main className="flex-1 p-4 md:p-8 pb-12 bg-[#f9fafb]">
-          {/* 화면이 넓어져도 1024px(max-w-5xl)까지만 늘어나고 왼쪽에 붙는다 */}
-          <div className="w-full max-w-5xl">{children}</div>
+          {/* 화면이 넓어져도 1200px까지만 늘어나고 왼쪽에 붙는다 */}
+          <div className="w-full max-w-[1200px]">{children}</div>
         </main>
       </div>
     </div>
